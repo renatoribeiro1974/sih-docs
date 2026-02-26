@@ -2,6 +2,7 @@
 title: PRD
 nav_order: 2
 has_children: true
+permalink: /prd/
 ---
 
 # Product Requirements Document v1.0

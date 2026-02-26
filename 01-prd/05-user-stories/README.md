@@ -3,6 +3,7 @@ title: User Stories
 parent: PRD
 nav_order: 5
 has_children: true
+permalink: /prd/user-stories/
 ---
 
 # User Stories - SIH v1.0
