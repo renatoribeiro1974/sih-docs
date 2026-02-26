@@ -1,3 +1,9 @@
+---
+title: Visao Geral
+parent: PRD
+nav_order: 1
+---
+
 # 1. Visao Geral do Produto
 
 **SIH - Supervisao Industrial Halal v1.0**

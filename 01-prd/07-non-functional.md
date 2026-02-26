@@ -1,3 +1,9 @@
+---
+title: Requisitos Nao-Funcionais
+parent: PRD
+nav_order: 7
+---
+
 # 7. Requisitos Nao-Funcionais
 
 ---

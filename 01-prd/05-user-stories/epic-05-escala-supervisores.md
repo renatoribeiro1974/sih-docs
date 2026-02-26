@@ -1,3 +1,10 @@
+---
+title: Epic 05 - Escala de Supervisores
+parent: User Stories
+grand_parent: PRD
+nav_order: 5
+---
+
 # Epic 05: Escala de Supervisores
 
 **4 User Stories | 20 Story Points | Prioridade P1**

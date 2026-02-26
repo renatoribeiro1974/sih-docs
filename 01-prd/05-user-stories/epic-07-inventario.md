@@ -1,3 +1,10 @@
+---
+title: Epic 07 - Inventario
+parent: User Stories
+grand_parent: PRD
+nav_order: 7
+---
+
 # Epic 07: Inventario (FASE FUTURA)
 
 **FM 7.1.5.1 (Carne) + FM 7.1.5.6 (Lotes) + FM 7.1.3.6 (Rotulagem)**

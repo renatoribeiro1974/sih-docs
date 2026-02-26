@@ -1,3 +1,9 @@
+---
+title: Stack Tecnologica
+parent: Documentacao Tecnica
+nav_order: 1
+---
+
 # 1. Stack Tecnologica
 
 **SIH - Supervisao Industrial Halal**

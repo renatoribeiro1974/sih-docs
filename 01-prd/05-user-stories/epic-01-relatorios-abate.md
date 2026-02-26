@@ -1,3 +1,10 @@
+---
+title: Epic 01 - Relatorios de Abate
+parent: User Stories
+grand_parent: PRD
+nav_order: 1
+---
+
 # Epic 01: Relatorios de Abate Halal
 
 **FM 7.1.4.1 (Aves) + FM 7.1.4.2 (Bovino)**

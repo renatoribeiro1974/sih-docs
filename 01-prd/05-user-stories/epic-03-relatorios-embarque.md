@@ -1,3 +1,10 @@
+---
+title: Epic 03 - Relatorios de Embarque
+parent: User Stories
+grand_parent: PRD
+nav_order: 3
+---
+
 # Epic 03: Relatorios de Embarque, Venda e Transferencia
 
 **FM 7.1.7.1 (Exportacao) + FM 7.1.7.4 (Venda Interna) + DCPOA (Transferencia)**

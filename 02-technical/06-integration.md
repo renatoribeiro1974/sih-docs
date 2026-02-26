@@ -1,3 +1,9 @@
+---
+title: Integracao
+parent: Documentacao Tecnica
+nav_order: 6
+---
+
 # 6. Integracao e Ecossistema FAMBRAS
 
 ---

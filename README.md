@@ -1,3 +1,7 @@
+---
+nav_exclude: true
+---
+
 # SIH - Supervisao Industrial Halal
 
 **Sistema de digitalizacao dos formularios FM FAMBRAS Halal para supervisao industrial em campo**

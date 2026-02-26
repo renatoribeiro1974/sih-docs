@@ -1,3 +1,9 @@
+---
+title: Seguranca
+parent: Documentacao Tecnica
+nav_order: 5
+---
+
 # 5. Seguranca
 
 ---

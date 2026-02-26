@@ -1,3 +1,10 @@
+---
+title: Epic 06 - Dashboard
+parent: User Stories
+grand_parent: PRD
+nav_order: 6
+---
+
 # Epic 06: Dashboard e Relatorios Gerenciais
 
 **4 User Stories | 22 Story Points | Prioridade P1**

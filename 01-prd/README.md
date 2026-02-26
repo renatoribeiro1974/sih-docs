@@ -1,3 +1,9 @@
+---
+title: PRD
+nav_order: 2
+has_children: true
+---
+
 # Product Requirements Document v1.0
 
 **SIH - Supervisao Industrial Halal**

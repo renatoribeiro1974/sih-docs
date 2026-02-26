@@ -1,6 +1,8 @@
 ---
-layout: default
-title: SIH - Supervisao Industrial Halal
+layout: home
+title: Home
+nav_order: 1
+permalink: /
 ---
 
 # SIH - Supervisao Industrial Halal

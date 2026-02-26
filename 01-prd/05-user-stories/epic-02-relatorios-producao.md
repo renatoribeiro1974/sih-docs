@@ -1,3 +1,10 @@
+---
+title: Epic 02 - Relatorios de Producao
+parent: User Stories
+grand_parent: PRD
+nav_order: 2
+---
+
 # Epic 02: Relatorios de Producao Industrial
 
 **FM 7.1.3.1 (Industrializados) + FM 7.1.8.x (Producao Especial)**

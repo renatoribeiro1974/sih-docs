@@ -1,3 +1,10 @@
+---
+title: Epic 04 - Nao-Conformidades
+parent: User Stories
+grand_parent: PRD
+nav_order: 4
+---
+
 # Epic 04: Gestao de Nao-Conformidades
 
 **FM 7.1.6.1 - Checklist de Nao-Conformidade**

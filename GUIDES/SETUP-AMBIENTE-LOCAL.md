@@ -1,3 +1,8 @@
+---
+title: Setup Ambiente Local
+nav_order: 4
+---
+
 # Guia de Setup do Ambiente Local
 
 > **Projeto:** SIH - Supervisao Industrial Halal

@@ -1,3 +1,9 @@
+---
+title: Objetivos e KPIs
+parent: PRD
+nav_order: 2
+---
+
 # 2. Objetivos e Metricas de Sucesso
 
 ---

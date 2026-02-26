@@ -1,3 +1,9 @@
+---
+title: Arquitetura de Features
+parent: PRD
+nav_order: 4
+---
+
 # 4. Arquitetura de Features
 
 ---

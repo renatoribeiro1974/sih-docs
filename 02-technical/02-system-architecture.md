@@ -1,3 +1,9 @@
+---
+title: Arquitetura do Sistema
+parent: Documentacao Tecnica
+nav_order: 2
+---
+
 # 2. Arquitetura do Sistema
 
 **SIH - Supervisao Industrial Halal**

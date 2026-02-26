@@ -1,3 +1,8 @@
+---
+title: Roadmap Detalhado
+nav_order: 5
+---
+
 # Roadmap Detalhado de Implementacao
 
 **Projeto**: SIH - Supervisao Industrial Halal

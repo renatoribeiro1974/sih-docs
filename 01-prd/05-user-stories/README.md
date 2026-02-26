@@ -1,3 +1,10 @@
+---
+title: User Stories
+parent: PRD
+nav_order: 5
+has_children: true
+---
+
 # User Stories - SIH v1.0
 
 ---
