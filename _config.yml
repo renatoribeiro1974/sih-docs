@@ -8,8 +8,8 @@ title: SIH - Supervisao Industrial Halal
 description: Sistema de Supervisao Industrial Halal - Documentacao Oficial
 
 # Repository Info
-repository: renatoribeiro1974/sih-docs
-url: https://renatoribeiro1974.github.io
+repository: Ecohalal/sih-docs
+url: https://ecohalal.github.io
 baseurl: /sih-docs
 
 # Markdown settings
@@ -24,7 +24,7 @@ color_scheme: light
 # Aux links (top right corner)
 aux_links:
   "GitHub":
-    - "https://github.com/renatoribeiro1974/sih-docs"
+    - "https://github.com/Ecohalal/sih-docs"
 
 # Footer
 footer_content: "SIH - Supervisao Industrial Halal &copy; 2026 FAMBRAS Halal"
