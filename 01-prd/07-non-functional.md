@@ -1,10 +1,10 @@
 ---
-title: Requisitos Nao-Funcionais
+title: Requisitos Não-Funcionais
 parent: PRD
 nav_order: 7
 ---
 
-# 7. Requisitos Nao-Funcionais
+# 7. Requisitos Não-Funcionais
 
 ---
 
@@ -12,51 +12,51 @@ nav_order: 7
 
 | Requisito | Meta | Justificativa |
 |-----------|------|---------------|
-| Tempo de resposta API (P95) | < 500ms | Uso em campo com possivel 3G/4G |
-| Tempo de resposta API (P99) | < 2s | Picos de uso no inicio de turno |
-| First Contentful Paint (3G) | < 3s | Carregamento rapido em mobile |
-| Time to Interactive (3G) | < 5s | Interacao rapida apos abertura |
+| Tempo de resposta API (P95) | < 500ms | Uso em campo com possível 3G/4G |
+| Tempo de resposta API (P99) | < 2s | Picos de uso no início de turno |
+| First Contentful Paint (3G) | < 3s | Carregamento rápido em mobile |
+| Time to Interactive (3G) | < 5s | Interação rápida após abertura |
 | Tamanho do bundle (gzip) | < 500KB | Economia de dados moveis |
-| Queries de listagem | < 200ms | Paginacao eficiente |
+| Queries de listagem | < 200ms | Páginação eficiente |
 
-### Estrategias
+### Estratégias
 
-- **Paginacao** em todas as listagens (20 itens/pagina padrao)
-- **Indices de banco** nos campos de busca mais frequentes (plantId, date, status, supervisorId)
-- **Lazy loading** de paginas no frontend (code splitting por rota)
-- **Cache** de dados de referencia (plantas, perfil) no React Query (staleTime: 5min)
+- **Páginação** em todas as listagens (20 itens/página padrão)
+- **Índices de banco** nos campos de busca mais frequentes (plantId, date, status, supervisorId)
+- **Lazy loading** de páginas no frontend (code splitting por rota)
+- **Cache** de dados de referência (plantas, perfil) no React Query (staleTime: 5min)
 
 ---
 
-## 7.2 Seguranca
+## 7.2 Segurança
 
-### Autenticacao (v1.0 — Self-Contained)
+### Autenticação (v1.0 — Self-Contained)
 
-| Requisito | Implementacao |
+| Requisito | Implementação |
 |-----------|---------------|
-| Algoritmo JWT | HS256 (self-contained — SIH emite e valida tokens) |
+| Algoritmo JWT | HS256 (self-contained — SIH emite e válida tokens) |
 | Hash de senha | bcrypt (salt rounds 10) |
-| Validade do token | 7 dias (estendida para uso em campo) |
+| Válidade do token | 7 dias (estendida para uso em campo) |
 | Armazenamento do token | localStorage (v1.0), IndexedDB (futuro offline) |
-| CORS | Configurado por ambiente (localhost:5174 / dominio prod) |
+| CORS | Configurado por ambiente (localhost:5174 / domínio prod) |
 
-### Autorizacao (RBAC)
+### Autorização (RBAC)
 
-| Role | Permissoes |
+| Role | Permissões |
 |------|-----------|
-| `supervisor` | Cria/edita/assina relatorios (proprios), registra NCs, ve escala propria |
-| `operador` | Cria/edita relatorios (proprios), registra NCs — NAO pode assinar |
-| `coordenador` | Visualiza relatorios (read-only), cancela relatorios, gerencia escalas/usuarios/NCs — NAO assina |
-| `admin` | Acesso total: CRUD completo, gerenciamento de usuarios e plantas |
+| `supervisor` | Cria/edita/assina relatórios (próprios), registra NCs, vê escala própria |
+| `operador` | Cria/edita relatórios (próprios), registra NCs — NÃO pode assinar |
+| `coordenador` | Visualiza relatórios (read-only), cancela relatórios, gerência escalas/usuários/NCs — NÃO assina |
+| `admin` | Acesso total: CRUD completo, gerênciamento de usuários e plantas |
 
 ### Protecoes
 
-| Protecao | Implementacao |
+| Proteção | Implementação |
 |----------|---------------|
-| Injecao SQL | Prisma ORM (parametrized queries) |
-| XSS | React (escape automatico) + Content-Security-Policy |
+| Injeção SQL | Prisma ORM (parametrized queries) |
+| XSS | React (escape automático) + Content-Security-Policy |
 | CSRF | Cookie-based tokens (quando aplicavel) |
-| Rate limiting | Configuravel por endpoint (via middleware) |
+| Raté limiting | Configurável por endpoint (via middleware) |
 | Dados sensiveis | Campos de senha nunca retornados na API |
 | Audit trail | `createdAt`/`updatedAt` em todas as tabelas |
 
@@ -78,31 +78,31 @@ nav_order: 7
 | Requisito | Justificativa |
 |-----------|---------------|
 | Touch targets >= 44x44px | Uso com luvas ou maos umidas |
-| Fontes legiveis (min 16px body) | Leitura em ambientes com iluminacao variavel |
+| Fontes legiveis (min 16px body) | Leitura em ambientes com iluminação variavel |
 | Contraste alto (WCAG AA) | Uso ao ar livre / sob sol |
-| Feedback visual de acoes | Confirmacao clara de envio/salvamento |
-| Formularios com validacao inline | Erros visiveis sem scroll |
+| Feedback visual de ações | Confirmação clara de envio/salvamento |
+| Formulários com validação inline | Erros visíveis sem scroll |
 | Autosave de rascunho | Prevenir perda de dados (intervalo 30s) |
 
-### Navegacao
+### Navegação
 
-| Requisito | Implementacao |
+| Requisito | Implementação |
 |-----------|---------------|
 | Sidebar responsiva | Colapsavel em tablet, drawer em mobile |
-| Breadcrumbs | Navegacao contextual em paginas internas |
-| Atalhos de acao | Botao flutuante "Novo Relatorio" sempre visivel |
-| Busca rapida | Campo de busca por serial no header |
+| Breadcrumbs | Navegação contextual em páginas internas |
+| Atalhos de ação | Botão flutuante "Novo Relatório" sempre visivel |
+| Busca rápida | Campo de busca por serial no header |
 
 ---
 
-## 7.4 PWA e Preparacao Offline
+## 7.4 PWA e Preparação Offline
 
 ### v1.0 (Preparado)
 
 | Item | Status |
 |------|--------|
 | `manifest.json` | Incluso (nome, icones, theme-color, display: standalone) |
-| Service Worker basico | Via vite-plugin-pwa (cache de assets estaticos) |
+| Service Worker básico | Via vite-plugin-pwa (cache de assets estaticos) |
 | Meta tags PWA | theme-color, apple-mobile-web-app-capable, viewport tablet |
 | Icones PWA | 192x192, 512x512 (identidade FAMBRAS) |
 | Instalavel no tablet | Sim (manifest + service worker) |
@@ -110,14 +110,14 @@ nav_order: 7
 
 ### Futuro (A implementar)
 
-| Item | Descricao |
+| Item | Descrição |
 |------|-----------|
-| Cache de dados (IndexedDB) | Via Dexie.js - relatorios, plantas, perfil |
-| Background Sync | Envio automatico de relatorios pendentes |
+| Cache de dados (IndexedDB) | Via Dexie.js - relatórios, plantas, perfil |
+| Background Sync | Envio automático de relatórios pendentes |
 | Indicador online/offline | Badge visual no header |
-| Fila de sincronizacao | Relatorios pendentes com contador |
-| Resolucao de conflitos | Timestamp-based ou merge manual |
-| Service Worker avancado | Workbox com estrategias de cache por rota |
+| Fila de sincronização | Relatórios pendentes com contador |
+| Resolução de conflitos | Timestamp-based ou merge manual |
+| Service Worker avancado | Workbox com estratégias de cache por rota |
 
 ---
 
@@ -125,17 +125,17 @@ nav_order: 7
 
 | Requisito | Meta |
 |-----------|------|
-| Usuarios simultaneos | 50+ supervisores |
-| Relatorios/mes | 5.000+ |
+| Usuários simultaneos | 50+ supervisores |
+| Relatórios/mês | 5.000+ |
 | Tamanho do banco (1 ano) | < 5GB |
 | NCs ativas simultaneas | 500+ |
 
-### Estrategias
+### Estratégias
 
-- **Paginacao em todas as listagens** (nunca retornar datasets completos)
-- **Indices compostos** nos campos mais filtrados (plantId + date, status + date)
+- **Páginação em todas as listagens** (nunca retornar datasets completos)
+- **Índices compostos** nos campos mais filtrados (plantId + date, status + date)
 - **JSON para dados variavels** (verification items, products, raw materials) - evita joins complexos
-- **Particionamento futuro** para inventario de alto volume (FM 7.1.5.6)
+- **Particionamento futuro** para inventário de alto volume (FM 7.1.5.6)
 
 ---
 
@@ -146,24 +146,24 @@ nav_order: 7
 | Uptime | > 99.5% |
 | RTO (Recovery Time Objective) | < 1 hora |
 | RPO (Recovery Point Objective) | < 15 minutos |
-| Backup do banco | Diario automatico (AWS RDS) |
+| Backup do banco | Diário automático (AWS RDS) |
 
 ---
 
 ## 7.7 Observabilidade
 
-| Item | Implementacao |
+| Item | Implementação |
 |------|---------------|
 | Logs estruturados | `LoggingInterceptor` em todas as requisicoes |
 | Health check | `GET /health` (banco, redis, app) |
-| Metricas de erro | Exception filter global com logging |
-| Swagger/OpenAPI | Documentacao automatica de todos os endpoints |
+| Métricas de erro | Exception filter global com logging |
+| Swagger/OpenAPI | Documentação automática de todos os endpoints |
 
 ---
 
 ## 7.8 Compatibilidade de Navegadores
 
-| Navegador | Versao Minima | Prioridade |
+| Navegador | Versão Mínima | Prioridade |
 |-----------|:------------:|:----------:|
 | Chrome (Android/Desktop) | 100+ | **Principal** |
 | Safari (iOS/iPadOS) | 15+ | Alta |
@@ -177,7 +177,7 @@ nav_order: 7
 
 ### Portas (sem conflito com HalalSphere)
 
-| Servico | Porta SIH | Porta HalalSphere |
+| Serviço | Porta SIH | Porta HalalSphere |
 |---------|:---------:|:-----------------:|
 | Backend API | 3334 | 3333 |
 | Frontend Dev | 5174 | 5173 |
@@ -190,7 +190,7 @@ nav_order: 7
 |------|-------|
 | SGBD | PostgreSQL 16+ |
 | Nome do banco | `sih` |
-| Extensoes | uuid-ossp, pgcrypto, pg_trgm |
+| Extensões | uuid-ossp, pgcrypto, pg_trgm |
 | ORM | Prisma 7.x |
 
 ### Cache
@@ -198,13 +198,13 @@ nav_order: 7
 | Item | Valor |
 |------|-------|
 | Engine | Redis 7+ |
-| Uso principal | Cache de sessao, rate limiting |
+| Uso principal | Cache de sessão, raté limiting |
 
 ### Design System
 
 | Item | Valor |
 |------|-------|
 | Cores primarias | Verde FAMBRAS #0A6847, Dourado #D4A853 |
-| Fontes | Playfair Display (titulos), DM Sans (corpo), JetBrains Mono (codigo) |
+| Fontes | Playfair Display (títulos), DM Sans (corpo), JetBrains Mono (código) |
 | Componentes | shadcn/ui com tema FAMBRAS |
 | Icones | Lucide React |

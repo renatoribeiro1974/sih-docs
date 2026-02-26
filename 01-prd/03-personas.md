@@ -10,49 +10,49 @@ nav_order: 3
 
 ## 3.1 Personas do Sistema
 
-O SIH atende 4 personas principais, mapeadas a partir dos papeis definidos no **PR 7.1 Rev 22, Secao 10.10**.
+O SIH atende 4 personas principais, mapeadas a partir dos papéis definidos no **PR 7.1 Rev 22, Seção 10.10**.
 
-> **Nota**: O role `gestor` existia no enum original mas foi **removido na v1.0**. Gestores utilizam o HalalSphere para visao executiva. O SIH foca nos papeis operacionais.
+> **Nota**: O role `gestor` existia no enum original mas foi **removido na v1.0**. Gestores utilizam o HalalSphere para visão executiva. O SIH foca nos papéis operacionais.
 
 ---
 
-### Persona 1: Supervisor Muculmano
+### Persona 1: Supervisor Muçulmano
 
 **Role no sistema**: `supervisor`
 
-| Atributo | Descricao |
+| Atributo | Descrição |
 |----------|-----------|
-| **Quem e** | Profissional muculmano qualificado, designado pela FAMBRAS Halal para acompanhar processos industriais em plantas certificadas |
-| **Onde trabalha** | Em campo - plantas de abate, producao industrial e embarque |
+| **Quem e** | Profissional muçulmano qualificado, designado pela FAMBRAS Halal para acompanhar processos industriais em plantas certificadas |
+| **Onde trabalha** | Em campo - plantas de abate, produção industrial e embarque |
 | **Dispositivo** | Tablet (uso principal) ou celular |
 | **Conectividade** | Variavel - pode estar em areas com internet limitada |
-| **Frequencia de uso** | Diario, durante todo o turno de trabalho |
-| **Volume** | 3-10 relatorios por dia, dependendo do tipo de planta |
+| **Frequência de uso** | Diário, durante todo o turno de trabalho |
+| **Volume** | 3-10 relatórios por dia, dependendo do tipo de planta |
 
 #### Responsabilidades (PR 7.1 Sec. 10.10)
 
 - Supervisionar processos de abate conforme requisitos Halal
-- Acompanhar producao industrial de produtos certificados
-- Verificar embarques para exportacao e mercado interno
-- Registrar nao-conformidades e acompanhar acoes corretivas
+- Acompanhar produção industrial de produtos certificados
+- Verificar embarques para exportação e mercado interno
+- Registrar não-conformidades e acompanhar ações corretivas
 - Garantir rastreabilidade da carne Halal (origem, CSN, certificado)
-- Assinar e declarar conformidade de cada relatorio
+- Assinar e declarar conformidade de cada relatório
 
 #### Necessidades
 
-- Preenchimento rapido e intuitivo (esta em campo, muitas vezes de pe)
-- Interface grande e legivel (tela de tablet, uso com luvas possivel)
-- Formularios que guiem o preenchimento (campos condicionais, validacoes)
-- Acesso rapido ao historico de relatorios da planta
+- Preenchimento rápido e intuitivo (esta em campo, muitas vezes de pe)
+- Interface grande e legivel (tela de tablet, uso com luvas possível)
+- Formulários que guiem o preenchimento (campos condicionais, validações)
+- Acesso rápido ao histórico de relatórios da planta
 - Possibilidade de salvar rascunho e continuar depois
 
 #### Dores Atuais
 
-- Preencher formularios em papel e demorado e propenso a erros
-- Numeros seriais precisam ser controlados manualmente
+- Preencher formulários em papel e demorado e propenso a erros
+- Números seriais precisam ser controlados manualmente
 - PDFs se perdem ou ficam ilegives
 - Sem feedback imediato sobre erros de preenchimento
-- Demora para informar NCs a gestao
+- Demora para informar NCs a gestão
 
 ---
 
@@ -60,39 +60,39 @@ O SIH atende 4 personas principais, mapeadas a partir dos papeis definidos no **
 
 **Role no sistema**: `coordenador`
 
-| Atributo | Descricao |
+| Atributo | Descrição |
 |----------|-----------|
-| **Quem e** | Profissional que coordena a equipe de supervisores, distribui escalas e revisa relatorios |
-| **Onde trabalha** | Escritorio + visitas a campo |
-| **Dispositivo** | Desktop (escritorio) e tablet (campo) |
-| **Conectividade** | Estavel no escritorio |
-| **Frequencia de uso** | Diario |
-| **Volume** | Revisa 10-30 relatorios por dia |
+| **Quem e** | Profissional que coordena a equipe de supervisores, distribui escalas e revisa relatórios |
+| **Onde trabalha** | Escritório + visitas a campo |
+| **Dispositivo** | Desktop (escritório) e tablet (campo) |
+| **Conectividade** | Estavel no escritório |
+| **Frequência de uso** | Diário |
+| **Volume** | Revisa 10-30 relatórios por dia |
 
 #### Responsabilidades
 
 - Distribuir supervisores entre as plantas (escala)
 - Criar, editar e desativar supervisores e operadores
-- Visualizar todos os relatorios das plantas sob sua coordenacao (somente leitura)
-- Cancelar relatorios quando necessario
-- Gerenciar nao-conformidades (verificar, encerrar)
+- Visualizar todos os relatórios das plantas sob sua coordenação (somente leitura)
+- Cancelar relatórios quando necessário
+- Gerênciar não-conformidades (verificar, encerrar)
 - Garantir cobertura de todas as plantas
-- **NAO assina relatorios** — a assinatura e exclusiva do supervisor
+- **NÃO assina relatórios** — a assinatura é exclusiva do supervisor
 
 #### Necessidades
 
-- Visao consolidada de todos os relatorios (somente leitura)
-- Gestao de escala com visualizacao por calendario
-- CRUD de usuarios (supervisores e operadores)
-- Alertas de NCs proximas do vencimento (7 dias)
-- Filtros e busca rapida por planta, supervisor, periodo
+- Visão consolidada de todos os relatórios (somente leitura)
+- Gestão de escala com visualização por calendário
+- CRUD de usuários (supervisores e operadores)
+- Alertas de NCs próximas do vencimento (7 dias)
+- Filtros e busca rápida por planta, supervisor, período
 
 #### Dores Atuais
 
-- Relatorios chegam com dias de atraso
+- Relatórios chegam com dias de atraso
 - Dificuldade de montar escala otimizada
 - Sem visibilidade de NCs pendentes em tempo real
-- Consolidacao manual de dados para reportar a gestao
+- Consolidação manual de dados para reportar a gestão
 
 ---
 
@@ -100,26 +100,26 @@ O SIH atende 4 personas principais, mapeadas a partir dos papeis definidos no **
 
 **Role no sistema**: `operador`
 
-| Atributo | Descricao |
+| Atributo | Descrição |
 |----------|-----------|
-| **Quem e** | Profissional de apoio que preenche relatorios sob orientacao de um supervisor, mas nao tem autoridade para assinar |
-| **Onde trabalha** | Em campo - plantas de abate, producao industrial e embarque |
+| **Quem e** | Profissional de apoio que preenche relatórios sob orientação de um supervisor, mas não tem autoridade para assinar |
+| **Onde trabalha** | Em campo - plantas de abate, produção industrial e embarque |
 | **Dispositivo** | Tablet (uso principal) ou celular |
 | **Conectividade** | Variavel |
-| **Frequencia de uso** | Diario |
-| **Volume** | 3-10 relatorios por dia |
+| **Frequência de uso** | Diário |
+| **Volume** | 3-10 relatórios por dia |
 
 #### Responsabilidades
 
-- Preencher relatorios de abate, producao e embarque
+- Preencher relatórios de abate, produção e embarque
 - Registrar dados operacionais com precisao
-- Registrar nao-conformidades
-- **NAO pode assinar relatorios** — salvam como rascunho para assinatura do supervisor
+- Registrar não-conformidades
+- **NÃO pode assinar relatórios** — salvam como rascunho para assinatura do supervisor
 
 #### Necessidades
 
-- Interface rapida e intuitiva (igual ao supervisor)
-- Acesso a historico de relatorios para referencia
+- Interface rápida e intuitiva (igual ao supervisor)
+- Acesso a histórico de relatórios para referência
 - Possibilidade de salvar rascunho
 
 #### Dores Atuais
@@ -128,23 +128,23 @@ O SIH atende 4 personas principais, mapeadas a partir dos papeis definidos no **
 
 ---
 
-## 3.2 Matriz de Permissoes por Persona
+## 3.2 Matriz de Permissões por Persona
 
 | Funcionalidade | Supervisor | Operador | Coordenador | Admin |
 |----------------|:----------:|:--------:|:-----------:|:-----:|
-| Criar relatorios | Sim | Sim | - | Sim |
-| Editar relatorios (rascunho) | Proprios | Proprios | - | Todos |
-| **Assinar relatorios** | **Proprios** | **NAO** | **NAO** | **NAO** |
-| Cancelar relatorios | - | - | Sim | Sim |
-| Visualizar relatorios | Proprios | Proprios | Todos (read-only) | Todos |
+| Criar relatórios | Sim | Sim | - | Sim |
+| Editar relatórios (rascunho) | Próprios | Próprios | - | Todos |
+| **Assinar relatórios** | **Próprios** | **NÃO** | **NÃO** | **NÃO** |
+| Cancelar relatórios | - | - | Sim | Sim |
+| Visualizar relatórios | Próprios | Próprios | Todos (read-only) | Todos |
 | Registrar NCs | Sim | Sim | Sim | Sim |
 | Resolver NCs | Sim | Sim | Sim | Sim |
 | Verificar/Encerrar NCs | - | - | Sim | Sim |
-| Ver dashboard | Basico | Basico | Completo | Completo |
-| Gerenciar escala | Ver propria | Ver propria | Sim | Sim |
-| Gerenciar plantas | - | - | - | Sim |
-| Gerenciar usuarios | - | - | Sim (sup+oper) | Sim (todos) |
-| Gerar PDF relatorio | Sim | Sim | Sim | Sim |
+| Ver dashboard | Básico | Básico | Completo | Completo |
+| Gerênciar escala | Ver própria | Ver própria | Sim | Sim |
+| Gerênciar plantas | - | - | - | Sim |
+| Gerênciar usuários | - | - | Sim (sup+oper) | Sim (todos) |
+| Gerar PDF relatório | Sim | Sim | Sim | Sim |
 
 ---
 
@@ -170,7 +170,7 @@ O SIH atende 4 personas principais, mapeadas a partir dos papeis definidos no **
 15:30 - Fim do turno
 ```
 
-### Jornada do Supervisor - Dia Tipico em Planta de Producao Industrial
+### Jornada do Supervisor - Dia Tipico em Planta de Produção Industrial
 
 ```
 07:00 - Chega na planta, abre SIH
@@ -188,7 +188,7 @@ O SIH atende 4 personas principais, mapeadas a partir dos papeis definidos no **
 14:30 - Envia relatorio de embarque
 ```
 
-### Jornada do Coordenador - Gestao Diaria
+### Jornada do Coordenador - Gestão Diária
 
 ```
 08:00 - Abre dashboard, ve resumo geral dos relatorios

@@ -5,7 +5,7 @@ nav_order: 4
 
 # Guia de Setup do Ambiente Local
 
-> **Projeto:** SIH - Supervisao Industrial Halal
+> **Projeto:** SIH - Supervisão Industrial Halal
 >
 > **Stack Backend:** NestJS 11 + Prisma 7 + PostgreSQL 16 + Redis 7
 >
@@ -13,23 +13,23 @@ nav_order: 4
 
 ---
 
-## Sumario
+## Sumário
 
 1. [Pre-requisitos](#1-pre-requisitos)
 2. [Clonar Repositorios](#2-clonar-repositorios)
 3. [Backend Setup](#3-backend-setup)
 4. [Frontend Setup](#4-frontend-setup)
 5. [Portas do Sistema](#5-portas-do-sistema)
-6. [Comandos Uteis](#6-comandos-uteis)
+6. [Comandos Úteis](#6-comandos-úteis)
 7. [Troubleshooting](#7-troubleshooting)
 
 ---
 
 ## 1. Pre-requisitos
 
-Antes de comecar, certifique-se de ter instalado:
+Antes de começar, certifique-se de ter instalado:
 
-| Ferramenta       | Versao Minima | Como verificar          | Link                                              |
+| Ferramenta       | Versão Mínima | Como verificar          | Link                                              |
 | ---------------- | ------------- | ----------------------- | ------------------------------------------------- |
 | **Node.js**      | 22.x+         | `node -v`               | https://nodejs.org/                                |
 | **npm**          | 10.x+         | `npm -v`                | (incluso com Node.js)                              |
@@ -37,11 +37,11 @@ Antes de comecar, certifique-se de ter instalado:
 | **Git**          | 2.40+         | `git --version`         | https://git-scm.com/                               |
 | **VSCode**       | Mais recente  | -                       | https://code.visualstudio.com/ (recomendado)       |
 
-### Extensoes recomendadas para VSCode
+### Extensões recomendadas para VSCode
 
-- **Prisma** - Syntax highlighting e formatacao do schema
+- **Prisma** - Syntax highlighting e formatação do schema
 - **ESLint** - Linting integrado
-- **Prettier** - Formatacao de codigo
+- **Prettier** - Formatação de código
 - **Thunder Client** ou **REST Client** - Testes de API
 - **Tailwind CSS IntelliSense** - Autocomplete para classes Tailwind
 
@@ -49,7 +49,7 @@ Antes de comecar, certifique-se de ter instalado:
 
 ## 2. Clonar Repositorios
 
-O projeto SIH e composto por 3 repositorios. Recomenda-se clonar todos na mesma pasta raiz:
+O projeto SIH é composto por 3 repositorios. Recomenda-se clonar todos na mesma pasta raiz:
 
 ```bash
 # Criar pasta raiz (opcional, ajuste conforme preferencia)
@@ -87,7 +87,7 @@ cd sih-backend
 cp .env.example .env
 ```
 
-O arquivo `.env` ja vem configurado com valores padrao para desenvolvimento local. As principais variaveis sao:
+O arquivo `.env` já vem configurado com valores padrão para desenvolvimento local. As principais variaveis são:
 
 ```env
 PORT=3334
@@ -101,25 +101,25 @@ CORS_ORIGIN=http://localhost:5174
 GESTAO_API_URL=http://localhost:3333
 ```
 
-> **Nota:** Na v1.0, o SIH usa autenticacao self-contained com JWT HS256. O `JWT_SECRET` deve ter no minimo 32 caracteres.
+> **Nota:** Na v1.0, o SIH usa autenticação self-contained com JWT HS256. O `JWT_SECRET` deve ter no mínimo 32 caracteres.
 
 ### 3.2 Subir infraestrutura com Docker
 
-Certifique-se de que o **Docker Desktop esta rodando**, depois execute:
+Certifique-se de que o **Docker Desktop está rodando**, depois execute:
 
 ```bash
 # Sobe PostgreSQL (porta 5433) e Redis (porta 6380)
 docker compose up -d
 ```
 
-Aguarde os containers ficarem saudaveis:
+Aguarde os containers ficarem saudáveis:
 
 ```bash
 # Verificar status dos containers
 docker compose ps
 ```
 
-Saida esperada:
+Saída esperada:
 
 ```
 NAME            STATUS                  PORTS
@@ -128,10 +128,10 @@ sih-redis       Up (healthy)            0.0.0.0:6380->6379/tcp
 ```
 
 > **Detalhes da infraestrutura:**
-> - **PostgreSQL 16 Alpine** - Banco de dados principal com extensoes `uuid-ossp`, `pgcrypto` e `pg_trgm`
+> - **PostgreSQL 16 Alpine** - Banco de dados principal com extensões `uuid-ossp`, `pgcrypto` e `pg_trgm`
 > - **Redis 7 Alpine** - Cache e filas (futuro)
 
-### 3.3 Instalar dependencias
+### 3.3 Instalar dependências
 
 ```bash
 npm install
@@ -143,7 +143,7 @@ npm install
 npx prisma generate
 ```
 
-> **IMPORTANTE - Prisma 7:** A partir do Prisma 7, o comando `prisma generate` utiliza o arquivo `prisma.config.ts` que carrega a `DATABASE_URL` via `dotenv/config`. Por isso, e obrigatorio que o arquivo `.env` exista na raiz do projeto **antes** de rodar este comando. Caso contrario, voce recebera um erro de conexao.
+> **IMPORTANTE - Prisma 7:** A partir do Prisma 7, o comando `prisma generate` utiliza o arquivo `prisma.config.ts` que carrega a `DATABASE_URL` via `dotenv/config`. Por isso, é obrigatório que o arquivo `.env` exista na raiz do projeto **antes** de rodar este comando. Caso contrario, você recebera um erro de conexão.
 >
 > O arquivo `prisma.config.ts` do projeto:
 > ```typescript
@@ -170,16 +170,16 @@ npx prisma migrate dev --name init
 
 Este comando:
 1. Cria as tabelas no banco de dados conforme o `schema.prisma`
-2. Gera o historico de migrations em `prisma/migrations/`
-3. Regenera o Prisma Client automaticamente
+2. Gera o histórico de migrations em `prisma/migrations/`
+3. Regenera o Prisma Client automáticamente
 
-As tabelas criadas serao:
+As tabelas criadas serão:
 - `supervisor_profiles` - Perfis de supervisores
-- `plants` - Plantas industriais (abatedouros, frigorificos, etc.)
-- `slaughter_reports` - Relatorios de abate (FM 7.1.4.x)
-- `production_reports` - Relatorios de producao (FM 7.1.3.x / FM 7.1.8.x)
-- `shipping_reports` - Relatorios de embarque/venda (FM 7.1.7.x / DCPOA)
-- `non_conformities` - Nao-conformidades (FM 7.1.6.1)
+- `plants` - Plantas industriais (abatedouros, frigoríficos, etc.)
+- `slaughter_reports` - Relatórios de abate (FM 7.1.4.x)
+- `production_reports` - Relatórios de produção (FM 7.1.3.x / FM 7.1.8.x)
+- `shipping_reports` - Relatórios de embarque/venda (FM 7.1.7.x / DCPOA)
+- `non_conformities` - Não-conformidades (FM 7.1.6.1)
 - `supervisor_schedules` - Escala de supervisores
 
 ### 3.6 Popular o banco com dados de teste (seed)
@@ -188,13 +188,13 @@ As tabelas criadas serao:
 npx prisma db seed
 ```
 
-> **Nota:** O seed do SIH utiliza **tsx** (nao ts-node). Isso esta configurado no `package.json`:
+> **Nota:** O seed do SIH utiliza **tsx** (não ts-node). Isso está configurado no `package.json`:
 > ```json
 > "prisma": {
 >   "seed": "tsx prisma/seed.ts"
 > }
 > ```
-> Certifique-se de que o `tsx` esta instalado (ele ja e uma devDependency do projeto).
+> Certifique-se de que o `tsx` está instalado (ele já e uma devDependency do projeto).
 
 ### 3.7 Iniciar o servidor de desenvolvimento
 
@@ -202,16 +202,16 @@ npx prisma db seed
 npm run start:dev
 ```
 
-O servidor NestJS ira iniciar em modo watch (reinicia automaticamente a cada alteracao de codigo).
+O servidor NestJS ira iniciar em modo watch (reinicia automáticamente a cada alteração de código).
 
-Saida esperada:
+Saída esperada:
 
 ```
 [Nest] LOG [NestApplication] Nest application successfully started
 [Nest] LOG Application is running on: http://localhost:3334
 ```
 
-### 3.8 Verificar se tudo esta funcionando
+### 3.8 Verificar se tudo está funcionando
 
 **Health Check:**
 
@@ -221,11 +221,11 @@ curl http://localhost:3334/health
 
 Ou acesse no navegador: [http://localhost:3334/health](http://localhost:3334/health)
 
-**Swagger (documentacao da API):**
+**Swagger (documentação da API):**
 
 Acesse: [http://localhost:3334/api/docs](http://localhost:3334/api/docs)
 
-A documentacao Swagger lista todos os endpoints disponiveis, schemas de request/response, e permite testar a API diretamente pelo navegador.
+A documentação Swagger lista todos os endpoints disponíveis, schemas de request/response, e permite testar a API diretamente pelo navegador.
 
 ---
 
@@ -240,9 +240,9 @@ cd sih-frontend
 cp .env.example .env.local
 ```
 
-> **Nota:** O frontend usa `.env.local` (padrao Vite) para configuracao local. Todas as variaveis devem ter o prefixo `VITE_` para serem acessiveis no codigo.
+> **Nota:** O frontend usa `.env.local` (padrão Vite) para configuração local. Todas as variaveis devem ter o prefixo `VITE_` para serem acessiveis no código.
 
-Conteudo do `.env.local`:
+Conteúdo do `.env.local`:
 
 ```env
 VITE_API_URL=http://localhost:3334
@@ -250,13 +250,13 @@ VITE_AUTH_API_URL=http://localhost:3333
 VITE_ENV=development
 ```
 
-| Variavel             | Descricao                                       |
+| Variavel             | Descrição                                       |
 | -------------------- | ----------------------------------------------- |
 | `VITE_API_URL`       | URL da API do SIH Backend                       |
-| `VITE_AUTH_API_URL`  | URL da API de Gestao de Certificacoes (autenticacao) |
-| `VITE_ENV`           | Ambiente de execucao                             |
+| `VITE_AUTH_API_URL`  | URL da API de Gestão de Certificações (autenticação) |
+| `VITE_ENV`           | Ambiente de execução                             |
 
-### 4.2 Instalar dependencias
+### 4.2 Instalar dependências
 
 ```bash
 npm install
@@ -272,7 +272,7 @@ O Vite ira iniciar o servidor de desenvolvimento com HMR (Hot Module Replacement
 
 Acesse: [http://localhost:5174](http://localhost:5174)
 
-> **Nota:** O frontend depende do backend estar rodando para funcionar corretamente. Certifique-se de que o backend esta acessivel em `http://localhost:3334` antes de testar funcionalidades que dependem da API.
+> **Nota:** O frontend depende do backend estar rodando para funcionar corretamente. Certifique-se de que o backend está acessível em `http://localhost:3334` antes de testar funcionalidades que dependem da API.
 
 ---
 
@@ -280,7 +280,7 @@ Acesse: [http://localhost:5174](http://localhost:5174)
 
 ### Mapa de portas do SIH
 
-| Servico          | Porta  | Container/Processo   | URL de Acesso                   |
+| Serviço          | Porta  | Container/Processo   | URL de Acesso                   |
 | ---------------- | ------ | -------------------- | ------------------------------- |
 | **Backend API**  | `3334` | NestJS (local)       | http://localhost:3334           |
 | **PostgreSQL**   | `5433` | sih-postgres         | `localhost:5433`                |
@@ -289,22 +289,22 @@ Acesse: [http://localhost:5174](http://localhost:5174)
 | **Swagger Docs** | `3334` | NestJS (rota)        | http://localhost:3334/api/docs  |
 | **Prisma Studio** | `5555` | Prisma (sob demanda) | http://localhost:5555           |
 
-### Separacao do HalalSphere (Gestao de Certificacoes)
+### Separação do HalalSphere (Gestão de Certificações)
 
 As portas do SIH foram **intencionalmente separadas** para permitir que ambos os sistemas rodem simultaneamente na mesma maquina de desenvolvimento:
 
-| Servico      | HalalSphere   | SIH           |
+| Serviço      | HalalSphere   | SIH           |
 | ------------ | ------------- | ------------- |
 | Backend API  | `3333`        | `3334`        |
 | PostgreSQL   | `5432`        | `5433`        |
 | Redis        | `6379`        | `6380`        |
 | Frontend     | `5173`        | `5174`        |
 
-> **Dica:** Voce pode rodar ambos os projetos ao mesmo tempo sem conflitos de porta. Isso e util para testar a integracao de autenticacao entre o SIH e o Gestao de Certificacoes.
+> **Dica:** Você pode rodar ambos os projetos ao mesmo tempo sem conflitos de porta. Isso e útil para testar a integração de autenticação entre o SIH e o Gestão de Certificações.
 
 ---
 
-## 6. Comandos Uteis
+## 6. Comandos Úteis
 
 ### Prisma (Banco de Dados)
 
@@ -421,7 +421,7 @@ docker compose --profile full up -d
 
 **Sintoma:** Erro `EADDRINUSE` ou `port already in use` ao subir containers ou iniciar o backend/frontend.
 
-**Solucao:**
+**Solução:**
 
 ```bash
 # Verificar o que esta usando a porta (exemplo: 5433)
@@ -437,7 +437,7 @@ docker compose down
 # Se for outro processo, encerre-o ou altere a porta no .env e docker-compose.yml
 ```
 
-### Erro no `prisma generate` - DATABASE_URL nao encontrada
+### Erro no `prisma generate` - DATABASE_URL não encontrada
 
 **Sintoma:**
 
@@ -445,9 +445,9 @@ docker compose down
 Error: Environment variable not found: DATABASE_URL
 ```
 
-**Causa:** O arquivo `.env` nao existe na raiz de `sih-backend/`, ou a variavel `DATABASE_URL` nao esta definida.
+**Causa:** O arquivo `.env` não existe na raiz de `sih-backend/`, ou a variavel `DATABASE_URL` não está definida.
 
-**Solucao:**
+**Solução:**
 
 ```bash
 # Verificar se o .env existe
@@ -460,9 +460,9 @@ cp .env.example .env
 grep DATABASE_URL .env
 ```
 
-> **Lembrete:** No Prisma 7, o `prisma.config.ts` usa `import 'dotenv/config'` para carregar o `.env`. Diferente de versoes anteriores, o Prisma 7 nao le o `.env` automaticamente do `schema.prisma`.
+> **Lembrete:** No Prisma 7, o `prisma.config.ts` usa `import 'dotenv/config'` para carregar o `.env`. Diferente de versões anteriores, o Prisma 7 não le o `.env` automáticamente do `schema.prisma`.
 
-### Docker nao esta rodando
+### Docker não está rodando
 
 **Sintoma:**
 
@@ -476,14 +476,14 @@ Ou no Windows:
 error during connect: ... docker daemon is not running
 ```
 
-**Solucao:**
+**Solução:**
 
 1. Abra o **Docker Desktop**
-2. Aguarde ate o icone na bandeja ficar verde (status: "running")
+2. Aguarde até o icone na bandeja ficar verde (status: "running")
 3. Verifique com `docker info`
 4. Tente novamente: `docker compose up -d`
 
-### Erro de conexao com o banco de dados
+### Erro de conexão com o banco de dados
 
 **Sintoma:**
 
@@ -491,7 +491,7 @@ error during connect: ... docker daemon is not running
 Can't reach database server at `localhost:5433`
 ```
 
-**Solucao:**
+**Solução:**
 
 ```bash
 # 1. Verificar se o container esta rodando
@@ -507,7 +507,7 @@ docker compose logs postgres
 docker exec -it sih-postgres psql -U admin -d sih -c "SELECT 1"
 ```
 
-### Erro no seed - tsx nao encontrado
+### Erro no seed - tsx não encontrado
 
 **Sintoma:**
 
@@ -515,7 +515,7 @@ docker exec -it sih-postgres psql -U admin -d sih -c "SELECT 1"
 Error: Cannot find module 'tsx'
 ```
 
-**Solucao:**
+**Solução:**
 
 ```bash
 # Reinstalar dependencias
@@ -528,11 +528,11 @@ npx tsx --version
 npx prisma db seed
 ```
 
-### Containers saudaveis mas API nao responde
+### Containers saudáveis mas API não responde
 
-**Sintoma:** Os containers `sih-postgres` e `sih-redis` estao `healthy`, mas o backend da erro ao conectar.
+**Sintoma:** Os containers `sih-postgres` e `sih-redis` estão `healthy`, mas o backend da erro ao conectar.
 
-**Solucao:**
+**Solução:**
 
 ```bash
 # Verificar se a DATABASE_URL aponta para localhost:5433 (nao 5432)
@@ -548,24 +548,24 @@ grep REDIS_URL .env
 # REDIS_URL=redis://localhost:6380
 ```
 
-> **Atencao:** As portas `5433` e `6380` sao as portas mapeadas no host. Dentro dos containers Docker, os servicos rodam nas portas padrao (`5432` e `6379`). Se voce estiver usando o profile `full` (backend containerizado), a `DATABASE_URL` deve apontar para `postgres:5432` (nome do servico Docker).
+> **Atencao:** As portas `5433` e `6380` são as portas mapeadas no host. Dentro dos containers Docker, os serviços rodam nas portas padrão (`5432` e `6379`). Se você estiver usando o profile `full` (backend containerizado), a `DATABASE_URL` deve apontar para `postgres:5432` (nome do serviço Docker).
 
-### Frontend nao conecta na API
+### Frontend não conecta na API
 
 **Sintoma:** Erros de CORS ou `Network Error` no console do navegador.
 
-**Solucao:**
+**Solução:**
 
-1. Verifique se o backend esta rodando em `http://localhost:3334`
+1. Verifique se o backend está rodando em `http://localhost:3334`
 2. Verifique o `VITE_API_URL` no `.env.local` do frontend
 3. Verifique se `CORS_ORIGIN` no `.env` do backend inclui `http://localhost:5174`
 4. Reinicie o backend se alterou variaveis de ambiente
 
 ---
 
-## Resumo - Passo a Passo Rapido
+## Resumo - Passo a Passo Rápido
 
-Para quem quer subir tudo rapidamente:
+Para quem quer subir tudo rápidamente:
 
 ```bash
 # 1. Backend

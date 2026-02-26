@@ -1,14 +1,14 @@
 ---
-title: Integracao
-parent: Documentacao Tecnica
+title: Integração
+parent: Documentação Técnica
 nav_order: 6
 ---
 
-# 6. Integracao e Ecossistema FAMBRAS
+# 6. Integração e Ecossistema FAMBRAS
 
 ---
 
-## 6.1 Visao Geral do Ecossistema
+## 6.1 Visão Geral do Ecossistema
 
 O SIH faz parte de um ecossistema de 3 sistemas que cobrem toda a cadeia Halal da FAMBRAS:
 
@@ -64,88 +64,88 @@ HalalSphere (upstream)          SIH (operacional)           SysHalal (downstream
 |-------|------------------------|------------------------|---------------|
 | ID | UUID | Snowflake BigInt | UUID |
 | Nome | `razaoSocial` | `razao_social` | `name` |
-| Codigo SIF | `plantCode` + `plantCodeType` | campo `sif` | `sifCode` |
-| CNPJ | `cnpj` (14 chars) | via `tb_cliente` | — (nao cadastra) |
-| Tipo | `tipoEmpresa` | flags (`typeSlaughterer`, `typeProcessor`, etc.) | `type` (enum: frigorifico, processamento) |
+| Código SIF | `plantCode` + `plantCodeType` | campo `sif` | `sifCode` |
+| CNPJ | `cnpj` (14 chars) | via `tb_cliente` | — (não cadastra) |
+| Tipo | `tipoEmpresa` | flags (`typeSlaughterer`, `typeProcessor`, etc.) | `type` (enum: frigorífico, processamento) |
 | Grupo | `groupId` → `CompanyGroup` | `cliente_id` → `tb_cliente` | — |
-| Endereco | `address` (JSON) | `endereco_id` → `tb_endereco` | `address` (JSON) |
+| Endereço | `address` (JSON) | `endereco_id` → `tb_endereco` | `address` (JSON) |
 | Especies | — | — | `species[]` (bovino, ave) |
-| Vinculo externo | — | — | `externalCompanyId` (preparado para HalalSphere) |
+| Vínculo externo | — | — | `externalCompanyId` (preparado para HalalSphere) |
 
 ### 6.3.2 Pessoas/Colaboradores
 
 | Aspecto | HalalSphere | SysHalal | SIH |
 |---------|-------------|----------|-----|
-| Usuarios sistema | 12 roles (admin, empresa, analista, auditor, etc.) | RBAC dinamico | 4 roles (admin, coordenador, supervisor, operador) |
-| Colaboradores nao-usuarios | — | `tb_pessoas` (contatos comerciais) | `Collaborator` (equipe operacional: degoladores, sheiks, auxiliares) |
+| Usuários sistema | 12 roles (admin, empresa, analista, auditor, etc.) | RBAC dinamico | 4 roles (admin, coordenador, supervisor, operador) |
+| Colaboradores não-usuários | — | `tb_pessoas` (contatos comerciais) | `Collaborator` (equipe operacional: degoladores, sheiks, auxiliares) |
 | Auditores | `AuditorCompetency` (completo) | — | — |
-| Vinculo com relatorio | — | `cx_certificado_operacao` | `ReportStaff` (N:N) |
+| Vínculo com relatório | — | `cx_certificado_operacao` | `ReportStaff` (N:N) |
 
 ### 6.3.3 Certificados
 
 | Campo | HalalSphere (`Certificate`) | SysHalal (`tb_certificado`) | SIH |
 |-------|----------------------------|----------------------------|-----|
-| Num certificado | `certificateNumber` | `nr_certificado` | — (gera relatorios, nao certificados) |
-| Produtos | `ScopeProduct` | `json_produtos` (JSON) | produtos por relatorio (JSON) |
-| Pesos | — | `vl_peso_bruto/liquido` | nos relatorios de embarque |
-| Operacoes | — | `cx_certificado_operacao` | relatorios de abate/producao |
+| Num certificado | `certificateNumber` | `nr_certificado` | — (gera relatórios, não certificados) |
+| Produtos | `ScopeProduct` | `json_produtos` (JSON) | produtos por relatório (JSON) |
+| Pesos | — | `vl_peso_bruto/liquido` | nos relatórios de embarque |
+| Operações | — | `cx_certificado_operacao` | relatórios de abate/produção |
 | CSI/CSN | — | `ds_certificado_sanitario` | `csiNumber` no shipping report |
 
 ---
 
-## 6.4 Autenticacao — v1.0 (Atual)
+## 6.4 Autenticação — v1.0 (Atual)
 
-Na v1.0, o SIH opera com **autenticacao propria (self-contained)**:
+Na v1.0, o SIH opera com **autenticação própria (self-contained)**:
 
 ```
 Frontend SIH ──(POST /auth/login)──> Backend SIH ──(bcrypt + JWT HS256)──> Token
 ```
 
-- **Nao depende** do HalalSphere para autenticar
+- **Não depende** do HalalSphere para autenticar
 - Backend gera JWT com HS256 usando `JWT_SECRET`
 - Senha armazenada com bcrypt (salt rounds 10)
-- JWT contem: `sub` (userId), `email`, `name`, `role`
-- Token valido por 7 dias (`JWT_EXPIRES_IN`)
+- JWT contém: `sub` (userId), `email`, `name`, `role`
+- Token válido por 7 dias (`JWT_EXPIRES_IN`)
 - Guards globais: `JwtAuthGuard` + `RolesGuard`
 - Decorators: `@Public()` para pular auth, `@Roles('admin', 'coordenador')` para restringir
 
 ### Variaveis de Ambiente (v1.0)
 
-| Variavel | Descricao | Exemplo |
+| Variavel | Descrição | Exemplo |
 |----------|-----------|---------|
 | `JWT_SECRET` | Chave secreta HS256 | `dev-secret-key-minimum-32-chars...` |
-| `JWT_EXPIRES_IN` | Validade do token | `7d` |
+| `JWT_EXPIRES_IN` | Válidade do token | `7d` |
 
 ---
 
-## 6.5 Estrategia de Integracao Futura
+## 6.5 Estratégia de Integração Futura
 
 ### 6.5.1 Fase 1 — Cadastros Compartilhados (HalalSphere como Master)
 
-Quando a integracao for implementada, o HalalSphere sera o **master** dos cadastros de:
+Quando a integração for implementada, o HalalSphere será o **master** dos cadastros de:
 - **Plantas/Empresas**: `Company` do HalalSphere (com `plantCode` SIF) → vinculado via `Plant.externalCompanyId` no SIH
-- **Colaboradores**: Futuro modulo no HalalSphere → vinculado via `Collaborator.externalId` no SIH
+- **Colaboradores**: Futuro módulo no HalalSphere → vinculado via `Collaborator.externalId` no SIH
 
 O SIH mantém copias locais com `externalId` para:
-- Funcionar independente (sem dependencia de rede)
-- Preservar dados historicos mesmo se o master mudar
+- Funcionar independente (sem dependência de rede)
+- Preservar dados históricos mesmo se o master mudar
 
-### 6.5.2 Fase 2 — Dados de Supervisao para SysHalal
+### 6.5.2 Fase 2 — Dados de Supervisão para SysHalal
 
-O SIH alimenta o SysHalal com dados operacionais para emissao de certificados de exportacao:
-- Datas de abate, producao, validades
+O SIH alimenta o SysHalal com dados operacionais para emissão de certificados de exportação:
+- Datas de abate, produção, válidades
 - Pesos bruto/liquido por produto
-- Numeros SIF de origem
+- Números SIF de origem
 - CSI/CSN associados
-- Operacoes (abatedouro, processadora)
+- Operações (abatedouro, processadora)
 
-### 6.5.3 Mecanismo de Sincronizacao
+### 6.5.3 Mecanismo de Sincronização
 
 | Direcao | Mecanismo | Dados |
 |---------|-----------|-------|
 | HalalSphere → SIH | API REST (sob demanda) | Plantas, colaboradores, certificados |
-| SIH → SysHalal | API REST ou webhook | Relatorios assinados, dados de produto |
-| SIH → HalalSphere | Webhook (evento) | NCs criticas, resumos de supervisao |
+| SIH → SysHalal | API REST ou webhook | Relatórios assinados, dados de produto |
+| SIH → HalalSphere | Webhook (evento) | NCs críticas, resumos de supervisão |
 
 ---
 
@@ -153,16 +153,16 @@ O SIH alimenta o SysHalal com dados operacionais para emissao de certificados de
 
 ### 6.6.1 Problema
 
-Os relatorios de abate/producao envolvem diversos profissionais alem do supervisor:
+Os relatórios de abate/produção envolvem diversos profissionais além do supervisor:
 - Degoladores (realizam o abate Halal)
 - Sheiks (autoridade religiosa)
-- Auxiliares de supervisao
+- Auxiliares de supervisão
 - Veterinarios da planta
 - Supervisores da planta
 
-Atualmente o SIH registra apenas `slaughtererName` e `slaughtererDoc` como texto livre no relatorio de abate. Nao ha cadastro centralizado nem vinculo estruturado.
+Atualmente o SIH registra apenas `slaughtererName` e `slaughtererDoc` como texto livre no relatório de abate. Não há cadastro centralizado nem vínculo estruturado.
 
-### 6.6.2 Solucao
+### 6.6.2 Solução
 
 Criar as entidades `Collaborator` e `ReportStaff` no SIH:
 
@@ -216,26 +216,26 @@ model ReportStaff {
 ### 6.6.3 Foto do Colaborador
 
 - Upload via endpoint `POST /collaborators/:id/photo` (multipart/form-data)
-- Armazenamento: pasta local em dev (`uploads/collaborators/`), S3 em producao
+- Armazenamento: pasta local em dev (`uploads/collaborators/`), S3 em produção
 - Formato aceito: JPEG, PNG (max 2MB)
 - `photoUrl` armazena o path relativo ou URL S3
-- Foto exibida no cadastro e opcionalmente nos relatorios impressos
+- Foto exibida no cadastro e opcionalmente nos relatórios impressos
 
 ### 6.6.4 Compartilhamento Futuro
 
 - `externalId` permite vincular ao HalalSphere quando integrar
-- SIH e o **master** deste cadastro na v1.0 (unico sistema que gerencia colaboradores operacionais)
-- Na integracao futura, avalia-se se HalalSphere absorve este cadastro ou se SIH continua como master
+- SIH e o **master** deste cadastro na v1.0 (único sistema que gerência colaboradores operacionais)
+- Na integração futura, avalia-se se HalalSphere absorve este cadastro ou se SIH continua como master
 
-### 6.6.5 Impacto nos Relatorios
+### 6.6.5 Impacto nos Relatórios
 
-- Campos `slaughtererName` / `slaughtererDoc` no SlaughterReport passam a ser preenchidos automaticamente a partir do `Collaborator` selecionado
-- Tela de relatorio ganha secao "Equipe do dia" com selecao multipla de colaboradores
+- Campos `slaughtererName` / `slaughtererDoc` no SlaughterReport passam a ser preenchidos automáticamente a partir do `Collaborator` selecionado
+- Tela de relatório ganha seção "Equipe do dia" com selecao multipla de colaboradores
 - PDF impresso pode listar a equipe envolvida
 
 ---
 
-## 6.7 Comparativo Tecnico dos Sistemas
+## 6.7 Comparativo Técnico dos Sistemas
 
 | Aspecto | HalalSphere | SIH | SysHalal |
 |---------|-------------|-----|----------|

@@ -8,9 +8,9 @@ nav_order: 4
 
 ---
 
-## 4.1 Visao Geral dos Epicos
+## 4.1 Visão Geral dos Épicos
 
-O SIH esta organizado em **7 epicos**, sendo 6 para implementacao na v1.0 e 1 documentado para implementacao futura.
+O SIH está organizado em **7 épicos**, sendo 6 para implementação na v1.0 e 1 documentado para implementação futura.
 
 ```
 SIH v1.0
@@ -27,17 +27,17 @@ SIH Futuro
 
 ---
 
-## 4.2 Mapeamento FM → Epico → Modulo
+## 4.2 Mapeamento FM → Épico → Módulo
 
-| FM | Epico | Modulo Backend | Paginas Frontend |
+| FM | Épico | Módulo Backend | Páginas Frontend |
 |----|-------|----------------|------------------|
 | FM 7.1.4.1 (Aves) | Epic 01 | `slaughter-report/` | `pages/slaughter/` |
 | FM 7.1.4.2 (Bovino) | Epic 01 | `slaughter-report/` | `pages/slaughter/` |
-| FM 7.1.3.1 (Producao) | Epic 02 | `production-report/` | `pages/production/` |
+| FM 7.1.3.1 (Produção) | Epic 02 | `production-report/` | `pages/production/` |
 | FM 7.1.8.x (Especial) | Epic 02 | `production-report/` | `pages/production/` |
-| FM 7.1.7.1 (Exportacao) | Epic 03 | `shipping-report/` | `pages/shipping/` |
+| FM 7.1.7.1 (Exportação) | Epic 03 | `shipping-report/` | `pages/shipping/` |
 | FM 7.1.7.4 (Venda) | Epic 03 | `shipping-report/` | `pages/shipping/` |
-| DCPOA (Transferencia) | Epic 03 | `shipping-report/` | `pages/shipping/` |
+| DCPOA (Transferência) | Epic 03 | `shipping-report/` | `pages/shipping/` |
 | FM 7.1.6.1 (NC) | Epic 04 | `non-conformity/` | `pages/non-conformity/` |
 | - (Escala) | Epic 05 | `schedule/` | `pages/schedule/` |
 | - (Dashboard) | Epic 06 | `dashboard/` | `pages/Dashboard.tsx` |
@@ -47,77 +47,77 @@ SIH Futuro
 
 ---
 
-## 4.3 Resumo por Epico
+## 4.3 Resumo por Épico
 
-### Epic 01: Relatorios de Abate
+### Epic 01: Relatórios de Abate
 
 **FM**: 7.1.4.1 (Aves) + 7.1.4.2 (Bovino)
 **Prioridade**: Must Have (P0)
 
-Digitaliza os relatorios de acompanhamento de abate Halal. Cobre aves e bovinos com um unico modelo (`SlaughterReport`) diferenciado por especie. Bovinos possuem secao adicional de insensibilizacao (stunning).
+Digitaliza os relatórios de acompanhamento de abate Halal. Cobre aves e bovinos com um único modelo (`SlaughterReport`) diferenciado por especie. Bovinos possuem seção adicional de insensibilização (stunning).
 
 **Componentes-chave**:
-- 14 itens de verificacao C/NC (fixos, nao configuraveis)
-- Secao de insensibilizacao (bovino): avaliacao de pressao + 2 conferencias/turno
+- 14 itens de verificação C/NC (fixos, não configuráveis)
+- Seção de insensibilização (bovino): avaliação de pressão + 2 conferências/turno
 - Contagem: total, aprovados, rejeitados + sequencial de rejeicao
 - Camaras de resfriamento, subprodutos
-- Numero serial automatico (SIF/ANO/SEQ)
-- Workflow: rascunho → assinado (final). Sem etapa de aprovacao
+- Número serial automático (SIF/ANO/SEQ)
+- Workflow: rascunho → assinado (final). Sem etapa de aprovação
 
 **User Stories**: 7 | **Story Points**: 47
 
 ---
 
-### Epic 02: Relatorios de Producao
+### Epic 02: Relatórios de Produção
 
-**FM**: 7.1.3.1 (Industrializados) + 7.1.8.x (Producao Especial)
+**FM**: 7.1.3.1 (Industrializados) + 7.1.8.x (Produção Especial)
 **Prioridade**: Must Have (P0)
 
-Digitaliza o acompanhamento de fabricacao de produtos industrializados a base de carne Halal. Inclui rastreabilidade completa de materias-primas carneas e ingredientes aprovados.
+Digitaliza o acompanhamento de fabricação de produtos industrializados a base de carne Halal. Inclui rastreabilidade completa de matérias-primas cárneas e ingredientes aprovados.
 
 **Componentes-chave**:
-- 5 itens de verificacao C/NC (fixos)
-- Tabela de materias-primas carneas (frigorifico, SIF, data abate, CSN, certificado Halal)
-- Tabela de ingredientes aprovados (nao-carneos: fornecedor, lote, validade)
-- Dados do produto final (codigo, lote, datas, pesos, embalagem)
+- 5 itens de verificação C/NC (fixos)
+- Tabela de matérias-primas cárneas (frigorífico, SIF, data abate, CSN, certificado Halal)
+- Tabela de ingredientes aprovados (não-carneos: fornecedor, lote, válidade)
+- Dados do produto final (código, lote, datas, pesos, embalagem)
 - Flag `specialProduction` para FM 7.1.8.x
 
 **User Stories**: 6 | **Story Points**: 40
 
 ---
 
-### Epic 03: Relatorios de Embarque, Venda e Transferencia
+### Epic 03: Relatórios de Embarque, Venda e Transferência
 
-**FM**: 7.1.7.1 (Exportacao) + 7.1.7.4 (Venda Interna) + DCPOA (Transferencia)
+**FM**: 7.1.7.1 (Exportação) + 7.1.7.4 (Venda Interna) + DCPOA (Transferência)
 **Prioridade**: Must Have (P0)
 
-Unifica 3 tipos de movimentacao de produtos em um unico modelo (`ShippingReport`) diferenciado por `shippingType`. Exportacao e o mais completo com dados de importador, container, portos e lacre.
+Unifica 3 tipos de movimentação de produtos em um único modelo (`ShippingReport`) diferenciado por `shippingType`. Exportação e o mais completo com dados de importador, container, portos e lacre.
 
 **Componentes-chave**:
-- 2 itens de verificacao C/NC (fixos: exclusividade Halal no container + selo)
-- Tabela de produtos padrao (produto, codigo, lote, datas, pesos, temperatura)
-- Campos condicionais por tipo: exportacao (importer, container, ports) vs. venda interna vs. transferencia
+- 2 itens de verificação C/NC (fixos: exclusividade Halal no container + selo)
+- Tabela de produtos padrão (produto, código, lote, datas, pesos, temperatura)
+- Campos condicionais por tipo: exportação (importer, container, ports) vs. venda interna vs. transferência
 - Dados de transporte (tipo, veiculo, container, lacre)
 
 **User Stories**: 6 | **Story Points**: 38
 
 ---
 
-### Epic 04: Nao-Conformidades
+### Epic 04: Não-Conformidades
 
 **FM**: 7.1.6.1
 **Prioridade**: Must Have (P0)
 
-Gestao completa de nao-conformidades identificadas durante a supervisao. Pode ser criada a partir de qualquer relatorio (abate, producao, embarque) ou de forma avulsa. Implementa o prazo de 7 dias corridos conforme PR 7.1.
+Gestão completa de não-conformidades identificadas durante a supervisão. Pode ser criada a partir de qualquer relatório (abate, produção, embarque) ou de forma avulsa. Implementa o prazo de 7 dias corridos conforme PR 7.1.
 
 **Componentes-chave**:
-- Vinculo opcional a relatorios de origem (1 NC pode vir de qualquer tipo)
-- Severidade: critica, maior, menor, observacao
+- Vínculo opcional a relatórios de origem (1 NC pode vir de qualquer tipo)
+- Severidade: crítica, maior, menor, observação
 - Categorias: higiene, processo, equipamento, materia-prima, rotulagem, etc.
 - Evidencias (fotos/descricoes)
 - Workflow: aberta → em_tratamento → resolvida → verificada → encerrada
-- Prazo automatico de 7 dias com alertas
-- Acoes corretivas e preventivas
+- Prazo automático de 7 dias com alertas
+- Ações corretivas e preventivas
 
 **User Stories**: 6 | **Story Points**: 35
 
@@ -127,54 +127,54 @@ Gestao completa de nao-conformidades identificadas durante a supervisao. Pode se
 
 **Prioridade**: Should Have (P1)
 
-Gestao da escala de trabalho dos supervisores nas plantas industriais. Permite ao coordenador distribuir supervisores por planta, turno e tipo de escala.
+Gestão da escala de trabalho dos supervisores nas plantas industriais. Permite ao coordenador distribuir supervisores por planta, turno e tipo de escala.
 
 **Componentes-chave**:
-- Calendario visual mensal
-- Alocacao: supervisor + planta + data + turno
+- Calendário visual mensal
+- Alocação: supervisor + planta + data + turno
 - Tipos: regular, substituicao, extra, folga
-- Restricao: um supervisor por planta/data/turno (unique constraint)
-- Visao por supervisor e por planta
+- Restrição: um supervisor por planta/data/turno (unique constraint)
+- Visão por supervisor e por planta
 
 **User Stories**: 4 | **Story Points**: 20
 
 ---
 
-### Epic 06: Dashboard e Relatorios
+### Epic 06: Dashboard e Relatórios
 
 **Prioridade**: Should Have (P1)
 
-Dashboard em tempo real com indicadores operacionais e de conformidade. Visualizacoes diferentes por role (supervisor/operador basico, coordenador/admin completo).
+Dashboard em tempo real com indicadores operacionais e de conformidade. Visualizações diferentes por role (supervisor/operador básico, coordenador/admin completo).
 
 **Componentes-chave**:
-- Contadores: relatorios do dia/semana/mes por tipo e status
+- Contadores: relatórios do dia/semana/mês por tipo e status
 - NCs ativas por severidade e planta
-- Relatorios pendentes de revisao
+- Relatórios pendentes de revisão
 - Produtividade por supervisor
-- Graficos de tendencia
+- Graficos de tendência
 
 **User Stories**: 4 | **Story Points**: 22
 
 ---
 
-### Epic 07: Inventario (FUTURO)
+### Epic 07: Inventário (FUTURO)
 
 **FM**: 7.1.5.1 (Carne) + 7.1.5.6 (Lotes) + 7.1.3.6 (Rotulagem)
-**Prioridade**: Nice to Have (P2) - Implementacao futura
+**Prioridade**: Nice to Have (P2) - Implementação futura
 
-Modulo de inventario baseado no conceito de **conta corrente** (saldo = entrada - saida). Modelo de dados ja documentado para evitar retrabalho. Inclui 3 tipos distintos de inventario com volumes de dados significativos (1.000+ linhas/mes).
+Módulo de inventário baseado no conceito de **conta corrente** (saldo = entrada - saída). Modelo de dados já documentado para evitar retrabalho. Inclui 3 tipos distintos de inventário com volumes de dados significativos (1.000+ linhas/mês).
 
 **Componentes-chave** (documentados):
-- Conta corrente de carne: recebido vs. utilizado em producao
-- Inventario de lotes: gerado vs. transferido entre unidades
-- Inventario de rotulagem: sem rotulo → rotulado → embarcado/descartado
-- Referencias cruzadas entre inventario, relatorios e certificados
+- Conta corrente de carne: recebido vs. utilizado em produção
+- Inventário de lotes: gerado vs. transferido entre unidades
+- Inventário de rotulagem: sem rótulo → rotulado → embarcado/descartado
+- Referências cruzadas entre inventário, relatórios e certificados
 
-**User Stories**: 6 | **Story Points**: TBD (sera estimado quando implementado)
+**User Stories**: 6 | **Story Points**: TBD (será estimado quando implementado)
 
 ---
 
-## 4.4 Dependencias entre Epicos
+## 4.4 Dependências entre Épicos
 
 ```
 [Auth Self-Contained] ← Prerequisito para todos
@@ -194,13 +194,13 @@ Modulo de inventario baseado no conceito de **conta corrente** (saldo = entrada 
 
 ## 4.5 Componentes Compartilhados
 
-Os seguintes componentes frontend sao reutilizados entre multiplos epicos:
+Os seguintes componentes frontend são reutilizados entre multiplos épicos:
 
-| Componente | Usado por | Descricao |
+| Componente | Usado por | Descrição |
 |------------|-----------|-----------|
 | `VerificationChecklist` | Epics 01, 02, 03 | Renderiza itens C/NC com checkboxes. Recebe lista de itens como prop (diferentes por tipo FM). |
-| `ProductTable` | Epics 02, 03 | Tabela editavel de produtos (produto, codigo, lote, datas, pesos, temperatura). |
-| `ReportHeader` | Epics 01, 02, 03 | Cabecalho padrao: numero FM, serial, planta, supervisor, data. |
+| `ProductTable` | Epics 02, 03 | Tabela editavel de produtos (produto, código, lote, datas, pesos, temperatura). |
+| `ReportHeader` | Epics 01, 02, 03 | Cabeçalho padrão: número FM, serial, planta, supervisor, data. |
 
 ---
 
@@ -208,8 +208,8 @@ Os seguintes componentes frontend sao reutilizados entre multiplos epicos:
 
 | Item | Quantidade |
 |------|-----------|
-| Epicos v1.0 | 6 |
-| Epicos futuros | 1 |
+| Épicos v1.0 | 6 |
+| Épicos futuros | 1 |
 | User Stories v1.0 | 33 |
 | User Stories futuras | 6 |
 | **Story Points v1.0** | **202** |

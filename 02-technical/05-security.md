@@ -1,16 +1,16 @@
 ---
-title: Seguranca
-parent: Documentacao Tecnica
+title: Segurança
+parent: Documentação Técnica
 nav_order: 5
 ---
 
-# 5. Seguranca
+# 5. Segurança
 
 ---
 
-## 5.1 Visao Geral
+## 5.1 Visão Geral
 
-Na v1.0, o SIH implementa **autenticacao propria (self-contained)** — nao depende do HalalSphere nem de qualquer sistema externo para autenticar usuarios.
+Na v1.0, o SIH implementa **autenticação própria (self-contained)** — não depende do HalalSphere nem de qualquer sistema externo para autenticar usuários.
 
 ```
 Frontend SIH ──(POST /auth/login)──> Backend SIH ──(bcrypt + JWT HS256)──> Token
@@ -18,29 +18,29 @@ Frontend SIH ──(POST /auth/login)──> Backend SIH ──(bcrypt + JWT HS2
 
 ---
 
-## 5.2 Autenticacao JWT
+## 5.2 Autenticação JWT
 
-### 5.2.1 Fluxo de Autenticacao
+### 5.2.1 Fluxo de Autenticação
 
-1. O usuario faz login diretamente no **frontend do SIH**
+1. O usuário faz login diretamente no **frontend do SIH**
 2. O frontend envia `POST /auth/login` com `{ email, password }` para o backend SIH
-3. O backend valida a senha com **bcrypt** (salt rounds 10)
+3. O backend válida a senha com **bcrypt** (salt rounds 10)
 4. O backend SIH emite um token JWT assinado com **HS256** usando `JWT_SECRET`
 5. O frontend armazena o token em `localStorage` (`sih_token`)
 6. Em cada requisicao, o token e enviado no header `Authorization: Bearer <token>`
-7. O `JwtAuthGuard` bloqueia requisicoes sem token valido
-8. O `RolesGuard` verifica se o role do usuario tem permissao para o endpoint
+7. O `JwtAuthGuard` bloqueia requisicoes sem token válido
+8. O `RolesGuard` verifica se o role do usuário tem permissão para o endpoint
 
 ### 5.2.2 Algoritmo de Assinatura
 
-| Algoritmo | Variavel de Ambiente | Descricao |
+| Algoritmo | Variavel de Ambiente | Descrição |
 |-----------|---------------------|-----------|
-| **HS256** (simetrico) | `JWT_SECRET` | Chave secreta usada para assinar e validar tokens. Minimo 32 caracteres. |
+| **HS256** (simetrico) | `JWT_SECRET` | Chave secreta usada para assinar e validar tokens. Mínimo 32 caracteres. |
 
-| Variavel | Descricao | Exemplo |
+| Variavel | Descrição | Exemplo |
 |----------|-----------|---------|
 | `JWT_SECRET` | Chave secreta HS256 | `dev-secret-key-minimum-32-chars...` |
-| `JWT_EXPIRES_IN` | Validade do token | `7d` |
+| `JWT_EXPIRES_IN` | Válidade do token | `7d` |
 
 ### 5.2.3 JwtPayload
 
@@ -57,7 +57,7 @@ interface JwtPayload {
 }
 ```
 
-Apos validacao, o payload e transformado em `AuthenticatedUser`:
+Após validação, o payload é transformado em `AuthenticatedUser`:
 
 ```typescript
 interface AuthenticatedUser {
@@ -72,7 +72,7 @@ interface AuthenticatedUser {
 
 ## 5.3 Guards
 
-Ambos os guards sao registrados **globalmente** via `APP_GUARD` no `AuthModule`, o que significa que se aplicam a **todos os endpoints** automaticamente.
+Ambos os guards são registrados **globalmente** via `APP_GUARD` no `AuthModule`, o que significa que se aplicam a **todos os endpoints** automáticamente.
 
 ### 5.3.1 JwtAuthGuard (Global)
 
@@ -82,7 +82,7 @@ Ambos os guards sao registrados **globalmente** via `APP_GUARD` no `AuthModule`,
 - Estende `AuthGuard('jwt')` do Passport
 - Verifica se o endpoint possui o metadata `isPublic`
 - Se `@Public()` estiver presente, permite acesso sem token
-- Caso contrario, exige token JWT valido no header `Authorization`
+- Caso contrario, exige token JWT válido no header `Authorization`
 
 ```typescript
 {
@@ -97,9 +97,9 @@ Ambos os guards sao registrados **globalmente** via `APP_GUARD` no `AuthModule`,
 
 - Registrado como `APP_GUARD` - se aplica a todos os endpoints
 - Verifica o metadata `roles` definido pelo decorator `@Roles()`
-- Se nenhum role for especificado no endpoint, permite acesso (qualquer usuario autenticado)
-- Se roles forem especificados, verifica se `user.role` esta na lista permitida
-- Retorna `false` (403 Forbidden) se o usuario nao tiver o role necessario
+- Se nenhum role for especificado no endpoint, permite acesso (qualquer usuário autenticado)
+- Se roles forem especificados, verifica se `user.role` está na lista permitida
+- Retorna `false` (403 Forbidden) se o usuário não tiver o role necessário
 
 ```typescript
 {
@@ -116,7 +116,7 @@ Ambos os guards sao registrados **globalmente** via `APP_GUARD` no `AuthModule`,
 
 **Arquivo**: `src/auth/decorators/public.decorator.ts`
 
-Marca um endpoint como publico, dispensando autenticacao JWT.
+Marca um endpoint como público, dispensando autenticação JWT.
 
 ```typescript
 @Public()
@@ -126,7 +126,7 @@ healthCheck() {
 }
 ```
 
-**Implementacao**: Define o metadata `isPublic = true`, que e verificado pelo `JwtAuthGuard`.
+**Implementação**: Define o metadata `isPublic = true`, que é verificado pelo `JwtAuthGuard`.
 
 ### 5.4.2 @Roles()
 
@@ -142,13 +142,13 @@ createPlant(@Body() dto: CreatePlantDto) {
 }
 ```
 
-**Implementacao**: Define o metadata `roles = [...]`, que e verificado pelo `RolesGuard`.
+**Implementação**: Define o metadata `roles = [...]`, que é verificado pelo `RolesGuard`.
 
 ### 5.4.3 @CurrentUser()
 
 **Arquivo**: `src/auth/decorators/current-user.decorator.ts`
 
-Extrai o usuario autenticado da requisicao. Pode retornar o objeto completo ou um campo especifico.
+Extrai o usuário autenticado da requisicao. Pode retornar o objeto completo ou um campo específico.
 
 ```typescript
 // Objeto completo
@@ -168,30 +168,30 @@ getMyId(@CurrentUser('userId') userId: string) {
 
 ## 5.5 RBAC - Controle de Acesso por Roles
 
-### 5.5.1 Roles Disponiveis
+### 5.5.1 Roles Disponíveis
 
-| Role | Descricao | Permissoes Tipicas |
+| Role | Descrição | Permissões Tipicas |
 |------|-----------|-------------------|
-| `admin` | Administrador do sistema | Acesso total: CRUD completo, gerenciamento de usuarios e plantas |
-| `coordenador` | Coordenador de supervisao | Gerencia escalas, cria/edita usuarios (sup+oper), visualiza relatorios (read-only), cancela relatorios, gerencia NCs. **NAO assina relatorios** |
-| `supervisor` | Supervisor Halal | Cria, edita e **assina** relatorios (proprios), registra NCs, visualiza escala propria |
-| `operador` | Operador de apoio | Cria e edita relatorios (proprios), registra NCs. **NAO pode assinar** relatorios |
+| `admin` | Administrador do sistema | Acesso total: CRUD completo, gerênciamento de usuários e plantas |
+| `coordenador` | Coordenador de supervisão | Gerência escalas, cria/edita usuários (sup+oper), visualiza relatórios (read-only), cancela relatórios, gerência NCs. **NÃO assina relatórios** |
+| `supervisor` | Supervisor Halal | Cria, edita e **assina** relatórios (próprios), registra NCs, visualiza escala própria |
+| `operador` | Operador de apoio | Cria e edita relatórios (próprios), registra NCs. **NÃO pode assinar** relatórios |
 
-> **Nota**: O role `gestor` existe no enum Prisma por compatibilidade mas **NAO e usado na v1.0**.
+> **Nota**: O role `gestor` existe no enum Prisma por compatibilidade mas **NÃO e usado na v1.0**.
 
-### 5.5.2 Matriz de Acesso por Modulo
+### 5.5.2 Matriz de Acesso por Módulo
 
-| Modulo | admin | coordenador | supervisor | operador |
+| Módulo | admin | coordenador | supervisor | operador |
 |--------|-------|-------------|------------|----------|
-| SupervisorProfile | CRUD completo | CRUD (sup+oper) | Leitura/edicao (proprio) | Leitura (proprio) |
+| SupervisorProfile | CRUD completo | CRUD (sup+oper) | Leitura/edição (próprio) | Leitura (próprio) |
 | Plant | CRUD completo | Leitura | Leitura | Leitura |
-| SlaughterReport | CRUD + cancelar | Leitura + cancelar | Criar/editar/assinar (proprio) | Criar/editar (proprio) |
-| ProductionReport | CRUD + cancelar | Leitura + cancelar | Criar/editar/assinar (proprio) | Criar/editar (proprio) |
-| ShippingReport | CRUD + cancelar | Leitura + cancelar | Criar/editar/assinar (proprio) | Criar/editar (proprio) |
-| NonConformity | CRUD + workflow | CRUD + verificar/encerrar | Criar/editar (proprio) | Criar/editar (proprio) |
-| Schedule | CRUD completo | CRUD completo | Leitura (propria) | Leitura (propria) |
-| Dashboard | Completo | Completo | Visao basica | Visao basica |
-| PDF Export | Todos | Todos | Proprios (assinados) | Proprios (assinados) |
+| SlaughterReport | CRUD + cancelar | Leitura + cancelar | Criar/editar/assinar (próprio) | Criar/editar (próprio) |
+| ProductionReport | CRUD + cancelar | Leitura + cancelar | Criar/editar/assinar (próprio) | Criar/editar (próprio) |
+| ShippingReport | CRUD + cancelar | Leitura + cancelar | Criar/editar/assinar (próprio) | Criar/editar (próprio) |
+| NonConformity | CRUD + workflow | CRUD + verificar/encerrar | Criar/editar (próprio) | Criar/editar (próprio) |
+| Schedule | CRUD completo | CRUD completo | Leitura (própria) | Leitura (própria) |
+| Dashboard | Completo | Completo | Visão básica | Visão básica |
+| PDF Export | Todos | Todos | Próprios (assinados) | Próprios (assinados) |
 
 ---
 
@@ -212,7 +212,7 @@ if (process.env.FRONTEND_URL) {
 }
 ```
 
-**Configuracoes CORS**:
+**Configurações CORS**:
 
 | Opcao | Valor |
 |-------|-------|
@@ -222,11 +222,11 @@ if (process.env.FRONTEND_URL) {
 | `preflightContinue` | `false` |
 | `optionsSuccessStatus` | `204` |
 
-Requisicoes de origins nao permitidas recebem um warning no log e sao bloqueadas.
+Requisicoes de origins não permitidas recebem um warning no log e são bloqueadas.
 
 ---
 
-## 5.7 Validacao de Entrada
+## 5.7 Validação de Entrada
 
 O `ValidationPipe` global garante que todos os dados de entrada sejam validados:
 
@@ -244,9 +244,9 @@ app.useGlobalPipes(
 ```
 
 **Protecoes**:
-- **Mass assignment**: Campos nao declarados no DTO sao removidos (`whitelist`) ou rejeitados (`forbidNonWhitelisted`)
-- **Tipagem**: Conversao automatica previne erros de tipo
-- **Validacao de formato**: `class-validator` valida emails, UUIDs, enums, ranges, etc.
+- **Mass assignment**: Campos não declarados no DTO são removidos (`whitelist`) ou rejeitados (`forbidNonWhitelisted`)
+- **Tipagem**: Conversão automática previne erros de tipo
+- **Validação de formato**: `class-validator` válida emails, UUIDs, enums, ranges, etc.
 
 ---
 
@@ -275,7 +275,7 @@ Filtro global que padroniza todas as respostas de erro:
 
 **Arquivo**: `src/common/interceptors/logging.interceptor.ts`
 
-Registra todas as requisicoes HTTP com metodo, URL, status e duracao:
+Registra todas as requisicoes HTTP com método, URL, status e duração:
 
 ```
 [HTTP] GET /slaughter-reports 200 - 45ms
@@ -284,25 +284,25 @@ Registra todas as requisicoes HTTP com metodo, URL, status e duracao:
 
 ---
 
-## 5.9 Variaveis de Ambiente de Seguranca
+## 5.9 Variaveis de Ambiente de Segurança
 
-| Variavel | Descricao | Exemplo |
+| Variavel | Descrição | Exemplo |
 |----------|-----------|---------|
 | `JWT_SECRET` | Chave secreta HS256 para assinar/validar tokens | `dev-secret-key-minimum-32-characters...` |
-| `JWT_EXPIRES_IN` | Tempo de expiracao do token | `7d` |
+| `JWT_EXPIRES_IN` | Tempo de expiração do token | `7d` |
 | `FRONTEND_URL` | Origins permitidas no CORS | `http://localhost:5174` |
 | `CORS_ORIGIN` | Origin adicional do CORS | `http://localhost:5174` |
 
 ---
 
-## 5.10 Estrategia Futura: Cache Offline de Tokens
+## 5.10 Estratégia Futura: Cache Offline de Tokens
 
 Para suportar o modo offline (Fase Futura A), o SIH implementara cache de tokens no frontend:
 
-1. **Armazenamento local**: O token JWT sera armazenado em `localStorage` ou `IndexedDB`
-2. **Validacao offline**: O frontend verificara a expiracao do token localmente
-3. **Cache de perfil**: Dados do `AuthenticatedUser` serao cacheados para uso sem conexao
-4. **Sincronizacao**: Ao reconectar, o frontend tentara renovar o token via backend SIH
-5. **Fallback**: Se o token estiver expirado e nao houver conexao, relatorios serao enfileirados para envio posterior
+1. **Armazenamento local**: O token JWT será armazenado em `localStorage` ou `IndexedDB`
+2. **Validação offline**: O frontend verificara a expiração do token localmente
+3. **Cache de perfil**: Dados do `AuthenticatedUser` serão cacheados para uso sem conexão
+4. **Sincronização**: Ao reconectar, o frontend tentara renovar o token via backend SIH
+5. **Fallback**: Se o token estiver expirado e não houver conexão, relatórios serão enfileirados para envio posterior
 
-Esta estrategia sera implementada junto com o suporte a IndexedDB (Dexie.js) e Background Sync.
+Esta estratégia será implementada junto com o suporte a IndexedDB (Dexie.js) e Background Sync.

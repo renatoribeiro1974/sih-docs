@@ -1,31 +1,31 @@
 ---
-title: Epic 02 - Relatorios de Producao
+title: Epic 02 - Relatórios de Produção
 parent: User Stories
 grand_parent: PRD
 nav_order: 2
 ---
 
-# Epic 02: Relatorios de Producao Industrial
+# Epic 02: Relatórios de Produção Industrial
 
-**FM 7.1.3.1 (Industrializados) + FM 7.1.8.x (Producao Especial)**
+**FM 7.1.3.1 (Industrializados) + FM 7.1.8.x (Produção Especial)**
 **6 User Stories | 40 Story Points | Prioridade P0**
 
 ---
 
 ## Contexto
 
-Os relatorios de producao acompanham a fabricacao de produtos industrializados a base de carne Halal. O supervisor registra as materias-primas carneas utilizadas (com rastreabilidade completa), os ingredientes aprovados (nao-carneos), os dados do produto final e os itens de verificacao C/NC.
+Os relatórios de produção acompanham a fabricação de produtos industrializados a base de carne Halal. O supervisor registra as matérias-primas cárneas utilizadas (com rastreabilidade completa), os ingredientes aprovados (não-carneos), os dados do produto final e os itens de verificação C/NC.
 
 ### Modelo de Dados: `ProductionReport`
 
 - `formNumber`: "FM 7.1.3.1" (regular) ou "FM 7.1.8.x" (especial)
-- `isSpecialProduction`: Boolean para distinguir producao especial
+- `isSpecialProduction`: Boolean para distinguir produção especial
 - `meatRawMaterials`: JSON com rastreabilidade completa
-- `approvedIngredients`: JSON com ingredientes nao-carneos
-- 5 itens de verificacao C/NC fixos
-- Serial automatico: `SIF/ANO/SEQUENCIAL`
+- `approvedIngredients`: JSON com ingredientes não-carneos
+- 5 itens de verificação C/NC fixos
+- Serial automático: `SIF/ANO/SEQUENCIAL`
 
-### Codigo Relacionado
+### Código Relacionado
 
 - Backend: `src/production-report/` (module, controller, service, DTOs)
 - Backend: `src/production-report/constants/verification-items.ts`
@@ -36,9 +36,9 @@ Os relatorios de producao acompanham a fabricacao de produtos industrializados a
 
 ## User Stories
 
-### Feature 2.1: CRUD de Relatorio de Producao
+### Feature 2.1: CRUD de Relatório de Produção
 
-#### SIH-008: Criar Relatorio de Producao Industrial
+#### SIH-008: Criar Relatório de Produção Industrial
 
 ```
 Como supervisor muculmano,
@@ -49,38 +49,38 @@ Para que eu registre o acompanhamento da fabricacao de produtos Halal.
 **Prioridade**: P0 - Must Have
 **Estimativa**: 8 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Sistema gera numero serial automaticamente**:
+- [ ] **Sistema gera número serial automáticamente**:
   - Formato: `{SIF_PLANTA}/{ANO}/{SEQUENCIAL_6_DIGITOS}`
-  - `formNumber` preenchido como "FM 7.1.3.1" (ou "FM 7.1.8.x" se producao especial)
+  - `formNumber` preenchido como "FM 7.1.3.1" (ou "FM 7.1.8.x" se produção especial)
 
-- [ ] **Campos de periodo de producao**:
-  - Data/hora inicio da producao (obrigatorio)
-  - Data/hora fim da producao (obrigatorio)
+- [ ] **Campos de período de produção**:
+  - Data/hora início da produção (obrigatório)
+  - Data/hora fim da produção (obrigatório)
   - Quantidade de turnos operados (inteiro > 0)
 
 - [ ] **Campos do produto final**:
-  - Nome do produto fabricado (obrigatorio)
-  - Codigo do produto
+  - Nome do produto fabricado (obrigatório)
+  - Código do produto
   - Lote
-  - Data de fabricacao
-  - Data de validade
+  - Data de fabricação
+  - Data de válidade
   - Tipo de embalagem (caixa, saco, tambor)
-  - Numero de volumes
+  - Número de volumes
   - Peso liquido (kg, decimal 12,3)
   - Peso bruto (kg, decimal 12,3)
   - Quantidade total produzida (decimal 12,3)
 
-- [ ] **Flag de producao especial**:
+- [ ] **Flag de produção especial**:
   - Toggle para marcar como FM 7.1.8.x
   - Quando ativado, `formNumber` muda para "FM 7.1.8.x"
 
-- [ ] **Salva como rascunho por padrao**
+- [ ] **Salva como rascunho por padrão**
 
 ---
 
-#### SIH-009: Registrar Materias-Primas Carneas
+#### SIH-009: Registrar Matérias-Primas Cárneas
 
 ```
 Como supervisor muculmano,
@@ -90,31 +90,31 @@ Para que haja rastreabilidade completa da origem da carne Halal.
 
 **Prioridade**: P0 - Must Have
 **Estimativa**: 8 story points
-**Dependencias**: SIH-008
+**Dependências**: SIH-008
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Tabela editavel de materias-primas carneas** com campos por linha:
+- [ ] **Tabela editavel de matérias-primas cárneas** com campos por linha:
   - Tipo de proteina (texto: "Bovino CMS", "Mecanicamente Separada", etc.)
-  - Nome do frigorifico/abatedouro de origem
-  - Numero SIF do frigorifico
-  - Periodo de abate (data inicio - data fim)
-  - Numero CSN (Certificado Sanitario Nacional)
-  - Numero do certificado Halal ou controle interno
+  - Nome do frigorífico/abatedouro de origem
+  - Número SIF do frigorífico
+  - Período de abate (data início - data fim)
+  - Número CSN (Certificado Sanitario Nacional)
+  - Número do certificado Halal ou controle interno
   - Peso total (kg)
 
-- [ ] **Operacoes na tabela**:
+- [ ] **Operações na tabela**:
   - Adicionar nova linha
-  - Remover linha (com confirmacao)
+  - Remover linha (com confirmação)
   - Editar campos inline
-  - Minimo 1 materia-prima para envio (validacao)
+  - Mínimo 1 materia-prima para envio (validação)
 
 - [ ] **Armazenamento**: JSON no campo `meatRawMaterials`
 
 - [ ] **Interface otimizada para tablet**:
-  - Scroll horizontal na tabela se necessario
-  - Campos com teclado numerico para SIF e pesos
-  - Autocomplete para frigorificos ja cadastrados (historico)
+  - Scroll horizontal na tabela se necessário
+  - Campos com teclado numérico para SIF e pesos
+  - Autocomplete para frigoríficos já cadastrados (histórico)
 
 ---
 
@@ -128,28 +128,28 @@ Para que eu documente todos os insumos utilizados na producao.
 
 **Prioridade**: P0 - Must Have
 **Estimativa**: 5 story points
-**Dependencias**: SIH-008
+**Dependências**: SIH-008
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Tabela editavel de ingredientes aprovados** com campos por linha:
   - Nome do produto/ingrediente
-  - Codigo do produto
+  - Código do produto
   - Nome do fornecedor
-  - Numero do lote
-  - Data de validade
+  - Número do lote
+  - Data de válidade
 
-- [ ] **Operacoes na tabela**:
+- [ ] **Operações na tabela**:
   - Adicionar, remover, editar inline
-  - Campo opcional (pode nao ter ingredientes nao-carneos)
+  - Campo opcional (pode não ter ingredientes não-carneos)
 
 - [ ] **Armazenamento**: JSON no campo `approvedIngredients`
 
 ---
 
-### Feature 2.2: Verificacao e Workflow
+### Feature 2.2: Verificação e Workflow
 
-#### SIH-011: Preencher Itens de Verificacao C/NC da Producao
+#### SIH-011: Preencher Itens de Verificação C/NC da Produção
 
 ```
 Como supervisor muculmano,
@@ -160,23 +160,23 @@ Para que eu registre a conformidade dos processos produtivos.
 **Prioridade**: P0 - Must Have
 **Estimativa**: 3 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Sistema exibe os 5 itens fixos de verificacao** (conforme FM 7.1.3.1):
-  1. Limpeza e higiene da area de producao e equipamentos
-  2. Materias-primas carneas com documentacao Halal valida
-  3. Documentacao de producao e rastreabilidade completa
-  4. Armazenamento adequado (temperatura, separacao Halal)
+- [ ] **Sistema exibe os 5 itens fixos de verificação** (conforme FM 7.1.3.1):
+  1. Limpeza e higiene da area de produção e equipamentos
+  2. Matérias-primas cárneas com documentação Halal válida
+  3. Documentação de produção e rastreabilidade completa
+  4. Armazenamento adequado (temperatura, separação Halal)
   5. Rotulagem conforme requisitos Halal
 
 - [ ] **Mesmo componente `VerificationChecklist`** do Epic 01:
   - Selecao C/NC por item
-  - Notas obrigatorias se NC
-  - JSON retornado no formato padrao
+  - Notas obrigatórias se NC
+  - JSON retornado no formato padrão
 
 ---
 
-#### SIH-012: Enviar e Revisar Relatorio de Producao
+#### SIH-012: Enviar e Revisar Relatório de Produção
 
 ```
 Como supervisor muculmano,
@@ -186,20 +186,20 @@ Para que o coordenador avalie a conformidade do registro.
 
 **Prioridade**: P0 - Must Have
 **Estimativa**: 8 story points
-**Dependencias**: SIH-008, SIH-009, SIH-011
+**Dependências**: SIH-008, SIH-009, SIH-011
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Validacao completa antes do envio**:
-  - Campos de periodo preenchidos (inicio e fim)
-  - Pelo menos 1 materia-prima carnea registrada
-  - Todos os 5 itens de verificacao respondidos
-  - Dados do produto final preenchidos (nome obrigatorio)
+- [ ] **Validação completa antes do envio**:
+  - Campos de período preenchidos (início e fim)
+  - Pelo menos 1 materia-prima cárnea registrada
+  - Todos os 5 itens de verificação respondidos
+  - Dados do produto final preenchidos (nome obrigatório)
 
 - [ ] **Workflow identico ao Epic 01**:
   - `rascunho` → `enviado` → `revisado` → `aprovado`/`rejeitado`
-  - Declaracao do supervisor antes do envio
-  - Revisao pelo coordenador com aprovar/rejeitar
+  - Declaração do supervisor antes do envio
+  - Revisão pelo coordenador com aprovar/rejeitar
 
 - [ ] **Cancelamento e substituicao**:
   - Mesmo mecanismo do Epic 01 (serial + sufixo "A")
@@ -208,7 +208,7 @@ Para que o coordenador avalie a conformidade do registro.
 
 ### Feature 2.3: Listagem e Consulta
 
-#### SIH-013: Listar e Filtrar Relatorios de Producao
+#### SIH-013: Listar e Filtrar Relatórios de Produção
 
 ```
 Como supervisor ou coordenador,
@@ -219,22 +219,22 @@ Para que eu encontre registros especificos de fabricacao.
 **Prioridade**: P0 - Must Have
 **Estimativa**: 8 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Listagem paginada** com colunas:
-  - Serial | Periodo | Planta | Produto | Supervisor | Status
-  - Ordenacao padrao: data de inicio descrescente
+- [ ] **Listagem páginada** com colunas:
+  - Serial | Período | Planta | Produto | Supervisor | Status
+  - Ordenação padrão: data de início descrescente
 
-- [ ] **Filtros disponiveis**:
+- [ ] **Filtros disponíveis**:
   - Planta (select)
   - Status (multi-select)
-  - Periodo (date range)
-  - Producao especial (checkbox)
+  - Período (daté range)
+  - Produção especial (checkbox)
   - Supervisor (select - coordenador/gestor)
   - Produto (busca por nome)
 
 - [ ] **Detalhes expandidos**:
-  - Tabela de materias-primas visivel no detalhe
+  - Tabela de matérias-primas visivel no detalhe
   - Tabela de ingredientes visivel no detalhe
   - Itens C/NC com destaque visual para NCs
 

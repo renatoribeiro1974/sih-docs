@@ -5,7 +5,7 @@ grand_parent: PRD
 nav_order: 6
 ---
 
-# Epic 06: Dashboard e Relatorios Gerenciais
+# Epic 06: Dashboard e Relatórios Gerênciais
 
 **4 User Stories | 22 Story Points | Prioridade P1**
 
@@ -13,9 +13,9 @@ nav_order: 6
 
 ## Contexto
 
-O dashboard fornece visao consolidada das atividades de supervisao industrial. Cada persona tem uma visao diferente: supervisor ve seus proprios indicadores, coordenador ve indicadores de toda a equipe, e gestor ve indicadores executivos.
+O dashboard fornece visão consolidada das atividades de supervisão industrial. Cada persona tem uma visão diferente: supervisor vê seus próprios indicadores, coordenador vê indicadores de toda a equipe, e gestor vê indicadores executivos.
 
-### Codigo Relacionado
+### Código Relacionado
 
 - Backend: `src/dashboard/` (module, controller, service)
 - Frontend: `src/pages/Dashboard.tsx`
@@ -37,21 +37,21 @@ Para que eu acompanhe minha produtividade e pendencias.
 **Prioridade**: P1 - Should Have
 **Estimativa**: 5 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Cards de resumo**:
-  - Relatorios do dia (por tipo: abate, producao, embarque)
-  - Relatorios da semana
-  - Relatorios pendentes (rascunhos nao enviados)
+  - Relatórios do dia (por tipo: abate, produção, embarque)
+  - Relatórios da semana
+  - Relatórios pendentes (rascunhos não enviados)
   - NCs abertas sob minha responsabilidade
 
-- [ ] **Lista de acoes pendentes**:
+- [ ] **Lista de ações pendentes**:
   - Rascunhos para finalizar
-  - NCs para tratar (proximas do prazo em destaque)
-  - Escala de hoje/proxima
+  - NCs para tratar (próximas do prazo em destaque)
+  - Escala de hoje/próxima
 
-- [ ] **Acesso rapido**:
-  - Botao "Novo Relatorio" com selecao de tipo
+- [ ] **Acesso rápido**:
+  - Botão "Novo Relatório" com selecao de tipo
   - Link direto para a planta da escala de hoje
 
 ---
@@ -67,23 +67,23 @@ Para que eu monitore a operacao e tome acoes rapidamente.
 **Prioridade**: P1 - Should Have
 **Estimativa**: 8 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Cards de resumo operacional**:
-  - Total de relatorios hoje/semana/mes (por tipo)
-  - Relatorios pendentes de revisao (fila)
-  - NCs ativas por severidade (critica, maior, menor, observacao)
-  - NCs proximas do prazo (< 3 dias) / vencidas
+  - Total de relatórios hoje/semana/mês (por tipo)
+  - Relatórios pendentes de revisão (fila)
+  - NCs ativas por severidade (crítica, maior, menor, observação)
+  - NCs próximas do prazo (< 3 dias) / vencidas
   - Supervisores em campo hoje (escala)
 
 - [ ] **Filtros**:
-  - Periodo (hoje, semana, mes, custom)
+  - Período (hoje, semana, mês, custom)
   - Planta (select ou "todas")
 
-- [ ] **Tabela de relatorios pendentes de revisao**:
+- [ ] **Tabela de relatórios pendentes de revisão**:
   - Top 10 mais antigos
   - Link direto para revisar
-  - Badge de tipo (abate, producao, embarque)
+  - Badge de tipo (abate, produção, embarque)
 
 - [ ] **Mapa de NCs por planta**:
   - Lista de plantas com contagem de NCs ativas
@@ -102,25 +102,25 @@ Para que eu tenha visibilidade da operacao de supervisao.
 **Prioridade**: P1 - Should Have
 **Estimativa**: 5 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Indicadores executivos**:
-  - Total de relatorios no periodo (grafico de tendencia)
-  - Taxa de conformidade: % de relatorios sem NCs
+  - Total de relatórios no período (grafico de tendência)
+  - Taxa de conformidade: % de relatórios sem NCs
   - NCs por severidade (grafico pizza/barra)
   - Plantas com mais NCs (ranking)
-  - Cobertura de supervisao: % de turnos cobertos vs. programados
+  - Cobertura de supervisão: % de turnos cobertos vs. programados
 
-- [ ] **Graficos de tendencia**:
-  - Relatorios por semana (ultimas 12 semanas)
+- [ ] **Graficos de tendência**:
+  - Relatórios por semana (últimas 12 semanas)
   - NCs por semana
-  - Taxa de resolucao de NCs no prazo
+  - Taxa de resolução de NCs no prazo
 
-- [ ] **Filtros**: Periodo, planta
+- [ ] **Filtros**: Período, planta
 
 ---
 
-### Feature 6.2: Relatorios e Exportacao
+### Feature 6.2: Relatórios e Exportação
 
 #### SIH-033: Exportar Dados do Dashboard
 
@@ -133,15 +133,15 @@ Para que eu use em apresentacoes e relatorios externos.
 **Prioridade**: P1 - Should Have
 **Estimativa**: 4 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Exportacao de listagens**:
-  - Relatorios filtrados → CSV
+- [ ] **Exportação de listagens**:
+  - Relatórios filtrados → CSV
   - NCs filtradas → CSV
-  - Escalas do periodo → CSV
+  - Escalas do período → CSV
 
-- [ ] **Exportacao de indicadores**:
+- [ ] **Exportação de indicadores**:
   - Resumo do dashboard → PDF (futuro)
-  - Dados brutos → JSON (para integracao)
+  - Dados brutos → JSON (para integração)
 
-- [ ] **Filtros aplicados na exportacao**: Mesmos filtros do dashboard ativo
+- [ ] **Filtros aplicados na exportação**: Mesmos filtros do dashboard ativo

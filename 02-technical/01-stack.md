@@ -1,18 +1,18 @@
 ---
-title: Stack Tecnologica
-parent: Documentacao Tecnica
+title: Stack Tecnológica
+parent: Documentação Técnica
 nav_order: 1
 ---
 
-# 1. Stack Tecnologica
+# 1. Stack Tecnológica
 
-**SIH - Supervisao Industrial Halal**
+**SIH - Supervisão Industrial Halal**
 
 ---
 
-## 1.1 Visao Geral
+## 1.1 Visão Geral
 
-O SIH utiliza uma stack moderna baseada em TypeScript end-to-end, com NestJS no backend e React no frontend. O sistema e containerizado com Docker para desenvolvimento local e implantado na AWS para producao.
+O SIH utiliza uma stack moderna baseada em TypeScript end-to-end, com NestJS no backend e React no frontend. O sistema e containerizado com Docker para desenvolvimento local e implantado na AWS para produção.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -33,7 +33,7 @@ O SIH utiliza uma stack moderna baseada em TypeScript end-to-end, com NestJS no 
 
 ### Framework e Runtime
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
 | **NestJS** | 11.x | Framework principal do backend (modular, com DI) |
 | **Node.js** | 22+ | Runtime JavaScript server-side |
@@ -42,66 +42,66 @@ O SIH utiliza uma stack moderna baseada em TypeScript end-to-end, com NestJS no 
 
 ### ORM e Banco de Dados
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **Prisma** | 7.x | ORM principal (schema-first, migracao, seed) |
+| **Prisma** | 7.x | ORM principal (schema-first, migração, seed) |
 | **@prisma/client** | 7.2.x | Cliente gerado para queries tipadas |
-| **@prisma/adapter-pg** | 7.2.x | Adaptador PrismaPg para conexao nativa com PostgreSQL |
+| **@prisma/adapter-pg** | 7.2.x | Adaptador PrismaPg para conexão nativa com PostgreSQL |
 | **pg** | 8.17.x | Driver PostgreSQL nativo (usado pelo adapter) |
 | **PostgreSQL** | 16+ | Banco de dados relacional principal |
-| **Redis** | 7+ | Cache de sessao e rate limiting |
+| **Redis** | 7+ | Cache de sessão e raté limiting |
 | **ioredis** | 5.9.x | Cliente Redis para Node.js |
 
-#### Prisma 7 - Configuracao Especifica
+#### Prisma 7 - Configuração Específica
 
 O SIH utiliza Prisma 7 com as seguintes particularidades:
 
-- **Provider**: `prisma-client-js` (gerador padrao)
-- **Adapter PrismaPg**: Usa `@prisma/adapter-pg` para conexao direta via driver `pg`, sem o query engine binario do Prisma. Isso resulta em deploys menores e melhor compatibilidade com containers.
-- **Arquivo de configuracao**: `prisma.config.ts` (TypeScript nativo, substituindo configuracoes do `schema.prisma`)
+- **Provider**: `prisma-client-js` (gerador padrão)
+- **Adapter PrismaPg**: Usa `@prisma/adapter-pg` para conexão direta via driver `pg`, sem o query engine binario do Prisma. Isso resulta em deploys menores e melhor compatibilidade com containers.
+- **Arquivo de configuração**: `prisma.config.ts` (TypeScript nativo, substituindo configurações do `schema.prisma`)
 - **Seed**: Executado via `tsx prisma/seed.ts` (configurado no `package.json` na chave `prisma.seed`)
-- **Extensoes do PostgreSQL**: `uuid-ossp`, `pgcrypto`, `pg_trgm` (inicializadas via script Docker)
+- **Extensões do PostgreSQL**: `uuid-ossp`, `pgcrypto`, `pg_trgm` (inicializadas via script Docker)
 
-### Autenticacao e Seguranca
+### Autenticação e Segurança
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **@nestjs/jwt** | 11.x | Modulo JWT para NestJS |
-| **@nestjs/passport** | 11.x | Integracao Passport.js com NestJS |
-| **passport** | 0.7.x | Middleware de autenticacao |
-| **passport-jwt** | 4.0.x | Estrategia JWT para Passport |
+| **@nestjs/jwt** | 11.x | Módulo JWT para NestJS |
+| **@nestjs/passport** | 11.x | Integração Passport.js com NestJS |
+| **passport** | 0.7.x | Middleware de autenticação |
+| **passport-jwt** | 4.0.x | Estratégia JWT para Passport |
 | **bcrypt** | 6.x | Hash de senhas |
 | **cookie-parser** | 1.4.x | Parse de cookies nas requisicoes |
 
-#### Estrategia JWT (v1.0)
+#### Estratégia JWT (v1.0)
 
-Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
+Na v1.0, o SIH usa autenticação self-contained (não depende do HalalSphere):
 
-| Algoritmo | Variavel | Observacao |
+| Algoritmo | Variavel | Observação |
 |-----------|----------|------------|
-| **HS256** (simetrico) | `JWT_SECRET` | Backend SIH emite e valida tokens via `POST /auth/login` |
+| **HS256** (simetrico) | `JWT_SECRET` | Backend SIH emite e válida tokens via `POST /auth/login` |
 
-### Validacao e Documentacao
+### Validação e Documentação
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **class-validator** | 0.14.x | Decorators de validacao em DTOs |
-| **class-transformer** | 0.5.x | Transformacao de objetos (serialization) |
-| **zod** | 4.3.x | Validacao de schemas (complementar) |
-| **zod-validation-error** | 5.x | Formatacao de erros Zod |
-| **@nestjs/swagger** | 11.2.x | Documentacao OpenAPI/Swagger automatica |
+| **class-validator** | 0.14.x | Decorators de validação em DTOs |
+| **class-transformer** | 0.5.x | Transformação de objetos (serialization) |
+| **zod** | 4.3.x | Validação de schemas (complementar) |
+| **zod-válidation-error** | 5.x | Formatação de erros Zod |
+| **@nestjs/swagger** | 11.2.x | Documentação OpenAPI/Swagger automática |
 
 ### Infraestrutura e Observabilidade
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
 | **@nestjs/terminus** | 11.x | Health checks (banco, Redis, app) |
-| **@nestjs/config** | 4.x | Gerenciamento de configuracao por ambiente |
+| **@nestjs/config** | 4.x | Gerênciamento de configuração por ambiente |
 | **@aws-sdk/client-secrets-manager** | 3.x | Acesso ao AWS Secrets Manager |
 | **@aws-sdk/client-ssm** | 3.x | Acesso ao AWS Systems Manager Parameter Store |
 | **dotenv** | 17.x | Variaveis de ambiente em desenvolvimento |
 | **reflect-metadata** | 0.2.x | Suporte a decorators TypeScript |
-| **rxjs** | 7.8.x | Programacao reativa (core do NestJS) |
+| **rxjs** | 7.8.x | Programação reativa (core do NestJS) |
 
 ---
 
@@ -109,56 +109,56 @@ Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
 
 ### Framework e Build
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
 | **React** | 19.2.x | Biblioteca de UI principal |
-| **React DOM** | 19.2.x | Renderizacao DOM |
+| **React DOM** | 19.2.x | Renderização DOM |
 | **Vite** | 7.2.x | Build tool e dev server |
 | **@vitejs/plugin-react** | 5.1.x | Plugin Vite para React (Fast Refresh) |
 | **TypeScript** | ~5.9.x | Tipagem estatica em todo o frontend |
 
-### Estilizacao e Componentes
+### Estilização e Componentes
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **Tailwind CSS** | 3.4.x (v4 config) | Framework CSS utility-first |
+| **Tailwind CSS** | 3.4.x (v4 config) | Framework CSS útility-first |
 | **shadcn/ui** | - | Componentes UI baseados em Radix (copiados para o projeto) |
-| **@radix-ui/react-dialog** | 1.1.x | Componente Dialog acessivel |
-| **@radix-ui/react-alert-dialog** | 1.1.x | Componente Alert Dialog acessivel |
-| **@radix-ui/react-dropdown-menu** | 2.1.x | Componente Dropdown Menu acessivel |
-| **@radix-ui/react-tabs** | 1.1.x | Componente Tabs acessivel |
+| **@radix-ui/react-dialog** | 1.1.x | Componente Dialog acessível |
+| **@radix-ui/react-alert-dialog** | 1.1.x | Componente Alert Dialog acessível |
+| **@radix-ui/react-dropdown-menu** | 2.1.x | Componente Dropdown Menu acessível |
+| **@radix-ui/react-tabs** | 1.1.x | Componente Tabs acessível |
 | **class-variance-authority** | 0.7.x | Variantes de estilos para componentes |
-| **clsx** | 2.1.x | Concatenacao condicional de classes CSS |
+| **clsx** | 2.1.x | Concatenação condicional de classes CSS |
 | **tailwind-merge** | 2.6.x | Merge inteligente de classes Tailwind |
 | **lucide-react** | 0.468.x | Biblioteca de icones (Lucide) |
 
 ### Roteamento e Estado
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
 | **react-router-dom** | 7.2.x | Roteamento SPA |
-| **@tanstack/react-query** | 5.62.x | Gerenciamento de estado do servidor (cache, fetch, sync) |
+| **@tanstack/react-query** | 5.62.x | Gerênciamento de estado do servidor (cache, fetch, sync) |
 | **axios** | 1.7.x | Cliente HTTP para chamadas a API |
 
-### Formularios e Validacao
+### Formulários e Validação
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **react-hook-form** | 7.54.x | Gerenciamento de formularios performatico |
-| **@hookform/resolvers** | 3.10.x | Integracao de schemas de validacao (Zod) |
-| **zod** | 3.23.x | Validacao de schemas no frontend |
+| **react-hook-form** | 7.54.x | Gerênciamento de formulários performatico |
+| **@hookform/resolvers** | 3.10.x | Integração de schemas de validação (Zod) |
+| **zod** | 3.23.x | Validação de schemas no frontend |
 
 ### UX e Feedback
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **react-hot-toast** | 2.6.x | Notificacoes toast |
+| **react-hot-toast** | 2.6.x | Notificações toast |
 
 ### PWA
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **vite-plugin-pwa** | 0.21.x | Geracao de manifest.json e Service Worker via Vite |
+| **vite-plugin-pwa** | 0.21.x | Geração de manifest.json e Service Worker via Vite |
 
 ---
 
@@ -166,19 +166,19 @@ Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
 
 ### Backend DevDependencies
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
 | **@nestjs/cli** | 11.x | CLI do NestJS (build, generate, etc.) |
-| **@nestjs/schematics** | 11.x | Templates de codigo NestJS |
-| **@nestjs/testing** | 11.x | Utilitarios de teste NestJS |
-| **Jest** | 30.x | Framework de testes unitarios |
+| **@nestjs/schematics** | 11.x | Templates de código NestJS |
+| **@nestjs/testing** | 11.x | Útilitarios de teste NestJS |
+| **Jest** | 30.x | Framework de testes unitários |
 | **ts-jest** | 29.x | Transformador TypeScript para Jest |
-| **supertest** | 7.x | Testes de integracao HTTP |
-| **ESLint** | 9.x | Linter de codigo |
+| **supertest** | 7.x | Testes de integração HTTP |
+| **ESLint** | 9.x | Linter de código |
 | **eslint-config-prettier** | 10.x | Desativa regras ESLint que conflitam com Prettier |
 | **eslint-plugin-prettier** | 5.x | Executa Prettier como regra ESLint |
 | **typescript-eslint** | 8.x | Regras ESLint para TypeScript |
-| **Prettier** | 3.4.x | Formatacao de codigo |
+| **Prettier** | 3.4.x | Formatação de código |
 | **tsx** | 4.21.x | Executor de TypeScript (usado para seed do Prisma) |
 | **ts-node** | 10.x | Executor TypeScript para Node.js |
 | **ts-loader** | 9.x | Loader TypeScript para Webpack (build NestJS) |
@@ -187,26 +187,26 @@ Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
 
 ### Frontend DevDependencies
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **ESLint** | 9.x | Linter de codigo |
+| **ESLint** | 9.x | Linter de código |
 | **eslint-plugin-react-hooks** | 7.x | Regras de lint para React Hooks |
 | **eslint-plugin-react-refresh** | 0.4.x | Regras para React Fast Refresh |
 | **typescript-eslint** | 8.x | Regras ESLint para TypeScript |
 | **PostCSS** | 8.5.x | Processador CSS (pipeline Tailwind) |
-| **Autoprefixer** | 10.x | Adiciona vendor prefixes automaticamente |
-| **Terser** | 5.x | Minificador JavaScript para build de producao |
+| **Autoprefixer** | 10.x | Adiciona vendor prefixes automáticamente |
+| **Terser** | 5.x | Minificador JavaScript para build de produção |
 
 ---
 
 ## 1.5 Infraestrutura
 
-### Containerizacao
+### Containerização
 
-| Tecnologia | Versao | Proposito |
+| Tecnologia | Versão | Proposito |
 |------------|--------|-----------|
-| **Docker** | 24+ | Containerizacao de servicos |
-| **Docker Compose** | 2.x | Orquestracao de containers locais |
+| **Docker** | 24+ | Containerização de serviços |
+| **Docker Compose** | 2.x | Orquestração de containers locais |
 
 ### Containers Docker (Desenvolvimento)
 
@@ -216,56 +216,56 @@ Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
 | `sih-redis` | `redis:7-alpine` | 6380 | 6379 |
 | `sih-backend` | Build local (profile: full) | 3334 | 3334 |
 
-### AWS (Producao)
+### AWS (Produção)
 
-| Servico | Proposito |
+| Serviço | Proposito |
 |---------|-----------|
-| **ECS (Fargate)** | Execucao de containers do backend |
-| **RDS (PostgreSQL)** | Banco de dados gerenciado |
-| **ElastiCache (Redis)** | Cache gerenciado |
+| **ECS (Fargate)** | Execução de containers do backend |
+| **RDS (PostgreSQL)** | Banco de dados gerênciado |
+| **ElastiCache (Redis)** | Cache gerênciado |
 | **S3** | Armazenamento de arquivos estaticos e evidencias |
 | **CloudFront** | CDN para frontend e assets |
 | **Secrets Manager** | Armazenamento seguro de credenciais |
-| **SSM Parameter Store** | Configuracoes de ambiente |
+| **SSM Parameter Store** | Configurações de ambiente |
 
 ---
 
-## 1.6 Tabela Consolidada de Dependencias
+## 1.6 Tabela Consolidada de Dependências
 
 ### Backend - dependencies
 
-| Pacote | Versao | Categoria |
+| Pacote | Versão | Categoria |
 |--------|--------|-----------|
 | `@aws-sdk/client-secrets-manager` | ^3.969.0 | Infraestrutura AWS |
 | `@aws-sdk/client-ssm` | ^3.969.0 | Infraestrutura AWS |
 | `@nestjs/common` | ^11.0.1 | Framework Core |
-| `@nestjs/config` | ^4.0.2 | Configuracao |
+| `@nestjs/config` | ^4.0.2 | Configuração |
 | `@nestjs/core` | ^11.0.1 | Framework Core |
-| `@nestjs/jwt` | ^11.0.2 | Autenticacao |
-| `@nestjs/passport` | ^11.0.5 | Autenticacao |
+| `@nestjs/jwt` | ^11.0.2 | Autenticação |
+| `@nestjs/passport` | ^11.0.5 | Autenticação |
 | `@nestjs/platform-express` | ^11.0.1 | HTTP Server |
-| `@nestjs/swagger` | ^11.2.5 | Documentacao API |
+| `@nestjs/swagger` | ^11.2.5 | Documentação API |
 | `@nestjs/terminus` | ^11.0.0 | Health Check |
 | `@prisma/adapter-pg` | ^7.2.0 | ORM - Adapter |
 | `@prisma/client` | ^7.2.0 | ORM - Client |
-| `bcrypt` | ^6.0.0 | Seguranca |
-| `class-transformer` | ^0.5.1 | Validacao |
-| `class-validator` | ^0.14.3 | Validacao |
+| `bcrypt` | ^6.0.0 | Segurança |
+| `class-transformer` | ^0.5.1 | Validação |
+| `class-validator` | ^0.14.3 | Validação |
 | `cookie-parser` | ^1.4.7 | HTTP |
-| `dotenv` | ^17.3.1 | Configuracao |
+| `dotenv` | ^17.3.1 | Configuração |
 | `ioredis` | ^5.9.1 | Cache (Redis) |
-| `passport` | ^0.7.0 | Autenticacao |
-| `passport-jwt` | ^4.0.1 | Autenticacao |
+| `passport` | ^0.7.0 | Autenticação |
+| `passport-jwt` | ^4.0.1 | Autenticação |
 | `pg` | ^8.17.0 | Driver PostgreSQL |
 | `prisma` | ^7.2.0 | ORM - CLI/Engine |
 | `reflect-metadata` | ^0.2.2 | Runtime |
 | `rxjs` | ^7.8.1 | Runtime |
-| `zod` | ^4.3.5 | Validacao |
-| `zod-validation-error` | ^5.0.0 | Validacao |
+| `zod` | ^4.3.5 | Validação |
+| `zod-validation-error` | ^5.0.0 | Validação |
 
 ### Backend - devDependencies
 
-| Pacote | Versao | Categoria |
+| Pacote | Versão | Categoria |
 |--------|--------|-----------|
 | `@eslint/eslintrc` | ^3.2.0 | Linting |
 | `@eslint/js` | ^9.18.0 | Linting |
@@ -285,7 +285,7 @@ Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
 | `eslint-plugin-prettier` | ^5.2.2 | Linting |
 | `globals` | ^16.0.0 | Linting |
 | `jest` | ^30.0.0 | Testes |
-| `prettier` | ^3.4.2 | Formatacao |
+| `prettier` | ^3.4.2 | Formatação |
 | `source-map-support` | ^0.5.21 | Debug |
 | `supertest` | ^7.0.0 | Testes |
 | `ts-jest` | ^29.2.5 | Testes |
@@ -298,29 +298,29 @@ Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
 
 ### Frontend - dependencies
 
-| Pacote | Versao | Categoria |
+| Pacote | Versão | Categoria |
 |--------|--------|-----------|
-| `@hookform/resolvers` | ^3.10.0 | Formularios |
+| `@hookform/resolvers` | ^3.10.0 | Formulários |
 | `@radix-ui/react-alert-dialog` | ^1.1.15 | Componentes UI |
 | `@radix-ui/react-dialog` | ^1.1.15 | Componentes UI |
 | `@radix-ui/react-dropdown-menu` | ^2.1.16 | Componentes UI |
 | `@radix-ui/react-tabs` | ^1.1.13 | Componentes UI |
 | `@tanstack/react-query` | ^5.62.0 | Estado/Cache |
 | `axios` | ^1.7.0 | HTTP Client |
-| `class-variance-authority` | ^0.7.1 | Estilizacao |
-| `clsx` | ^2.1.1 | Estilizacao |
+| `class-variance-authority` | ^0.7.1 | Estilização |
+| `clsx` | ^2.1.1 | Estilização |
 | `lucide-react` | ^0.468.0 | Icones |
 | `react` | ^19.2.0 | Framework UI |
 | `react-dom` | ^19.2.0 | Framework UI |
-| `react-hook-form` | ^7.54.1 | Formularios |
+| `react-hook-form` | ^7.54.1 | Formulários |
 | `react-hot-toast` | ^2.6.0 | UX/Feedback |
 | `react-router-dom` | ^7.2.0 | Roteamento |
-| `tailwind-merge` | ^2.6.0 | Estilizacao |
-| `zod` | ^3.23.8 | Validacao |
+| `tailwind-merge` | ^2.6.0 | Estilização |
+| `zod` | ^3.23.8 | Validação |
 
 ### Frontend - devDependencies
 
-| Pacote | Versao | Categoria |
+| Pacote | Versão | Categoria |
 |--------|--------|-----------|
 | `@eslint/js` | ^9.39.1 | Linting |
 | `@types/node` | ^24.10.0 | Tipagem |
@@ -342,22 +342,22 @@ Na v1.0, o SIH usa autenticacao self-contained (nao depende do HalalSphere):
 
 ---
 
-## 1.7 Observacoes sobre Versoes
+## 1.7 Observações sobre Versões
 
 ### TypeScript
 
-- **Backend**: TypeScript 5.7.x (versao estavel para NestJS 11)
-- **Frontend**: TypeScript ~5.9.x (versao mais recente, compativel com Vite 7)
+- **Backend**: TypeScript 5.7.x (versão estavel para NestJS 11)
+- **Frontend**: TypeScript ~5.9.x (versão mais recente, compatível com Vite 7)
 - Ambos os projetos usam `strict: true` no `tsconfig.json`
 
 ### Zod
 
-- **Backend**: Zod 4.x (versao mais recente, com breaking changes do v3)
-- **Frontend**: Zod 3.x (versao estavel, compativel com `@hookform/resolvers`)
-- A diferenca de versoes e intencional: o frontend depende de resolvers que ainda nao suportam Zod 4
+- **Backend**: Zod 4.x (versão mais recente, com breaking changes do v3)
+- **Frontend**: Zod 3.x (versão estavel, compatível com `@hookform/resolvers`)
+- A diferença de versões e intencional: o frontend depende de resolvers que ainda não suportam Zod 4
 
 ### ESLint
 
-- Ambos os projetos usam ESLint 9.x com flat config (novo formato de configuracao)
-- O backend usa `eslint-plugin-prettier` para integracao com Prettier
-- O frontend usa plugins especificos para React Hooks e React Refresh
+- Ambos os projetos usam ESLint 9.x com flat config (novo formato de configuração)
+- O backend usa `eslint-plugin-prettier` para integração com Prettier
+- O frontend usa plugins específicos para React Hooks e React Refresh

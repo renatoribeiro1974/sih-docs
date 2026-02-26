@@ -3,36 +3,36 @@ title: Roadmap Detalhado
 nav_order: 5
 ---
 
-# Roadmap Detalhado de Implementacao
+# Roadmap Detalhado de Implementação
 
-**Projeto**: SIH - Supervisao Industrial Halal
-**Versao**: v1.0
-**Ultima Atualizacao**: 2026-02-24
+**Projeto**: SIH - Supervisão Industrial Halal
+**Versão**: v1.0
+**Última Atualização**: 2026-02-24
 
 ---
 
 ## Status Atual
 
-| Fase | Descricao | Status | Progresso |
+| Fase | Descrição | Status | Progresso |
 |------|-----------|--------|-----------|
 | Fase 1 | Scaffolding (Repos + Configs) | COMPLETA | 4/4 tarefas |
 | Fase 2 | Backend Core (Infra) | COMPLETA | 4/4 tarefas |
-| Fase 3 | Backend Dominio (Negocio) | COMPLETA | 8/8 modulos |
+| Fase 3 | Backend Domínio (Negócio) | COMPLETA | 8/8 módulos |
 | Fase 4 | Frontend Core (Base) | PROXIMO | 0/5 tarefas |
-| Fase 5 | Frontend Pages (Paginas) | PENDENTE | 0/7 grupos |
-| Fase 6 | Finalizacao (Deploy) | PENDENTE | 0/4 tarefas |
+| Fase 5 | Frontend Pages (Páginas) | PENDENTE | 0/7 grupos |
+| Fase 6 | Finalização (Deploy) | PENDENTE | 0/4 tarefas |
 
-**Resumo de User Stories v1.0**: 33 stories | 202 story points | 6 epicos
+**Resumo de User Stories v1.0**: 33 stories | 202 story points | 6 épicos
 
 ---
 
 ## Fase 1: Scaffolding (COMPLETA)
 
-**Objetivo**: Criar os 3 repositorios com toda a configuracao de projeto.
+**Objetivo**: Criar os 3 repositorios com toda a configuração de projeto.
 
 - [x] **1.1** Criar repositorio `sih-docs/`
-  - Estrutura de documentacao criada
-  - PRD completo com 39 user stories em 7 epicos
+  - Estrutura de documentação criada
+  - PRD completo com 39 user stories em 7 épicos
   - Arquitetura de features documentada
   - Roadmap original definido
 - [x] **1.2** Criar repositorio `sih-backend/`
@@ -47,9 +47,9 @@ nav_order: 5
   - PWA manifest preparado
 - [x] **1.4** Criar workspace VS Code
   - `SupervisaoIndustrialHalal.code-workspace` configurado
-  - 3 repos integrados em workspace unico
+  - 3 repos integrados em workspace único
 
-**Verificacao**: Repos criados, configs validas, workspace abre corretamente.
+**Verificação**: Repos criados, configs válidas, workspace abre corretamente.
 
 ---
 
@@ -58,39 +58,39 @@ nav_order: 5
 **Objetivo**: Infraestrutura funcional do backend (NestJS).
 
 - [x] **2.1** Config Module
-  - `config.module.ts` - Modulo de configuracao global
-  - `aws-config.service.ts` - Servico de configuracao AWS (Cognito, S3, etc.)
+  - `config.module.ts` - Módulo de configuração global
+  - `aws-config.service.ts` - Serviço de configuração AWS (Cognito, S3, etc.)
   - Variaves de ambiente validadas
 - [x] **2.2** Prisma Module
-  - `prisma.module.ts` - Modulo global do Prisma
-  - `prisma.service.ts` - Servico com lifecycle hooks
-  - Schema completo com 6 modelos + 11 enums + indices + constraints
-  - **Nota**: Resolvido problema de migracao Prisma 7 usando provider `prisma-client-js` com adapter `PrismaPg`
+  - `prisma.module.ts` - Módulo global do Prisma
+  - `prisma.service.ts` - Serviço com lifecycle hooks
+  - Schema completo com 6 modelos + 11 enums + índices + constraints
+  - **Nota**: Resolvido problema de migração Prisma 7 usando provider `prisma-client-js` com adapter `PrismaPg`
 - [x] **2.3** Auth Module
-  - `jwt.strategy.ts` - Validacao JWT RS256/HS256 (via Gestao de Certificacoes/HalalSphere)
-  - `jwt-auth.guard.ts` - Guard de autenticacao global
-  - `roles.guard.ts` - Guard de autorizacao por role (admin, coordenador, supervisor, gestor)
-  - `current-user.decorator.ts` - Decorator para extrair usuario do JWT
+  - `jwt.strategy.ts` - Validação JWT RS256/HS256 (via Gestão de Certificações/HalalSphere)
+  - `jwt-auth.guard.ts` - Guard de autenticação global
+  - `roles.guard.ts` - Guard de autorização por role (admin, coordenador, supervisor, gestor)
+  - `current-user.decorator.ts` - Decorator para extrair usuário do JWT
   - `roles.decorator.ts` - Decorator para definir roles permitidas
-  - `public.decorator.ts` - Decorator para rotas publicas
+  - `public.decorator.ts` - Decorator para rotas públicas
   - `jwt-payload.type.ts` - Tipagem do payload JWT
 - [x] **2.4** Health + Common
   - `health.controller.ts` - Endpoint `GET /health` funcional
-  - `http-exception.filter.ts` - Filtro global de excecoes
+  - `http-exception.filter.ts` - Filtro global de exceções
   - `logging.interceptor.ts` - Interceptor de logging de requests
-  - `serial-number.util.ts` - Gerador de numero serial (SIF/ANO/SEQ)
+  - `serial-number.util.ts` - Gerador de número serial (SIF/ANO/SEQ)
 - [x] **2.5** Banco de Dados
-  - PostgreSQL 16 com extensoes: uuid-ossp, pgcrypto, pg_trgm
-  - Migracoes aplicadas com sucesso
+  - PostgreSQL 16 com extensões: uuid-ossp, pgcrypto, pg_trgm
+  - Migrações aplicadas com sucesso
   - Tabelas criadas conforme schema Prisma
 
-**Verificacao**: `npm run start:dev` funciona, `GET /health` retorna OK, Swagger acessivel em `/api/docs`.
+**Verificação**: `npm run start:dev` funciona, `GET /health` retorna OK, Swagger acessível em `/api/docs`.
 
 ---
 
-## Fase 3: Backend Dominio (COMPLETA)
+## Fase 3: Backend Domínio (COMPLETA)
 
-**Objetivo**: Todos os 8 modulos de negocio com CRUD completo e logica de dominio.
+**Objetivo**: Todos os 8 módulos de negócio com CRUD completo e lógica de domínio.
 
 ### 3.1 SupervisorProfile Module
 
@@ -101,20 +101,20 @@ nav_order: 5
   - `supervisor-profile-response.dto.ts` - Resposta com campos formatados
 - [ ] **Service** (`supervisor-profile.service.ts`)
   - `findOrCreateFromJwt(payload)` - Auto-cria perfil no primeiro acesso via JWT
-  - `findAll(query)` - Listagem com filtros e paginacao
+  - `findAll(query)` - Listagem com filtros e páginação
   - `findOne(id)` - Busca por ID
-  - `update(id, dto)` - Atualizacao parcial
+  - `update(id, dto)` - Atualização parcial
   - `deactivate(id)` - Soft delete (isActive = false)
-  - `updateLastLogin(id)` - Atualiza timestamp de ultimo login
+  - `updateLastLogin(id)` - Atualiza timestamp de último login
 - [ ] **Controller** (`supervisor-profile.controller.ts`)
   - `GET /supervisor-profiles` - Lista com filtros (coordenador+)
-  - `GET /supervisor-profiles/me` - Perfil do usuario autenticado
+  - `GET /supervisor-profiles/me` - Perfil do usuário autenticado
   - `GET /supervisor-profiles/:id` - Busca por ID
   - `PATCH /supervisor-profiles/:id` - Atualiza perfil
   - `PATCH /supervisor-profiles/:id/deactivate` - Desativa (admin)
-- [ ] **Testes** - Unitarios do service + e2e do controller
+- [ ] **Testes** - Unitários do service + e2e do controller
 
-**Epico relacionado**: Prerequisito para todos os epicos (autoria de relatorios)
+**Épico relacionado**: Prerequisito para todos os épicos (autoria de relatórios)
 
 ---
 
@@ -124,12 +124,12 @@ nav_order: 5
   - `create-plant.dto.ts` - name, sifCode, type, address?, contact?, species[]
   - `update-plant.dto.ts` - PartialType do create
   - `plant-query.dto.ts` - Filtros: type, species, isActive, search (nome/SIF)
-  - `plant-response.dto.ts` - Resposta com contadores de relatorios
+  - `plant-response.dto.ts` - Resposta com contadores de relatórios
 - [ ] **Service** (`plant.service.ts`)
-  - `create(dto)` - Cria planta com validacao de SIF unico
-  - `findAll(query)` - Listagem com filtros e paginacao
+  - `create(dto)` - Cria planta com validação de SIF único
+  - `findAll(query)` - Listagem com filtros e páginação
   - `findOne(id)` - Busca por ID com contadores
-  - `update(id, dto)` - Atualizacao parcial
+  - `update(id, dto)` - Atualização parcial
   - `deactivate(id)` - Soft delete
 - [ ] **Controller** (`plant.controller.ts`)
   - `POST /plants` - Cria planta (coordenador+)
@@ -137,79 +137,79 @@ nav_order: 5
   - `GET /plants/:id` - Detalhes (todos)
   - `PATCH /plants/:id` - Atualiza (coordenador+)
   - `PATCH /plants/:id/deactivate` - Desativa (admin)
-- [ ] **Testes** - Unitarios + e2e
+- [ ] **Testes** - Unitários + e2e
 
-**Epico relacionado**: Prerequisito para todos os epicos (local dos relatorios)
+**Épico relacionado**: Prerequisito para todos os épicos (local dos relatórios)
 
 ---
 
 ### 3.3 SlaughterReport Module (FM 7.1.4.x)
 
 - [ ] **DTOs**
-  - `create-slaughter-report.dto.ts` - Todos os campos do modelo + validacoes
+  - `create-slaughter-report.dto.ts` - Todos os campos do modelo + validações
   - `update-slaughter-report.dto.ts` - PartialType (somente status=rascunho)
-  - `slaughter-report-query.dto.ts` - Filtros: plantId, date range, species, status, shift
+  - `slaughter-report-query.dto.ts` - Filtros: plantId, daté range, species, status, shift
   - `submit-slaughter-report.dto.ts` - Transicao rascunho -> enviado
   - `review-slaughter-report.dto.ts` - Transicao enviado -> revisado/aprovado/rejeitado
   - `slaughter-verification-item.dto.ts` - 14 itens C/NC (fixos)
-  - `stunning-verification.dto.ts` - Avaliacao de insensibilizacao (bovinos)
+  - `stunning-verification.dto.ts` - Avaliação de insensibilização (bovinos)
 - [ ] **Service** (`slaughter-report.service.ts`)
-  - `create(dto, supervisorId)` - Cria com serial automatico (SIF/ANO/SEQ)
-  - `findAll(query)` - Listagem com filtros, paginacao e includes
+  - `create(dto, supervisorId)` - Cria com serial automático (SIF/ANO/SEQ)
+  - `findAll(query)` - Listagem com filtros, páginação e includes
   - `findOne(id)` - Detalhes completos com plant e supervisor
   - `update(id, dto)` - Somente rascunhos
-  - `submit(id)` - Valida e envia para revisao
+  - `submit(id)` - Válida e envia para revisão
   - `review(id, dto, reviewerId)` - Coordenador revisa/aprova/rejeita
   - `cancel(id, reason)` - Cancela com motivo
   - `generateSerialNumber(plantSif, year)` - SIF/ANO/SEQ sequencial
-  - `validateVerificationItems(items)` - Valida 14 itens obrigatorios
-  - `validateStunning(species, data)` - Valida dados de stunning para bovinos
+  - `validateVerificationItems(items)` - Válida 14 itens obrigatórios
+  - `validateStunning(species, data)` - Válida dados de stunning para bovinos
 - [ ] **Controller** (`slaughter-report.controller.ts`)
-  - `POST /slaughter-reports` - Cria relatorio (supervisor+)
+  - `POST /slaughter-reports` - Cria relatório (supervisor+)
   - `GET /slaughter-reports` - Lista com filtros (todos)
   - `GET /slaughter-reports/:id` - Detalhes (todos)
   - `PATCH /slaughter-reports/:id` - Atualiza rascunho (autor)
-  - `POST /slaughter-reports/:id/submit` - Envia para revisao (autor)
+  - `POST /slaughter-reports/:id/submit` - Envia para revisão (autor)
   - `POST /slaughter-reports/:id/review` - Revisa (coordenador+)
   - `POST /slaughter-reports/:id/cancel` - Cancela (coordenador+)
-- [ ] **Testes** - Unitarios + e2e + validacao de itens C/NC
+- [ ] **Testes** - Unitários + e2e + validação de itens C/NC
 
-**Epico**: Epic 01 - Relatorios de Abate | **Stories**: 7 | **Points**: 47 | **Prioridade**: P0
+**Épico**: Epic 01 - Relatórios de Abate | **Stories**: 7 | **Points**: 47 | **Prioridade**: P0
 
 ---
 
 ### 3.4 ProductionReport Module (FM 7.1.3.x / FM 7.1.8.x)
 
 - [ ] **DTOs**
-  - `create-production-report.dto.ts` - Todos os campos + materias-primas + ingredientes
+  - `create-production-report.dto.ts` - Todos os campos + matérias-primas + ingredientes
   - `update-production-report.dto.ts` - PartialType (somente rascunho)
-  - `production-report-query.dto.ts` - Filtros: plantId, date range, status, isSpecialProduction
+  - `production-report-query.dto.ts` - Filtros: plantId, daté range, status, isSpecialProduction
   - `submit-production-report.dto.ts` - Transicao rascunho -> enviado
   - `review-production-report.dto.ts` - Transicao enviado -> revisado/aprovado/rejeitado
   - `production-verification-item.dto.ts` - 5 itens C/NC (fixos)
-  - `meat-raw-material.dto.ts` - frigorifico, SIF, data abate, CSN, certificado Halal
-  - `approved-ingredient.dto.ts` - fornecedor, lote, validade
+  - `meat-raw-material.dto.ts` - frigorífico, SIF, data abate, CSN, certificado Halal
+  - `approved-ingredient.dto.ts` - fornecedor, lote, válidade
 - [ ] **Service** (`production-report.service.ts`)
-  - `create(dto, supervisorId)` - Cria com serial automatico
-  - `findAll(query)` - Listagem com filtros e paginacao
+  - `create(dto, supervisorId)` - Cria com serial automático
+  - `findAll(query)` - Listagem com filtros e páginação
   - `findOne(id)` - Detalhes completos
   - `update(id, dto)` - Somente rascunhos
-  - `submit(id)` - Valida e envia
+  - `submit(id)` - Válida e envia
   - `review(id, dto, reviewerId)` - Coordenador revisa
   - `cancel(id, reason)` - Cancela com motivo
-  - `validateRawMaterials(materials)` - Valida materias-primas obrigatorias
-  - `validateIngredients(ingredients)` - Valida ingredientes aprovados
+  - `validateRawMaterials(materials)` - Válida matérias-primas obrigatórias
+  - `validateIngredients(ingredients)` - Válida ingredientes aprovados
 - [ ] **Controller** (`production-report.controller.ts`)
-  - `POST /production-reports` - Cria relatorio (supervisor+)
+  - `POST /production-reports` - Cria relatório (supervisor+)
   - `GET /production-reports` - Lista com filtros (todos)
   - `GET /production-reports/:id` - Detalhes (todos)
   - `PATCH /production-reports/:id` - Atualiza rascunho (autor)
-  - `POST /production-reports/:id/submit` - Envia para revisao (autor)
+  - `POST /production-reports/:id/submit` - Envia para revisão (autor)
   - `POST /production-reports/:id/review` - Revisa (coordenador+)
   - `POST /production-reports/:id/cancel` - Cancela (coordenador+)
-- [ ] **Testes** - Unitarios + e2e + validacao de materias-primas
+- [ ] **Testes** - Unitários + e2e + validação de matérias-primas
 
-**Epico**: Epic 02 - Relatorios de Producao | **Stories**: 6 | **Points**: 40 | **Prioridade**: P0
+**Épico**: Epic 02 - Relatórios de Produção | **Stories**: 6 | **Points**: 40 | **Prioridade**: P0
 
 ---
 
@@ -218,56 +218,56 @@ nav_order: 5
 - [ ] **DTOs**
   - `create-shipping-report.dto.ts` - Campos base + campos condicionais por tipo
   - `update-shipping-report.dto.ts` - PartialType (somente rascunho)
-  - `shipping-report-query.dto.ts` - Filtros: plantId, date range, shippingType, status
+  - `shipping-report-query.dto.ts` - Filtros: plantId, daté range, shippingType, status
   - `submit-shipping-report.dto.ts` - Transicao rascunho -> enviado
   - `review-shipping-report.dto.ts` - Transicao enviado -> revisado/aprovado/rejeitado
   - `shipping-verification-item.dto.ts` - 2 itens C/NC (exclusividade Halal + selo)
-  - `shipping-product.dto.ts` - produto, codigo, lote, datas, pesos, temperatura
+  - `shipping-product.dto.ts` - produto, código, lote, datas, pesos, temperatura
 - [ ] **Service** (`shipping-report.service.ts`)
-  - `create(dto, supervisorId)` - Cria com serial automatico
-  - `findAll(query)` - Listagem com filtros e paginacao
+  - `create(dto, supervisorId)` - Cria com serial automático
+  - `findAll(query)` - Listagem com filtros e páginação
   - `findOne(id)` - Detalhes completos
   - `update(id, dto)` - Somente rascunhos
-  - `submit(id)` - Valida campos condicionais por tipo e envia
+  - `submit(id)` - Válida campos condicionais por tipo e envia
   - `review(id, dto, reviewerId)` - Coordenador revisa
   - `cancel(id, reason)` - Cancela com motivo
-  - `validateByType(type, data)` - Valida campos obrigatorios por shippingType:
-    - exportacao: importer, container, ports, sealNumber obrigatorios
+  - `validateByType(type, data)` - Válida campos obrigatórios por shippingType:
+    - exportação: importer, container, ports, sealNumber obrigatórios
     - venda_interna: campos simplificados
-    - transferencia: DCPOA campos minimos
-  - `validateProducts(products)` - Valida lista de produtos
+    - transferência: DCPOA campos mínimos
+  - `validateProducts(products)` - Válida lista de produtos
 - [ ] **Controller** (`shipping-report.controller.ts`)
-  - `POST /shipping-reports` - Cria relatorio (supervisor+)
+  - `POST /shipping-reports` - Cria relatório (supervisor+)
   - `GET /shipping-reports` - Lista com filtros (todos)
   - `GET /shipping-reports/:id` - Detalhes (todos)
   - `PATCH /shipping-reports/:id` - Atualiza rascunho (autor)
-  - `POST /shipping-reports/:id/submit` - Envia para revisao (autor)
+  - `POST /shipping-reports/:id/submit` - Envia para revisão (autor)
   - `POST /shipping-reports/:id/review` - Revisa (coordenador+)
   - `POST /shipping-reports/:id/cancel` - Cancela (coordenador+)
-- [ ] **Testes** - Unitarios + e2e + validacao por tipo
+- [ ] **Testes** - Unitários + e2e + validação por tipo
 
-**Epico**: Epic 03 - Relatorios de Embarque | **Stories**: 6 | **Points**: 38 | **Prioridade**: P0
+**Épico**: Epic 03 - Relatórios de Embarque | **Stories**: 6 | **Points**: 38 | **Prioridade**: P0
 
 ---
 
 ### 3.6 NonConformity Module (FM 7.1.6.1)
 
 - [ ] **DTOs**
-  - `create-non-conformity.dto.ts` - description, severity, category, evidence?, vinculo a relatorio?
+  - `create-non-conformity.dto.ts` - description, severity, category, evidence?, vínculo a relatório?
   - `update-non-conformity.dto.ts` - PartialType (somente aberta/em_tratamento)
-  - `non-conformity-query.dto.ts` - Filtros: plantId, severity, status, category, date range, overdue
+  - `non-conformity-query.dto.ts` - Filtros: plantId, severity, status, category, daté range, overdue
   - `treat-non-conformity.dto.ts` - correctiveAction, preventiveAction (aberta -> em_tratamento)
-  - `resolve-non-conformity.dto.ts` - Resolucao com evidencia (em_tratamento -> resolvida)
-  - `verify-non-conformity.dto.ts` - Verificacao final (resolvida -> verificada -> encerrada)
+  - `resolve-non-conformity.dto.ts` - Resolução com evidencia (em_tratamento -> resolvida)
+  - `verify-non-conformity.dto.ts` - Verificação final (resolvida -> verificada -> encerrada)
 - [ ] **Service** (`non-conformity.service.ts`)
-  - `create(dto, supervisorId)` - Cria NC com prazo automatico de 7 dias
-  - `findAll(query)` - Listagem com filtros, paginacao e flag de vencidas
-  - `findOne(id)` - Detalhes com relatorio de origem e timeline
+  - `create(dto, supervisorId)` - Cria NC com prazo automático de 7 dias
+  - `findAll(query)` - Listagem com filtros, páginação e flag de vencidas
+  - `findOne(id)` - Detalhes com relatório de origem e timeline
   - `update(id, dto)` - Somente aberta/em_tratamento
-  - `treat(id, dto)` - Adiciona acao corretiva/preventiva
+  - `treat(id, dto)` - Adiciona ação corretiva/preventiva
   - `resolve(id, dto, resolverId)` - Marca como resolvida
   - `verify(id, dto, verifierId)` - Coordenador verifica e encerra
-  - `reopen(id, reason)` - Reabre NC (verificacao falhou)
+  - `reopen(id, reason)` - Reabre NC (verificação falhou)
   - `findOverdue()` - Lista NCs que ultrapassaram prazo de 7 dias
   - `calculateDeadline(createdAt)` - Calcula data limite (+7 dias corridos)
   - **Workflow**: aberta -> em_tratamento -> resolvida -> verificada -> encerrada
@@ -281,9 +281,9 @@ nav_order: 5
   - `POST /non-conformities/:id/resolve` - Resolve (supervisor+)
   - `POST /non-conformities/:id/verify` - Verifica e encerra (coordenador+)
   - `POST /non-conformities/:id/reopen` - Reabre (coordenador+)
-- [ ] **Testes** - Unitarios + e2e + workflow completo + prazo 7 dias
+- [ ] **Testes** - Unitários + e2e + workflow completo + prazo 7 dias
 
-**Epico**: Epic 04 - Nao-Conformidades | **Stories**: 6 | **Points**: 35 | **Prioridade**: P0
+**Épico**: Epic 04 - Não-Conformidades | **Stories**: 6 | **Points**: 35 | **Prioridade**: P0
 
 ---
 
@@ -292,30 +292,30 @@ nav_order: 5
 - [ ] **DTOs**
   - `create-schedule.dto.ts` - supervisorId, plantId, date, shift, type, notes?
   - `update-schedule.dto.ts` - PartialType
-  - `schedule-query.dto.ts` - Filtros: supervisorId, plantId, date range, shift, type
-  - `bulk-create-schedule.dto.ts` - Criacao em lote (escala mensal)
+  - `schedule-query.dto.ts` - Filtros: supervisorId, plantId, daté range, shift, type
+  - `bulk-create-schedule.dto.ts` - Criação em lote (escala mensal)
 - [ ] **Service** (`schedule.service.ts`)
-  - `create(dto)` - Cria alocacao com validacao de unique constraint
-  - `bulkCreate(dtos)` - Criacao em lote para escala mensal
-  - `findAll(query)` - Listagem com filtros e paginacao
-  - `findByMonth(year, month, plantId?)` - Calendario mensal
+  - `create(dto)` - Cria alocação com validação de unique constraint
+  - `bulkCreate(dtos)` - Criação em lote para escala mensal
+  - `findAll(query)` - Listagem com filtros e páginação
+  - `findByMonth(year, month, plantId?)` - Calendário mensal
   - `findBySupervisor(supervisorId, dateRange)` - Escala do supervisor
   - `findByPlant(plantId, dateRange)` - Escala da planta
-  - `update(id, dto)` - Atualiza alocacao
-  - `delete(id)` - Remove alocacao
-  - `checkConflict(supervisorId, date, shift)` - Verifica conflito de horario
+  - `update(id, dto)` - Atualiza alocação
+  - `delete(id)` - Remove alocação
+  - `checkConflict(supervisorId, date, shift)` - Verifica conflito de horário
 - [ ] **Controller** (`schedule.controller.ts`)
-  - `POST /schedules` - Cria alocacao (coordenador+)
+  - `POST /schedules` - Cria alocação (coordenador+)
   - `POST /schedules/bulk` - Cria em lote (coordenador+)
   - `GET /schedules` - Lista com filtros (todos)
-  - `GET /schedules/month/:year/:month` - Calendario mensal (todos)
-  - `GET /schedules/supervisor/:id` - Escala do supervisor (supervisor proprio ou coordenador+)
+  - `GET /schedules/month/:year/:month` - Calendário mensal (todos)
+  - `GET /schedules/supervisor/:id` - Escala do supervisor (supervisor próprio ou coordenador+)
   - `GET /schedules/plant/:id` - Escala da planta (coordenador+)
   - `PATCH /schedules/:id` - Atualiza (coordenador+)
   - `DELETE /schedules/:id` - Remove (coordenador+)
-- [ ] **Testes** - Unitarios + e2e + unique constraint + bulk
+- [ ] **Testes** - Unitários + e2e + unique constraint + bulk
 
-**Epico**: Epic 05 - Escala de Supervisores | **Stories**: 4 | **Points**: 20 | **Prioridade**: P1
+**Épico**: Epic 05 - Escala de Supervisores | **Stories**: 4 | **Points**: 20 | **Prioridade**: P1
 
 ---
 
@@ -326,31 +326,31 @@ nav_order: 5
   - `dashboard-summary.dto.ts` - Resposta com todos os indicadores
 - [ ] **Service** (`dashboard.service.ts`)
   - `getSummary(query, userRole)` - Indicadores consolidados por persona:
-    - **Supervisor**: seus relatorios, suas NCs, sua escala
-    - **Coordenador**: todos os relatorios, todas as NCs, todas as escalas
-    - **Gestor**: visao executiva com tendencias
-  - `getReportCounts(query)` - Contadores por tipo e status (dia/semana/mes)
+    - **Supervisor**: seus relatórios, suas NCs, sua escala
+    - **Coordenador**: todos os relatórios, todas as NCs, todas as escalas
+    - **Gestor**: visão executiva com tendências
+  - `getReportCounts(query)` - Contadores por tipo e status (dia/semana/mês)
   - `getNCCounts(query)` - NCs ativas por severidade e planta
-  - `getPendingReviews(query)` - Relatorios pendentes de revisao
-  - `getProductivity(query)` - Relatorios por supervisor por periodo
-  - `getTrends(query)` - Dados para graficos de tendencia (30/60/90 dias)
+  - `getPendingReviews(query)` - Relatórios pendentes de revisão
+  - `getProductivity(query)` - Relatórios por supervisor por período
+  - `getTrends(query)` - Dados para graficos de tendência (30/60/90 dias)
   - `getOverdueNCs(query)` - NCs que ultrapassaram prazo de 7 dias
 - [ ] **Controller** (`dashboard.controller.ts`)
   - `GET /dashboard/summary` - Resumo consolidado (todos, filtrado por role)
-  - `GET /dashboard/reports` - Contadores de relatorios
+  - `GET /dashboard/reports` - Contadores de relatórios
   - `GET /dashboard/non-conformities` - Indicadores de NCs
-  - `GET /dashboard/pending-reviews` - Pendentes de revisao (coordenador+)
+  - `GET /dashboard/pending-reviews` - Pendentes de revisão (coordenador+)
   - `GET /dashboard/productivity` - Produtividade (coordenador+)
-  - `GET /dashboard/trends` - Tendencias (gestor+)
-- [ ] **Testes** - Unitarios + e2e + visoes por persona
+  - `GET /dashboard/trends` - Tendências (gestor+)
+- [ ] **Testes** - Unitários + e2e + visoes por persona
 
-**Epico**: Epic 06 - Dashboard e Relatorios | **Stories**: 4 | **Points**: 22 | **Prioridade**: P1
+**Épico**: Epic 06 - Dashboard e Relatórios | **Stories**: 4 | **Points**: 22 | **Prioridade**: P1
 
 ---
 
-### Ordem de Implementacao da Fase 3
+### Ordem de Implementação da Fase 3
 
-A ordem recomendada leva em conta dependencias entre modulos:
+A ordem recomendada leva em conta dependências entre módulos:
 
 ```
 Semana 1:  SupervisorProfile + Plant (prerequisitos, sem dependencia externa)
@@ -361,7 +361,7 @@ Semana 5:  NonConformity (P0, vinculado aos 3 relatorios anteriores)
 Semana 6:  Schedule + Dashboard (P1, dependem de dados existentes)
 ```
 
-**Verificacao da Fase 3**: Swagger mostra todos os endpoints, CRUD funciona via Swagger/Postman, workflows testados.
+**Verificação da Fase 3**: Swagger mostra todos os endpoints, CRUD funciona via Swagger/Postman, workflows testados.
 
 ---
 
@@ -371,131 +371,131 @@ Semana 6:  Schedule + Dashboard (P1, dependem de dados existentes)
 
 - [ ] **4.1** Axios Instances
   - `services/api.ts` - Instancia Axios para SIH backend (baseURL, interceptors, token)
-  - `services/auth-api.ts` - Instancia Axios para Gestao de Certificacoes (autenticacao)
+  - `services/auth-api.ts` - Instancia Axios para Gestão de Certificações (autenticação)
   - `services/utils.ts` - Helpers: error handling, retry logic, response parsing
-  - Interceptors: token automatico no header, refresh token, redirect 401
+  - Interceptors: token automático no header, refresh token, redirect 401
 - [ ] **4.2** shadcn/ui Components (16 componentes base)
   - Button, Card, Input, Label, Select, Textarea
   - Table, Dialog, Sheet, Tabs
   - Badge, Alert, Toast (Sonner)
   - Calendar, Popover, DropdownMenu
-  - Configuracao de tema Halal (cores: verde, dourado, branco)
+  - Configuração de tema Halal (cores: verde, dourado, branco)
 - [ ] **4.3** Layout
   - `components/layout/AppLayout.tsx` - Layout principal com sidebar + header + content
-  - `components/layout/Header.tsx` - Barra superior: logo, nome do usuario, notificacoes, logout
-  - `components/layout/Sidebar.tsx` - Menu lateral: navegacao por modulo, collapse em mobile
+  - `components/layout/Header.tsx` - Barra superior: logo, nome do usuário, notificações, logout
+  - `components/layout/Sidebar.tsx` - Menu lateral: navegação por módulo, collapse em mobile
   - Responsividade: sidebar -> bottom nav em mobile/tablet
 - [ ] **4.4** Auth Flow
-  - `pages/Login.tsx` - Tela de login (redirect para Gestao de Certificacoes)
-  - `hooks/useAuth.ts` - Hook de autenticacao: login, logout, isAuthenticated, user
+  - `pages/Login.tsx` - Tela de login (redirect para Gestão de Certificações)
+  - `hooks/useAuth.ts` - Hook de autenticação: login, logout, isAuthenticated, user
   - `components/guards/PrivateRoute.tsx` - Guard de rota autenticada
   - `components/guards/RoleRoute.tsx` - Guard de rota por role
-  - Cache de JWT no localStorage com validacao de expiracao
-  - Refresh token automatico
-- [ ] **4.5** Shared Components (reutilizados entre epicos)
+  - Cache de JWT no localStorage com validação de expiração
+  - Refresh token automático
+- [ ] **4.5** Shared Components (reutilizados entre épicos)
   - `components/shared/VerificationChecklist.tsx` - Renderiza itens C/NC com checkboxes (parametrizavel)
   - `components/shared/ProductTable.tsx` - Tabela editavel de produtos (add/edit/remove linhas)
-  - `components/shared/ReportHeader.tsx` - Cabecalho padrao: FM, serial, planta, supervisor, data
-  - `components/shared/StatusBadge.tsx` - Badge colorido por status de relatorio/NC
-  - `components/shared/PaginatedTable.tsx` - Tabela com paginacao, sort e filtros
-  - `components/shared/ConfirmDialog.tsx` - Dialog de confirmacao reutilizavel
+  - `components/shared/ReportHeader.tsx` - Cabeçalho padrão: FM, serial, planta, supervisor, data
+  - `components/shared/StatusBadge.tsx` - Badge colorido por status de relatório/NC
+  - `components/shared/PaginatedTable.tsx` - Tabela com páginação, sort e filtros
+  - `components/shared/ConfirmDialog.tsx` - Dialog de confirmação reutilizavel
   - `components/shared/LoadingSpinner.tsx` - Spinner de carregamento
-  - `components/shared/EmptyState.tsx` - Estado vazio com ilustracao e acao
+  - `components/shared/EmptyState.tsx` - Estado vazio com ilustração e ação
 
-**Verificacao**: Login funciona (com Gestao de Certificacoes rodando), layout renderiza, navegacao funcional.
+**Verificação**: Login funciona (com Gestão de Certificações rodando), layout renderiza, navegação funcional.
 
 ---
 
 ## Fase 5: Frontend Pages (PENDENTE)
 
-**Objetivo**: Todas as paginas funcionais com integracao completa ao backend.
+**Objetivo**: Todas as páginas funcionais com integração completa ao backend.
 
 - [ ] **5.1** Dashboard (Epic 06)
-  - `pages/Dashboard.tsx` - Pagina principal com 3 visoes por persona
-  - Componentes: KPI cards, graficos de tendencia, lista de pendencias
-  - Filtros: planta, periodo, tipo de relatorio
+  - `pages/Dashboard.tsx` - Página principal com 3 visoes por persona
+  - Componentes: KPI cards, graficos de tendência, lista de pendencias
+  - Filtros: planta, período, tipo de relatório
   - Auto-refresh a cada 30 segundos
-- [ ] **5.2** Relatorios de Abate (Epic 01)
+- [ ] **5.2** Relatórios de Abate (Epic 01)
   - `pages/slaughter/SlaughterReportList.tsx` - Listagem com filtros avancados
-  - `pages/slaughter/SlaughterReportForm.tsx` - Formulario com:
-    - 14 itens de verificacao C/NC
-    - Secao de insensibilizacao (bovinos): avaliacao de pressao + conferencias
+  - `pages/slaughter/SlaughterReportForm.tsx` - Formulário com:
+    - 14 itens de verificação C/NC
+    - Seção de insensibilização (bovinos): avaliação de pressão + conferências
     - Contagem: total, aprovados, rejeitados + sequencial
     - Camaras de resfriamento, subprodutos
-  - `pages/slaughter/SlaughterReportDetails.tsx` - Visualizacao + acoes de workflow
-- [ ] **5.3** Relatorios de Producao (Epic 02)
+  - `pages/slaughter/SlaughterReportDetails.tsx` - Visualização + ações de workflow
+- [ ] **5.3** Relatórios de Produção (Epic 02)
   - `pages/production/ProductionReportList.tsx` - Listagem com filtros
-  - `pages/production/ProductionReportForm.tsx` - Formulario com:
-    - 5 itens de verificacao C/NC
-    - Tabela de materias-primas carneas (frigorifico, SIF, data abate, CSN, cert Halal)
-    - Tabela de ingredientes aprovados (fornecedor, lote, validade)
-    - Dados do produto final (codigo, lote, datas, pesos, embalagem)
-    - Flag producao especial (FM 7.1.8.x)
-  - `pages/production/ProductionReportDetails.tsx` - Visualizacao + acoes de workflow
-- [ ] **5.4** Relatorios de Embarque (Epic 03)
+  - `pages/production/ProductionReportForm.tsx` - Formulário com:
+    - 5 itens de verificação C/NC
+    - Tabela de matérias-primas cárneas (frigorífico, SIF, data abate, CSN, cert Halal)
+    - Tabela de ingredientes aprovados (fornecedor, lote, válidade)
+    - Dados do produto final (código, lote, datas, pesos, embalagem)
+    - Flag produção especial (FM 7.1.8.x)
+  - `pages/production/ProductionReportDetails.tsx` - Visualização + ações de workflow
+- [ ] **5.4** Relatórios de Embarque (Epic 03)
   - `pages/shipping/ShippingReportList.tsx` - Listagem com filtros + tipo
-  - `pages/shipping/ShippingReportForm.tsx` - Formulario com:
-    - 2 itens de verificacao C/NC
-    - Selecao de tipo: exportacao, venda interna, transferencia
-    - Campos condicionais por tipo (exportacao: importer, container, portos, lacre)
-    - Tabela de produtos (produto, codigo, lote, datas, pesos, temperatura)
-  - `pages/shipping/ShippingReportDetails.tsx` - Visualizacao + acoes de workflow
-- [ ] **5.5** Nao-Conformidades (Epic 04)
+  - `pages/shipping/ShippingReportForm.tsx` - Formulário com:
+    - 2 itens de verificação C/NC
+    - Selecao de tipo: exportação, venda interna, transferência
+    - Campos condicionais por tipo (exportação: importer, container, portos, lacre)
+    - Tabela de produtos (produto, código, lote, datas, pesos, temperatura)
+  - `pages/shipping/ShippingReportDetails.tsx` - Visualização + ações de workflow
+- [ ] **5.5** Não-Conformidades (Epic 04)
   - `pages/non-conformity/NCList.tsx` - Listagem com filtros + indicador vencidas
-  - `pages/non-conformity/NCForm.tsx` - Formulario com:
-    - Vinculo opcional a relatorio de origem
-    - Severidade (critica, maior, menor, observacao)
+  - `pages/non-conformity/NCForm.tsx` - Formulário com:
+    - Vínculo opcional a relatório de origem
+    - Severidade (crítica, maior, menor, observação)
     - Categoria (higiene, processo, equipamento, materia-prima, rotulagem, etc.)
     - Evidencias (descricoes/fotos)
-    - Acoes corretivas e preventivas
-  - `pages/non-conformity/NCDetails.tsx` - Visualizacao com:
+    - Ações corretivas e preventivas
+  - `pages/non-conformity/NCDetails.tsx` - Visualização com:
     - Timeline do workflow completo
     - Prazo de 7 dias com countdown
-    - Botoes de transicao de status conforme role
+    - Botões de transicao de status conforme role
 - [ ] **5.6** Escala de Supervisores (Epic 05)
-  - `pages/schedule/ScheduleCalendar.tsx` - Calendario visual mensal
-    - Visao por planta ou por supervisor
-    - Drag-and-drop para alocacao
+  - `pages/schedule/ScheduleCalendar.tsx` - Calendário visual mensal
+    - Visão por planta ou por supervisor
+    - Drag-and-drop para alocação
     - Cores por tipo (regular, substituicao, extra, folga)
-  - `pages/schedule/ScheduleManagement.tsx` - Gestao da escala
-    - Criacao individual e em lote (mensal)
-    - Validacao de conflitos em tempo real
+  - `pages/schedule/ScheduleManagement.tsx` - Gestão da escala
+    - Criação individual e em lote (mensal)
+    - Validação de conflitos em tempo real
 - [ ] **5.7** Plantas (Cadastro)
   - `pages/plants/PlantList.tsx` - Listagem com filtros e busca
-  - `pages/plants/PlantForm.tsx` - Formulario CRUD completo
+  - `pages/plants/PlantForm.tsx` - Formulário CRUD completo
 
-**Verificacao**: Navegacao completa, formularios funcionam, listagens com filtros, workflow de NCs.
+**Verificação**: Navegação completa, formulários funcionam, listagens com filtros, workflow de NCs.
 
 ---
 
-## Fase 6: Finalizacao (PENDENTE)
+## Fase 6: Finalização (PENDENTE)
 
 **Objetivo**: Sistema pronto para uso end-to-end.
 
 - [ ] **6.1** Seed Data
-  - 5 plantas de teste (abatedouro, frigorifico, processamento, etc.)
+  - 5 plantas de teste (abatedouro, frigorífico, processamento, etc.)
   - 10 supervisores com diferentes roles
-  - 20+ relatorios de exemplo (todos os tipos e status)
+  - 20+ relatórios de exemplo (todos os tipos e status)
   - 10+ NCs em diferentes estagios do workflow
-  - Escala de 1 mes para todas as plantas
+  - Escala de 1 mês para todas as plantas
 - [ ] **6.2** Docker
   - `docker-compose.yml` testado e funcional (backend + frontend + postgres + redis)
   - `Dockerfile` multi-stage para backend (build + prod)
   - `Dockerfile` multi-stage para frontend (build + nginx)
-  - `init-extensions.sql` - Cria extensoes PostgreSQL automaticamente
-  - Health checks em todos os servicos
+  - `init-extensions.sql` - Cria extensões PostgreSQL automáticamente
+  - Health checks em todos os serviços
 - [ ] **6.3** Git
-  - Repos inicializados com historico limpo
+  - Repos inicializados com histórico limpo
   - `.gitignore` validado (node_modules, .env, dist, .prisma)
   - Branches: main, develop
-  - Tags de versao: v1.0.0
+  - Tags de versão: v1.0.0
 - [ ] **6.4** Build Test
   - `npm install` sem erros em ambos os repos
   - `npm run build` sem erros em ambos os repos
   - `npm run lint` sem warnings em ambos os repos
-  - Smoke test: login -> criar relatorio -> submeter -> revisar -> dashboard
+  - Smoke test: login -> criar relatório -> submeter -> revisar -> dashboard
 
-**Verificacao**: Sistema completo funcionando end-to-end com dados de teste.
+**Verificação**: Sistema completo funcionando end-to-end com dados de teste.
 
 ---
 
@@ -503,33 +503,33 @@ Semana 6:  Schedule + Dashboard (P1, dependem de dados existentes)
 
 ### Fase Futura A: Offline Completo
 
-**Prerequisito**: v1.0 em producao, PWA base ja instalada.
+**Prerequisito**: v1.0 em produção, PWA base já instalada.
 
-- [ ] IndexedDB (Dexie.js) - Armazena relatorios preenchidos offline no tablet
-- [ ] Background Sync - Envia relatorios pendentes automaticamente quando reconectar
-- [ ] Cache de referencia - Plantas, templates de verificacao, perfil do supervisor
-- [ ] Indicador visual - Badge online/offline + quantidade pendente de sincronizacao
-- [ ] Resolucao de conflitos - Timestamp-based (ultimo ganha) ou merge manual para NCs
+- [ ] IndexedDB (Dexie.js) - Armazena relatórios preenchidos offline no tablet
+- [ ] Background Sync - Envia relatórios pendentes automáticamente quando reconectar
+- [ ] Cache de referência - Plantas, templates de verificação, perfil do supervisor
+- [ ] Indicador visual - Badge online/offline + quantidade pendente de sincronização
+- [ ] Resolução de conflitos - Timestamp-based (último ganha) ou merge manual para NCs
 
-**Impacto**: Permite uso em plantas sem internet estavel (realidade de muitos frigorificos).
+**Impacto**: Permite uso em plantas sem internet estavel (realidade de muitos frigoríficos).
 
 ---
 
-### Fase Futura B: Inventario (Epic 07)
+### Fase Futura B: Inventário (Epic 07)
 
-**Prerequisito**: v1.0 em producao, relatorios gerando dados.
+**Prerequisito**: v1.0 em produção, relatórios gerando dados.
 
-- [ ] Conta corrente de carne (FM 7.1.5.1) - Recebido vs. utilizado em producao
-- [ ] Inventario de lotes (FM 7.1.5.6) - Gerado vs. transferido entre unidades
-- [ ] Inventario de rotulagem (FM 7.1.3.6) - Sem rotulo -> rotulado -> embarcado/descartado
-- [ ] Dashboard de inventario - Visao consolidada de estoques
-- [ ] Migracao de dados - Importacao de planilhas Excel historicas
+- [ ] Conta corrente de carne (FM 7.1.5.1) - Recebido vs. utilizado em produção
+- [ ] Inventário de lotes (FM 7.1.5.6) - Gerado vs. transferido entre unidades
+- [ ] Inventário de rotulagem (FM 7.1.3.6) - Sem rótulo -> rotulado -> embarcado/descartado
+- [ ] Dashboard de inventário - Visão consolidada de estoques
+- [ ] Migração de dados - Importação de planilhas Excel historicas
 
 **User Stories**: 6 | **Story Points**: TBD
 
 ---
 
-## Dependencias entre Fases
+## Dependências entre Fases
 
 ```
                     +-------------------+
@@ -584,7 +584,7 @@ Semana 6:  Schedule + Dashboard (P1, dependem de dados existentes)
 +-------------------+  +-------------------+
 ```
 
-### Dependencias Internas da Fase 3
+### Dependências Internas da Fase 3
 
 ```
 +---------------------+     +---------------------+
@@ -624,34 +624,34 @@ Semana 6:  Schedule + Dashboard (P1, dependem de dados existentes)
 
 ### Nota sobre Paralelismo
 
-- **Fase 4 pode iniciar em paralelo com Fase 3**: O Frontend Core (layout, auth, componentes) nao depende dos endpoints de dominio. Pode ser desenvolvido simultaneamente.
-- **Fase 5 depende de Fase 3 + 4**: As paginas precisam tanto dos endpoints backend quanto dos componentes frontend.
-- **Fase 6 depende de Fase 5**: A finalizacao so faz sentido com todas as paginas prontas.
+- **Fase 4 pode iniciar em paralelo com Fase 3**: O Frontend Core (layout, auth, componentes) não depende dos endpoints de domínio. Pode ser desenvolvido simultaneamente.
+- **Fase 5 depende de Fase 3 + 4**: As páginas precisam tanto dos endpoints backend quanto dos componentes frontend.
+- **Fase 6 depende de Fase 5**: A finalização só faz sentido com todas as páginas prontas.
 
 ---
 
-## Dependencias Externas
+## Dependências Externas
 
-| Dependencia | Descricao | Status |
+| Dependência | Descrição | Status |
 |-------------|-----------|--------|
-| Gestao de Certificacoes (HalalSphere) | API de autenticacao JWT RS256 | Em producao |
-| AWS (S3, ECS, CloudFront) | Infraestrutura de deploy | Disponivel |
-| PostgreSQL 16 | Banco de dados com extensoes | Configurado |
-| Redis 7 | Cache de sessoes e dados frequentes | Disponivel |
+| Gestão de Certificações (HalalSphere) | API de autenticação JWT RS256 | Em produção |
+| AWS (S3, ECS, CloudFront) | Infraestrutura de deploy | Disponível |
+| PostgreSQL 16 | Banco de dados com extensões | Configurado |
+| Redis 7 | Cache de sessões e dados frequentes | Disponível |
 
 ---
 
-## Metricas do Projeto
+## Métricas do Projeto
 
-| Metrica | Valor |
+| Métrica | Valor |
 |---------|-------|
-| Epicos v1.0 | 6 |
-| Epicos futuros | 1 (Inventario) |
+| Épicos v1.0 | 6 |
+| Épicos futuros | 1 (Inventário) |
 | User Stories v1.0 | 33 |
 | User Stories futuras | 6 |
 | Story Points v1.0 | 202 |
-| Modulos backend | 8 (Fase 3) |
-| Paginas frontend | 22+ (Fase 5) |
+| Módulos backend | 8 (Fase 3) |
+| Páginas frontend | 22+ (Fase 5) |
 | Componentes compartilhados | 8+ (Fase 4) |
 | Modelos Prisma | 6 |
 | Enums Prisma | 11 |

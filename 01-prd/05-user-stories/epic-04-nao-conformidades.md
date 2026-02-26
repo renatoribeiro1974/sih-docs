@@ -1,31 +1,31 @@
 ---
-title: Epic 04 - Nao-Conformidades
+title: Epic 04 - Não-Conformidades
 parent: User Stories
 grand_parent: PRD
 nav_order: 4
 ---
 
-# Epic 04: Gestao de Nao-Conformidades
+# Epic 04: Gestão de Não-Conformidades
 
-**FM 7.1.6.1 - Checklist de Nao-Conformidade**
+**FM 7.1.6.1 - Checklist de Não-Conformidade**
 **6 User Stories | 35 Story Points | Prioridade P0**
 
 ---
 
 ## Contexto
 
-As nao-conformidades (NCs) sao registradas quando o supervisor identifica desvios nos processos industriais. Podem ser criadas a partir de qualquer relatorio (abate, producao, embarque) ou de forma avulsa. O PR 7.1 Rev 22 determina prazo de **7 dias corridos** para resolucao.
+As não-conformidades (NCs) são registradas quando o supervisor identifica desvios nos processos industriais. Podem ser criadas a partir de qualquer relatório (abate, produção, embarque) ou de forma avulsa. O PR 7.1 Rev 22 determina prazo de **7 dias corridos** para resolução.
 
 ### Modelo de Dados: `NonConformity`
 
-- Vinculo opcional a `SlaughterReport`, `ProductionReport` ou `ShippingReport`
-- `severity`: critica, maior, menor, observacao
+- Vínculo opcional a `SlaughterReport`, `ProductionReport` ou `ShippingReport`
+- `severity`: crítica, maior, menor, observação
 - `category`: higiene, processo, equipamento, materia-prima, rotulagem, etc.
 - Workflow: aberta → em_tratamento → resolvida → verificada → encerrada
-- Prazo automatico: 7 dias corridos (PR 7.1)
-- Acoes corretivas e preventivas
+- Prazo automático: 7 dias corridos (PR 7.1)
+- Ações corretivas e preventivas
 
-### Codigo Relacionado
+### Código Relacionado
 
 - Backend: `src/non-conformity/` (module, controller, service, DTOs)
 - Frontend: `src/pages/non-conformity/` (NCList, NCForm, NCDetails)
@@ -34,9 +34,9 @@ As nao-conformidades (NCs) sao registradas quando o supervisor identifica desvio
 
 ## User Stories
 
-### Feature 4.1: Registro de Nao-Conformidade
+### Feature 4.1: Registro de Não-Conformidade
 
-#### SIH-020: Registrar Nao-Conformidade a partir de Relatorio
+#### SIH-020: Registrar Não-Conformidade a partir de Relatório
 
 ```
 Como supervisor muculmano,
@@ -47,32 +47,32 @@ Para que o desvio identificado seja formalmente documentado com rastreabilidade.
 **Prioridade**: P0 - Must Have
 **Estimativa**: 8 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Vinculo ao relatorio de origem**:
-  - Botao "Registrar NC" disponivel na tela de detalhes de qualquer relatorio
-  - Preenche automaticamente: planta, supervisor, referencia ao relatorio
+- [ ] **Vínculo ao relatório de origem**:
+  - Botão "Registrar NC" disponível na tela de detalhes de qualquer relatório
+  - Preenche automáticamente: planta, supervisor, referência ao relatório
   - Campos `slaughterReportId`, `productionReportId` ou `shippingReportId` (mutuamente exclusivos)
 
-- [ ] **Campos obrigatorios**:
-  - Descricao da nao-conformidade (texto, min 20 caracteres)
-  - Severidade: critica | maior | menor | observacao
-  - Categoria (select): higiene, processo, equipamento, materia-prima, rotulagem, documentacao, infraestrutura, outro
+- [ ] **Campos obrigatórios**:
+  - Descrição da não-conformidade (texto, min 20 caracteres)
+  - Severidade: crítica | maior | menor | observação
+  - Categoria (select): higiene, processo, equipamento, materia-prima, rotulagem, documentação, infraestrutura, outro
 
 - [ ] **Campos opcionais**:
   - Evidencias: array de descricoes e/ou fotos (JSON)
-  - Acao corretiva sugerida
-  - Acao preventiva sugerida
+  - Ação corretiva sugerida
+  - Ação preventiva sugerida
 
-- [ ] **Prazo automatico**:
-  - `deadline` calculado como data_criacao + 7 dias corridos
-  - Exibido de forma proeminente no formulario
+- [ ] **Prazo automático**:
+  - `deadline` calculado como data_criação + 7 dias corridos
+  - Exibido de forma proeminente no formulário
 
 - [ ] **Status inicial**: `aberta`
 
 ---
 
-#### SIH-021: Registrar Nao-Conformidade Avulsa
+#### SIH-021: Registrar Não-Conformidade Avulsa
 
 ```
 Como supervisor muculmano,
@@ -83,21 +83,21 @@ Para que eu documente desvios observados fora do contexto de um relatorio especi
 **Prioridade**: P0 - Must Have
 **Estimativa**: 5 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Formulario independente**:
-  - Acessivel via menu principal + botao de acao rapida
-  - Selecao de planta obrigatoria (nao pre-preenchida)
-  - Sem vinculo a relatorios (IDs de relatorio = null)
+- [ ] **Formulário independente**:
+  - Acessível via menu principal + botão de ação rápida
+  - Selecao de planta obrigatória (não pre-preenchida)
+  - Sem vínculo a relatórios (IDs de relatório = null)
   - Mesmos campos de SIH-020
 
-- [ ] **Mesma logica de prazo e status**
+- [ ] **Mesma lógica de prazo e status**
 
 ---
 
 ### Feature 4.2: Workflow de Tratamento
 
-#### SIH-022: Tratar e Resolver Nao-Conformidade
+#### SIH-022: Tratar e Resolver Não-Conformidade
 
 ```
 Como supervisor ou coordenador,
@@ -108,28 +108,28 @@ Para que as acoes corretivas sejam documentadas dentro do prazo.
 **Prioridade**: P0 - Must Have
 **Estimativa**: 8 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Transicoes de status**:
   - `aberta` → `em_tratamento`: Supervisor inicia o tratamento
-    - Campo `correctiveAction` obrigatorio (o que foi feito)
+    - Campo `correctiveAction` obrigatório (o que foi feito)
   - `em_tratamento` → `resolvida`: Supervisor marca como resolvida
-    - Campo `preventiveAction` opcional (o que sera feito para prevenir)
+    - Campo `preventiveAction` opcional (o que será feito para prevenir)
     - Registra `resolvedAt` e `resolvedBy`
 
 - [ ] **Indicadores visuais de prazo**:
   - Verde: > 3 dias restantes
   - Amarelo: 1-3 dias restantes
-  - Vermelho: vencida ou ultimo dia
+  - Vermelho: vencida ou último dia
   - Badge com dias restantes
 
 - [ ] **Alerta de prazo**:
-  - Coordenador ve NCs proximas do vencimento no dashboard
+  - Coordenador vê NCs próximas do vencimento no dashboard
   - NCs vencidas destacadas no topo da lista
 
 ---
 
-#### SIH-023: Verificar e Encerrar Nao-Conformidade
+#### SIH-023: Verificar e Encerrar Não-Conformidade
 
 ```
 Como coordenador ou gestor,
@@ -139,25 +139,25 @@ Para que eu confirme que as acoes corretivas foram eficazes.
 
 **Prioridade**: P0 - Must Have
 **Estimativa**: 5 story points
-**Dependencias**: SIH-022
+**Dependências**: SIH-022
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Transicoes de status** (apenas coordenador/gestor):
-  - `resolvida` → `verificada`: Coordenador confirma resolucao
+  - `resolvida` → `verificada`: Coordenador confirma resolução
     - Registra `verifiedAt` e `verifiedBy`
-    - Pode adicionar comentarios na verificacao
+    - Pode adicionar comentários na verificação
   - `verificada` → `encerrada`: Gestor encerra definitivamente
-  - `resolvida` → `em_tratamento`: Coordenador devolve (resolucao insuficiente)
-    - Obriga comentario explicando o que falta
+  - `resolvida` → `em_tratamento`: Coordenador devolve (resolução insuficiente)
+    - Obriga comentário explicando o que falta
 
-- [ ] **Historico de transicoes**: Registro de todas as mudancas de status com data/hora e usuario
+- [ ] **Histórico de transicoes**: Registro de todas as mudanças de status com data/hora e usuário
 
 ---
 
 ### Feature 4.3: Listagem e Consulta
 
-#### SIH-024: Listar e Filtrar Nao-Conformidades
+#### SIH-024: Listar e Filtrar Não-Conformidades
 
 ```
 Como supervisor ou coordenador,
@@ -168,28 +168,28 @@ Para que eu acompanhe o status de todas as NCs registradas.
 **Prioridade**: P0 - Must Have
 **Estimativa**: 5 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Listagem paginada** com colunas:
+- [ ] **Listagem páginada** com colunas:
   - # | Planta | Severidade | Categoria | Prazo | Status | Supervisor
-  - Ordenacao padrao: NCs vencidas primeiro, depois por prazo crescente
+  - Ordenação padrão: NCs vencidas primeiro, depois por prazo crescente
 
-- [ ] **Filtros disponiveis**:
+- [ ] **Filtros disponíveis**:
   - Planta (select)
-  - Severidade (multi-select: critica, maior, menor, observacao)
+  - Severidade (multi-select: crítica, maior, menor, observação)
   - Status (multi-select: aberta, em_tratamento, resolvida, verificada, encerrada)
-  - Periodo de criacao (date range)
+  - Período de criação (daté range)
   - Supervisor (coordenador/gestor)
-  - Origem (com relatorio / avulsa)
+  - Origem (com relatório / avulsa)
 
 - [ ] **Indicadores visuais**:
-  - Badges de severidade com cores (vermelho=critica, laranja=maior, amarelo=menor, cinza=observacao)
+  - Badges de severidade com cores (vermelho=crítica, laranja=maior, amarelo=menor, cinza=observação)
   - Badges de status com cores
-  - Icone de alerta para NCs proximas do prazo/vencidas
+  - Icone de alerta para NCs próximas do prazo/vencidas
 
 ---
 
-#### SIH-025: Visualizar Detalhes de Nao-Conformidade
+#### SIH-025: Visualizar Detalhes de Não-Conformidade
 
 ```
 Como coordenador ou gestor,
@@ -200,20 +200,20 @@ Para que eu acompanhe todo o historico de tratamento.
 **Prioridade**: P0 - Must Have
 **Estimativa**: 4 story points
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Tela de detalhes organizada em secoes**:
-  - Cabecalho: planta, supervisor, data, severidade, categoria
-  - Relatorio de origem (link clicavel, se vinculada)
-  - Descricao da NC
+- [ ] **Tela de detalhes organizada em seções**:
+  - Cabeçalho: planta, supervisor, data, severidade, categoria
+  - Relatório de origem (link clicavel, se vinculada)
+  - Descrição da NC
   - Evidencias
-  - Acao corretiva (se preenchida)
-  - Acao preventiva (se preenchida)
+  - Ação corretiva (se preenchida)
+  - Ação preventiva (se preenchida)
   - Prazo com indicador visual
   - Status atual com workflow visual (stepper)
-  - Historico de transicoes (timeline)
+  - Histórico de transicoes (timeline)
 
-- [ ] **Acoes disponveis por role e status**:
+- [ ] **Ações disponveis por role e status**:
   - Supervisor: tratar (aberta → em_tratamento), resolver (em_tratamento → resolvida)
   - Coordenador: verificar, devolver, encerrar
   - Gestor: encerrar

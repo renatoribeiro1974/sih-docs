@@ -1,25 +1,25 @@
 ---
 title: Banco de Dados
-parent: Documentacao Tecnica
+parent: Documentação Técnica
 nav_order: 3
-permalink: /tecnico/banco-de-dados/
+permalink: /técnico/banco-de-dados/
 ---
 
 # 3. Banco de Dados
 
 ---
 
-## 3.1 Visao Geral
+## 3.1 Visão Geral
 
-O SIH utiliza **PostgreSQL 16** como banco de dados relacional, gerenciado via **Prisma ORM** com migrações automaticas.
+O SIH utiliza **PostgreSQL 16** como banco de dados relacional, gerênciado via **Prisma ORM** com migrações automáticas.
 
-### Extensoes Habilitadas
+### Extensões Habilitadas
 
-| Extensao | Finalidade |
+| Extensão | Finalidade |
 |----------|-----------|
-| `uuid-ossp` | Geracao de UUID v4 para chaves primarias (`uuid_generate_v4()`) |
-| `pgcrypto` | Funcoes criptograficas para hashing e encriptacao de dados sensiveis |
-| `pg_trgm` | Busca por similaridade (trigram) para pesquisa textual aproximada |
+| `uuid-ossp` | Geração de UUID v4 para chaves primarias (`uuid_generate_v4()`) |
+| `pgcrypto` | Funções criptograficas para hashing e encriptação de dados sensiveis |
+| `pg_trgm` | Busca por similaridade (trigram) para pesquisa textual apróximada |
 
 ### Resumo do Schema
 
@@ -27,7 +27,7 @@ O SIH utiliza **PostgreSQL 16** como banco de dados relacional, gerenciado via *
 |------|-----------|
 | Modelos (tabelas) | 10 (7 originais + Collaborator, CollaboratorPlant, ReportStaff) |
 | Enums | 10 |
-| Indices compostos | 18 |
+| Índices compostos | 18 |
 | Constraints unique | 7 |
 
 ---
@@ -162,54 +162,54 @@ O SIH utiliza **PostgreSQL 16** como banco de dados relacional, gerenciado via *
 
 ### Resumo dos Relacionamentos
 
-| Relacao | Tipo | FK | Descricao |
+| Relação | Tipo | FK | Descrição |
 |---------|------|-----|-----------|
-| SupervisorProfile → SlaughterReport | 1:N | `supervisorId` | Supervisor autor do relatorio de abate |
-| SupervisorProfile → ProductionReport | 1:N | `supervisorId` | Supervisor autor do relatorio de producao |
-| SupervisorProfile → ShippingReport | 1:N | `supervisorId` | Supervisor autor do relatorio de embarque |
+| SupervisorProfile → SlaughterReport | 1:N | `supervisorId` | Supervisor autor do relatório de abate |
+| SupervisorProfile → ProductionReport | 1:N | `supervisorId` | Supervisor autor do relatório de produção |
+| SupervisorProfile → ShippingReport | 1:N | `supervisorId` | Supervisor autor do relatório de embarque |
 | SupervisorProfile → NonConformity | 1:N | `supervisorId` | Supervisor que registrou a NC |
 | SupervisorProfile → SupervisorSchedule | 1:N | `supervisorId` | Escala do supervisor |
-| Plant → SlaughterReport | 1:N | `plantId` | Relatorios de abate na planta |
-| Plant → ProductionReport | 1:N | `plantId` | Relatorios de producao na planta |
-| Plant → ShippingReport | 1:N | `plantId` | Relatorios de embarque na planta |
+| Plant → SlaughterReport | 1:N | `plantId` | Relatórios de abate na planta |
+| Plant → ProductionReport | 1:N | `plantId` | Relatórios de produção na planta |
+| Plant → ShippingReport | 1:N | `plantId` | Relatórios de embarque na planta |
 | Plant → NonConformity | 1:N | `plantId` | NCs registradas na planta |
 | Plant → SupervisorSchedule | 1:N | `plantId` | Escalas na planta |
 | SlaughterReport → NonConformity | 1:N | `slaughterReportId` | NCs vinculadas a abate (opcional) |
-| ProductionReport → NonConformity | 1:N | `productionReportId` | NCs vinculadas a producao (opcional) |
+| ProductionReport → NonConformity | 1:N | `productionReportId` | NCs vinculadas a produção (opcional) |
 | ShippingReport → NonConformity | 1:N | `shippingReportId` | NCs vinculadas a embarque (opcional) |
 | Collaborator → CollaboratorPlant | 1:N | `collaboratorId` | Plantas onde o colaborador atua (planejado) |
 | Plant → CollaboratorPlant | 1:N | `plantId` | Colaboradores vinculados a planta (planejado) |
-| Collaborator → ReportStaff | 1:N | `collaboratorId` | Relatorios onde o colaborador atuou (planejado) |
+| Collaborator → ReportStaff | 1:N | `collaboratorId` | Relatórios onde o colaborador atuou (planejado) |
 
 ---
 
 ## 3.3 Enums
 
 ### UserRole
-Papeis de usuario no sistema.
+Papéis de usuário no sistema.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
 | `admin` | Administrador do sistema com acesso total |
-| `coordenador` | Coordenador de supervisores: gerencia escalas, cria/edita usuarios, visualiza relatorios (read-only), cancela relatorios, gerencia NCs. NAO assina relatorios |
-| `supervisor` | Supervisor Halal que preenche e assina relatorios nas plantas |
-| `operador` | Operador que preenche relatorios mas NAO pode assinar |
-| `gestor` | (legado — NAO USADO na v1.0) |
+| `coordenador` | Coordenador de supervisores: gerência escalas, cria/edita usuários, visualiza relatórios (read-only), cancela relatórios, gerência NCs. NÃO assina relatórios |
+| `supervisor` | Supervisor Halal que preenche e assina relatórios nas plantas |
+| `operador` | Operador que preenche relatórios mas NÃO pode assinar |
+| `gestor` | (legado — NÃO USADO na v1.0) |
 
 ### Species
-Especies animais cobertas pela supervisao Halal na v1.0. Apenas bovino e ave possuem formularios FM implementados.
+Especies animais cobertas pela supervisão Halal na v1.0. Apenas bovino e ave possuem formulários FM implementados.
 
-| Valor | Descricao | FM |
+| Valor | Descrição | FM |
 |-------|-----------|-----|
 | `bovino` | Bovinos (gado) | FM 7.1.4.2 |
 | `ave` | Aves (frango, peru) | FM 7.1.4.1 |
 
-> **Nota**: As demais especies (ovino, caprino, bubalino, equino, peixe) foram suprimidas na v1.0 pois nao possuem FM especifico implementado. Poderao ser adicionadas em versoes futuras.
+> **Nota**: As demais especies (ovino, caprino, bubalino, equino, peixe) foram suprimidas na v1.0 pois não possuem FM específico implementado. Poderao ser adicionadas em versões futuras.
 
 ### Shift
 Turnos de trabalho na planta industrial.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
 | `matutino` | Turno da manha |
 | `vespertino` | Turno da tarde |
@@ -219,69 +219,69 @@ Turnos de trabalho na planta industrial.
 ### PlantType
 Tipo de planta industrial.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
 | `abatedouro` | Estabelecimento de abate |
-| `frigorifico` | Frigorifico (abate + processamento) |
+| `frigorifico` | Frigorífico (abate + processamento) |
 | `laticinio` | Laticinio |
 | `processamento` | Unidade de processamento de alimentos |
 | `armazenamento` | Unidade de armazenamento a frio |
 | `outro` | Outros tipos de estabelecimento |
 
 ### ReportStatus
-Status do ciclo de vida dos relatorios (Abate, Producao, Embarque). Workflow simplificado: rascunho → assinado (final). NAO ha etapa de aprovacao.
+Status do ciclo de vida dos relatórios (Abate, Produção, Embarque). Workflow simplificado: rascunho → assinado (final). NÃO há etapa de aprovação.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
-| `rascunho` | Relatorio em edicao, nao assinado |
-| `assinado` | Assinado pelo supervisor (estado final — imutavel) |
-| `cancelado` | Cancelado pelo coordenador/admin (com motivo obrigatorio) |
+| `rascunho` | Relatório em edição, não assinado |
+| `assinado` | Assinado pelo supervisor (estado final — imutável) |
+| `cancelado` | Cancelado pelo coordenador/admin (com motivo obrigatório) |
 
-> **Nota**: Os valores `enviado`, `revisado`, `aprovado`, `rejeitado` existem no enum do Prisma por compatibilidade mas NAO sao usados no workflow v1.0. A assinatura e o unico passo de finalizacao.
+> **Nota**: Os valores `enviado`, `revisado`, `aprovado`, `rejeitado` existem no enum do Prisma por compatibilidade mas NÃO são usados no workflow v1.0. A assinatura e o único passo de finalização.
 
 ### ShippingType
-Tipo de movimentacao de embarque/venda.
+Tipo de movimentação de embarque/venda.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
-| `exportacao` | Exportacao para mercado externo |
+| `exportacao` | Exportação para mercado externo |
 | `venda_interna` | Venda no mercado interno |
-| `transferencia` | Transferencia entre unidades |
+| `transferencia` | Transferência entre unidades |
 
 ### TransportType
 Tipo de transporte utilizado no embarque.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
 | `terrestre` | Transporte rodoviario/ferroviario |
 | `aereo` | Transporte aereo |
 | `maritimo` | Transporte maritimo |
 
 ### Severity
-Grau de severidade de uma Nao-Conformidade.
+Grau de severidade de uma Não-Conformidade.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
-| `critica` | Risco imediato a conformidade Halal; requer acao imediata |
-| `maior` | Desvio significativo de processo; acao em 24h |
-| `menor` | Desvio pontual sem impacto direto; acao em 7 dias |
+| `critica` | Risco imediato a conformidade Halal; requer ação imediata |
+| `maior` | Desvio significativo de processo; ação em 24h |
+| `menor` | Desvio pontual sem impacto direto; ação em 7 dias |
 | `observacao` | Ponto de atencao para melhoria continua |
 
 ### NCStatus
-Status do ciclo de vida de uma Nao-Conformidade.
+Status do ciclo de vida de uma Não-Conformidade.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
 | `aberta` | NC registrada, aguardando tratamento |
-| `em_tratamento` | Acao corretiva em andamento |
-| `resolvida` | Acao corretiva implementada, aguardando verificacao |
-| `verificada` | Verificado que a acao corretiva foi efetiva |
+| `em_tratamento` | Ação corretiva em andamento |
+| `resolvida` | Ação corretiva implementada, aguardando verificação |
+| `verificada` | Verificado que a ação corretiva foi efetiva |
 | `encerrada` | NC encerrada definitivamente |
 
 ### ScheduleType
-Tipo de alocacao na escala de supervisores.
+Tipo de alocação na escala de supervisores.
 
-| Valor | Descricao |
+| Valor | Descrição |
 |-------|-----------|
 | `regular` | Escala regular/planejada |
 | `substituicao` | Substituicao de outro supervisor |
@@ -294,229 +294,229 @@ Tipo de alocacao na escala de supervisores.
 
 ### 3.4.1 SupervisorProfile (`supervisor_profiles`)
 
-Perfil do usuario no sistema. Na v1.0, a autenticacao e self-contained (bcrypt + JWT HS256). O campo `passwordHash` armazena o hash bcrypt da senha. O campo `externalUserId` esta preparado para integracao futura com HalalSphere.
+Perfil do usuário no sistema. Na v1.0, a autenticação e self-contained (bcrypt + JWT HS256). O campo `passwordHash` armazena o hash bcrypt da senha. O campo `externalUserId` está preparado para integração futura com HalalSphere.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `externalUserId` | String | Nao | - | ID externo (preparado para integracao com HalalSphere; na v1.0, igual ao `id`) |
-| `name` | String | Nao | - | Nome completo do supervisor |
-| `email` | String | Nao | - | Email do supervisor (usado para login) |
-| `role` | UserRole | Nao | `supervisor` | Papel do usuario no sistema |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `externalUserId` | String | Não | - | ID externo (preparado para integração com HalalSphere; na v1.0, igual ao `id`) |
+| `name` | String | Não | - | Nome completo do supervisor |
+| `email` | String | Não | - | Email do supervisor (usado para login) |
+| `role` | UserRole | Não | `supervisor` | Papel do usuário no sistema |
 | `phone` | String | Sim | - | Telefone de contato |
-| `registration` | String | Sim | - | Numero de registro profissional / matricula |
-| `qualifications` | Json | Sim | - | Qualificacoes e certificacoes (formato livre JSON) |
-| `preferences` | Json | Sim | - | Preferencias do usuario (tema, notificacoes, idioma, etc.) |
-| `isActive` | Boolean | Nao | `true` | Se o supervisor esta ativo no sistema |
-| `lastLoginAt` | DateTime | Sim | - | Data/hora do ultimo login |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao (gerenciado pelo Prisma) |
+| `registration` | String | Sim | - | Número de registro profissional / matricula |
+| `qualifications` | Json | Sim | - | Qualificações e certificações (formato livre JSON) |
+| `preferences` | Json | Sim | - | Preferências do usuário (tema, notificações, idioma, etc.) |
+| `isActive` | Boolean | Não | `true` | Se o supervisor está ativo no sistema |
+| `lastLoginAt` | DateTime | Sim | - | Data/hora do último login |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização (gerênciado pelo Prisma) |
 
 **Constraints:**
 - `UNIQUE` em `externalUserId`
 - `UNIQUE` em `email`
 
-**Indices:** Nenhum indice composto adicional (indices unicos ja cobrem as buscas por `externalUserId` e `email`).
+**Índices:** Nenhum índice composto adicional (índices únicos já cobrem as buscas por `externalUserId` e `email`).
 
 ---
 
 ### 3.4.2 Plant (`plants`)
 
-Planta industrial (abatedouro, frigorifico, etc.) onde a supervisao Halal e realizada.
+Planta industrial (abatedouro, frigorífico, etc.) onde a supervisão Halal e realizada.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
 | `externalCompanyId` | String | Sim | - | ID da empresa no sistema externo (ERP/cadastro) |
-| `name` | String | Nao | - | Nome da planta industrial |
-| `sifCode` | String | Nao | - | Codigo SIF (Servico de Inspecao Federal) da planta |
-| `type` | PlantType | Nao | - | Tipo de estabelecimento |
-| `address` | Json | Sim | - | Endereco completo (logradouro, cidade, estado, CEP, coordenadas) |
-| `contact` | Json | Sim | - | Dados de contato (telefone, email, responsavel) |
-| `species` | Species[] | Nao | - | Lista de especies abatidas/processadas na planta |
-| `isActive` | Boolean | Nao | `true` | Se a planta esta ativa no sistema |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao |
+| `name` | String | Não | - | Nome da planta industrial |
+| `sifCode` | String | Não | - | Código SIF (Serviço de Inspecao Federal) da planta |
+| `type` | PlantType | Não | - | Tipo de estabelecimento |
+| `address` | Json | Sim | - | Endereço completo (logradouro, cidade, estado, CEP, coordenadas) |
+| `contact` | Json | Sim | - | Dados de contato (telefone, email, responsável) |
+| `species` | Species[] | Não | - | Lista de especies abatidas/processadas na planta |
+| `isActive` | Boolean | Não | `true` | Se a planta está ativa no sistema |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização |
 
 **Constraints:**
 - `UNIQUE` em `sifCode`
 
-**Indices:** Nenhum indice composto adicional (indice unico em `sifCode` cobre a busca principal).
+**Índices:** Nenhum índice composto adicional (índice único em `sifCode` cobre a busca principal).
 
 ---
 
 ### 3.4.3 SlaughterReport (`slaughter_reports`)
 
-Relatorio de acompanhamento de abate Halal (FM 7.1.4.1 para aves, FM 7.1.4.2 para bovinos). Um unico modelo cobre todas as especies, diferenciado pelo campo `species`. Bovinos possuem secao adicional de insensibilizacao.
+Relatório de acompanhamento de abate Halal (FM 7.1.4.1 para aves, FM 7.1.4.2 para bovinos). Um único modelo cobre todas as especies, diferenciado pelo campo `species`. Bovinos possuem seção adicional de insensibilização.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `serialNumber` | String | Nao | - | Numero serial unico (formato: SIF/ANO/SEQ) |
-| `formNumber` | String | Nao | - | Numero do formulario FM (ex: "FM 7.1.4.1") |
-| `plantId` | UUID | Nao | - | FK para Plant - planta onde ocorreu o abate |
-| `supervisorId` | UUID | Nao | - | FK para SupervisorProfile - supervisor responsavel |
-| `date` | Date | Nao | - | Data do abate |
-| `shift` | Shift | Nao | - | Turno do abate |
-| `species` | Species | Nao | - | Especie abatida |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `serialNumber` | String | Não | - | Número serial único (formato: SIF/ANO/SEQ) |
+| `formNumber` | String | Não | - | Número do formulário FM (ex: "FM 7.1.4.1") |
+| `plantId` | UUID | Não | - | FK para Plant - planta onde ocorreu o abate |
+| `supervisorId` | UUID | Não | - | FK para SupervisorProfile - supervisor responsável |
+| `date` | Daté | Não | - | Data do abate |
+| `shift` | Shift | Não | - | Turno do abate |
+| `species` | Species | Não | - | Especie abatida |
 | `slaughtererName` | String | Sim | - | Nome do degolador/abatedor |
-| `slaughtererDoc` | String | Sim | - | Documento de identificacao do degolador |
-| `totalAnimals` | Int | Nao | - | Total de animais abatidos |
-| `approvedAnimals` | Int | Nao | - | Quantidade de animais aprovados |
-| `rejectedAnimals` | Int | Nao | `0` | Quantidade de animais rejeitados |
+| `slaughtererDoc` | String | Sim | - | Documento de identificação do degolador |
+| `totalAnimals` | Int | Não | - | Total de animais abatidos |
+| `approvedAnimals` | Int | Não | - | Quantidade de animais aprovados |
+| `rejectedAnimals` | Int | Não | `0` | Quantidade de animais rejeitados |
 | `rejectedSequence` | String | Sim | - | Sequencia numerica dos animais rejeitados |
-| `stunningUsed` | Boolean | Sim | - | Se insensibilizacao foi utilizada (bovinos) |
-| `stunningEvaluation` | String | Sim | - | Avaliacao da pressao de insensibilizacao |
-| `stunningVerifications` | Json | Sim | - | Verificacoes de insensibilizacao (2 por turno) |
-| `coolingCarcasses` | Int | Sim | - | Quantidade de carcacas em resfriamento |
-| `coolingCameras` | String | Sim | - | Identificacao das camaras de resfriamento |
+| `stunningUsed` | Boolean | Sim | - | Se insensibilização foi utilizada (bovinos) |
+| `stunningEvaluation` | String | Sim | - | Avaliação da pressão de insensibilização |
+| `stunningVerifications` | Json | Sim | - | Verificações de insensibilização (2 por turno) |
+| `coolingCarcasses` | Int | Sim | - | Quantidade de carcaças em resfriamento |
+| `coolingCameras` | String | Sim | - | Identificação das camaras de resfriamento |
 | `byproductsSold` | Boolean | Sim | - | Se houve venda de subprodutos |
-| `byproductsDescription` | String | Sim | - | Descricao dos subprodutos vendidos |
-| `verificationItems` | Json | Nao | - | 14 itens de verificacao C/NC (conformidade) |
-| `observations` | String | Sim | - | Observacoes gerais |
-| `status` | ReportStatus | Nao | `rascunho` | Status atual do relatorio |
+| `byproductsDescription` | String | Sim | - | Descrição dos subprodutos vendidos |
+| `verificationItems` | Json | Não | - | 14 itens de verificação C/NC (conformidade) |
+| `observations` | String | Sim | - | Observações gerais |
+| `status` | ReportStatus | Não | `rascunho` | Status atual do relatório |
 | `cancelledReason` | String | Sim | - | Motivo do cancelamento (quando status=cancelado) |
-| `replacedBy` | String | Sim | - | Serial do relatorio substituto |
+| `replacedBy` | String | Sim | - | Serial do relatório substituto |
 | `reviewedBy` | UUID | Sim | - | ID do coordenador que revisou |
-| `reviewedAt` | DateTime | Sim | - | Data/hora da revisao |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao |
+| `reviewedAt` | DateTime | Sim | - | Data/hora da revisão |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização |
 
 **Constraints:**
 - `UNIQUE` em `serialNumber`
 
-**Indices:**
-- `(plantId, date)` - Busca de relatorios por planta e data
-- `(supervisorId, date)` - Busca de relatorios por supervisor e data
-- `(status)` - Filtragem por status do relatorio
+**Índices:**
+- `(plantId, date)` - Busca de relatórios por planta e data
+- `(supervisorId, date)` - Busca de relatórios por supervisor e data
+- `(status)` - Filtragem por status do relatório
 
 ---
 
 ### 3.4.4 ProductionReport (`production_reports`)
 
-Relatorio de acompanhamento de producao de industrializados Halal (FM 7.1.3.1) e producao especial (FM 7.1.8.x). Rastreia materias-primas, ingredientes e dados do produto final.
+Relatório de acompanhamento de produção de industrializados Halal (FM 7.1.3.1) e produção especial (FM 7.1.8.x). Rastreia matérias-primas, ingredientes e dados do produto final.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `serialNumber` | String | Nao | - | Numero serial unico (formato: SIF/ANO/SEQ) |
-| `formNumber` | String | Nao | - | Numero do formulario FM (ex: "FM 7.1.3.1") |
-| `plantId` | UUID | Nao | - | FK para Plant - planta onde ocorreu a producao |
-| `supervisorId` | UUID | Nao | - | FK para SupervisorProfile - supervisor responsavel |
-| `productionStart` | DateTime | Nao | - | Data/hora de inicio da producao |
-| `productionEnd` | DateTime | Nao | - | Data/hora de fim da producao |
-| `shiftsCount` | Int | Nao | - | Numero de turnos utilizados na producao |
-| `meatRawMaterials` | Json | Nao | - | Tabela de materias-primas carneas (frigorifico, SIF, data abate, CSN, certificado Halal) |
-| `approvedIngredients` | Json | Sim | - | Tabela de ingredientes aprovados nao-carneos (fornecedor, lote, validade) |
-| `productName` | String | Nao | - | Nome do produto final |
-| `productCode` | String | Sim | - | Codigo do produto |
-| `productBatch` | String | Sim | - | Numero do lote do produto |
-| `manufacturingDate` | Date | Sim | - | Data de fabricacao |
-| `expiryDate` | Date | Sim | - | Data de validade |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `serialNumber` | String | Não | - | Número serial único (formato: SIF/ANO/SEQ) |
+| `formNumber` | String | Não | - | Número do formulário FM (ex: "FM 7.1.3.1") |
+| `plantId` | UUID | Não | - | FK para Plant - planta onde ocorreu a produção |
+| `supervisorId` | UUID | Não | - | FK para SupervisorProfile - supervisor responsável |
+| `productionStart` | DateTime | Não | - | Data/hora de início da produção |
+| `productionEnd` | DateTime | Não | - | Data/hora de fim da produção |
+| `shiftsCount` | Int | Não | - | Número de turnos utilizados na produção |
+| `meatRawMaterials` | Json | Não | - | Tabela de matérias-primas cárneas (frigorífico, SIF, data abate, CSN, certificado Halal) |
+| `approvedIngredients` | Json | Sim | - | Tabela de ingredientes aprovados não-carneos (fornecedor, lote, válidade) |
+| `productName` | String | Não | - | Nome do produto final |
+| `productCode` | String | Sim | - | Código do produto |
+| `productBatch` | String | Sim | - | Número do lote do produto |
+| `manufacturingDate` | Daté | Sim | - | Data de fabricação |
+| `expiryDate` | Daté | Sim | - | Data de válidade |
 | `totalProduced` | Decimal(12,3) | Sim | - | Quantidade total produzida (kg ou unidades) |
 | `packageType` | String | Sim | - | Tipo de embalagem |
 | `packageCount` | Int | Sim | - | Quantidade de embalagens |
 | `netWeightKg` | Decimal(12,3) | Sim | - | Peso liquido total em kg |
 | `grossWeightKg` | Decimal(12,3) | Sim | - | Peso bruto total em kg |
-| `verificationItems` | Json | Nao | - | 5 itens de verificacao C/NC (conformidade) |
-| `observations` | String | Sim | - | Observacoes gerais |
-| `isSpecialProduction` | Boolean | Nao | `false` | Flag para producao especial (FM 7.1.8.x) |
-| `status` | ReportStatus | Nao | `rascunho` | Status atual do relatorio |
+| `verificationItems` | Json | Não | - | 5 itens de verificação C/NC (conformidade) |
+| `observations` | String | Sim | - | Observações gerais |
+| `isSpecialProduction` | Boolean | Não | `false` | Flag para produção especial (FM 7.1.8.x) |
+| `status` | ReportStatus | Não | `rascunho` | Status atual do relatório |
 | `cancelledReason` | String | Sim | - | Motivo do cancelamento |
-| `replacedBy` | String | Sim | - | Serial do relatorio substituto |
+| `replacedBy` | String | Sim | - | Serial do relatório substituto |
 | `reviewedBy` | UUID | Sim | - | ID do coordenador que revisou |
-| `reviewedAt` | DateTime | Sim | - | Data/hora da revisao |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao |
+| `reviewedAt` | DateTime | Sim | - | Data/hora da revisão |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização |
 
 **Constraints:**
 - `UNIQUE` em `serialNumber`
 
-**Indices:**
-- `(plantId, productionStart)` - Busca de relatorios por planta e periodo de producao
-- `(supervisorId, productionStart)` - Busca de relatorios por supervisor e periodo
-- `(status)` - Filtragem por status do relatorio
+**Índices:**
+- `(plantId, productionStart)` - Busca de relatórios por planta e período de produção
+- `(supervisorId, productionStart)` - Busca de relatórios por supervisor e período
+- `(status)` - Filtragem por status do relatório
 
 ---
 
 ### 3.4.5 ShippingReport (`shipping_reports`)
 
-Relatorio de embarque, venda ou transferencia de produtos Halal. Unifica 3 tipos de movimentacao (FM 7.1.7.1 Exportacao, FM 7.1.7.4 Venda Interna, DCPOA Transferencia) em um unico modelo diferenciado por `shippingType`.
+Relatório de embarque, venda ou transferência de produtos Halal. Unifica 3 tipos de movimentação (FM 7.1.7.1 Exportação, FM 7.1.7.4 Venda Interna, DCPOA Transferência) em um único modelo diferenciado por `shippingType`.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `serialNumber` | String | Nao | - | Numero serial unico (formato: SIF/ANO/SEQ) |
-| `formNumber` | String | Nao | - | Numero do formulario FM |
-| `shippingType` | ShippingType | Nao | - | Tipo de movimentacao (exportacao, venda_interna, transferencia) |
-| `plantId` | UUID | Nao | - | FK para Plant - planta de origem |
-| `supervisorId` | UUID | Nao | - | FK para SupervisorProfile - supervisor responsavel |
-| `loadingDate` | Date | Nao | - | Data do carregamento |
-| `exporter` | String | Sim | - | Razao social do exportador (exportacao) |
-| `slaughterhouseInfo` | String | Sim | - | Informacoes do abatedouro de origem |
-| `productionUnitInfo` | String | Sim | - | Informacoes da unidade de producao |
-| `loadingAddress` | String | Sim | - | Endereco de carregamento |
-| `importer` | String | Sim | - | Razao social do importador (exportacao) |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `serialNumber` | String | Não | - | Número serial único (formato: SIF/ANO/SEQ) |
+| `formNumber` | String | Não | - | Número do formulário FM |
+| `shippingType` | ShippingType | Não | - | Tipo de movimentação (exportação, venda_interna, transferência) |
+| `plantId` | UUID | Não | - | FK para Plant - planta de origem |
+| `supervisorId` | UUID | Não | - | FK para SupervisorProfile - supervisor responsável |
+| `loadingDate` | Daté | Não | - | Data do carregamento |
+| `exporter` | String | Sim | - | Razao social do exportador (exportação) |
+| `slaughterhouseInfo` | String | Sim | - | Informações do abatedouro de origem |
+| `productionUnitInfo` | String | Sim | - | Informações da unidade de produção |
+| `loadingAddress` | String | Sim | - | Endereço de carregamento |
+| `importer` | String | Sim | - | Razao social do importador (exportação) |
 | `transportType` | TransportType | Sim | - | Tipo de transporte (terrestre, aereo, maritimo) |
-| `embarkationPort` | String | Sim | - | Porto/ponto de embarque (exportacao) |
-| `vehicleId` | String | Sim | - | Identificacao do veiculo (placa, numero voo, etc.) |
-| `containerNumber` | String | Sim | - | Numero do container |
-| `destinationPort` | String | Sim | - | Porto de destino (exportacao) |
-| `destinationCountry` | String | Sim | - | Pais de destino (exportacao) |
-| `orderNumber` | String | Sim | - | Numero do pedido/ordem de compra |
-| `csiNumber` | String | Sim | - | Numero do CSI (Certificado Sanitario Internacional) |
-| `sealNumber` | String | Sim | - | Numero do lacre |
-| `products` | Json | Nao | - | Lista de produtos embarcados (produto, codigo, lote, datas, pesos, temperatura) |
-| `verificationItems` | Json | Nao | - | 2 itens de verificacao C/NC (exclusividade Halal no container + selo) |
-| `observations` | String | Sim | - | Observacoes gerais |
-| `status` | ReportStatus | Nao | `rascunho` | Status atual do relatorio |
+| `embarkationPort` | String | Sim | - | Porto/ponto de embarque (exportação) |
+| `vehicleId` | String | Sim | - | Identificação do veiculo (placa, número voo, etc.) |
+| `containerNumber` | String | Sim | - | Número do container |
+| `destinationPort` | String | Sim | - | Porto de destino (exportação) |
+| `destinationCountry` | String | Sim | - | País de destino (exportação) |
+| `orderNumber` | String | Sim | - | Número do pedido/ordem de compra |
+| `csiNumber` | String | Sim | - | Número do CSI (Certificado Sanitario Internacional) |
+| `sealNumber` | String | Sim | - | Número do lacre |
+| `products` | Json | Não | - | Lista de produtos embarcados (produto, código, lote, datas, pesos, temperatura) |
+| `verificationItems` | Json | Não | - | 2 itens de verificação C/NC (exclusividade Halal no container + selo) |
+| `observations` | String | Sim | - | Observações gerais |
+| `status` | ReportStatus | Não | `rascunho` | Status atual do relatório |
 | `cancelledReason` | String | Sim | - | Motivo do cancelamento |
-| `replacedBy` | String | Sim | - | Serial do relatorio substituto |
+| `replacedBy` | String | Sim | - | Serial do relatório substituto |
 | `reviewedBy` | UUID | Sim | - | ID do coordenador que revisou |
-| `reviewedAt` | DateTime | Sim | - | Data/hora da revisao |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao |
+| `reviewedAt` | DateTime | Sim | - | Data/hora da revisão |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização |
 
 **Constraints:**
 - `UNIQUE` em `serialNumber`
 
-**Indices:**
-- `(plantId, loadingDate)` - Busca de relatorios por planta e data de carregamento
-- `(supervisorId, loadingDate)` - Busca de relatorios por supervisor e data
+**Índices:**
+- `(plantId, loadingDate)` - Busca de relatórios por planta e data de carregamento
+- `(supervisorId, loadingDate)` - Busca de relatórios por supervisor e data
 - `(shippingType, status)` - Filtragem por tipo de embarque e status
 
 ---
 
 ### 3.4.6 NonConformity (`non_conformities`)
 
-Registro de nao-conformidade identificada durante a supervisao Halal (FM 7.1.6.1). Pode ser vinculada a qualquer tipo de relatorio (abate, producao, embarque) ou registrada de forma avulsa. Implementa o prazo de 7 dias corridos conforme PR 7.1.
+Registro de não-conformidade identificada durante a supervisão Halal (FM 7.1.6.1). Pode ser vinculada a qualquer tipo de relatório (abate, produção, embarque) ou registrada de forma avulsa. Implementa o prazo de 7 dias corridos conforme PR 7.1.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `plantId` | UUID | Nao | - | FK para Plant - planta onde a NC foi identificada |
-| `supervisorId` | UUID | Nao | - | FK para SupervisorProfile - supervisor que registrou |
-| `slaughterReportId` | UUID | Sim | - | FK para SlaughterReport - vinculo opcional a relatorio de abate |
-| `productionReportId` | UUID | Sim | - | FK para ProductionReport - vinculo opcional a relatorio de producao |
-| `shippingReportId` | UUID | Sim | - | FK para ShippingReport - vinculo opcional a relatorio de embarque |
-| `description` | String | Nao | - | Descricao detalhada da nao-conformidade |
-| `severity` | Severity | Nao | - | Grau de severidade (critica, maior, menor, observacao) |
-| `category` | String | Nao | - | Categoria da NC (higiene, processo, equipamento, materia-prima, rotulagem, etc.) |
-| `evidence` | Json | Sim | - | Evidencias (fotos, descricoes, referencias documentais) |
-| `correctiveAction` | String | Sim | - | Descricao da acao corretiva implementada |
-| `preventiveAction` | String | Sim | - | Descricao da acao preventiva proposta |
-| `deadline` | DateTime | Sim | - | Prazo para resolucao (padrao: 7 dias corridos) |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `plantId` | UUID | Não | - | FK para Plant - planta onde a NC foi identificada |
+| `supervisorId` | UUID | Não | - | FK para SupervisorProfile - supervisor que registrou |
+| `slaughterReportId` | UUID | Sim | - | FK para SlaughterReport - vínculo opcional a relatório de abate |
+| `productionReportId` | UUID | Sim | - | FK para ProductionReport - vínculo opcional a relatório de produção |
+| `shippingReportId` | UUID | Sim | - | FK para ShippingReport - vínculo opcional a relatório de embarque |
+| `description` | String | Não | - | Descrição detalhada da não-conformidade |
+| `severity` | Severity | Não | - | Grau de severidade (crítica, maior, menor, observação) |
+| `category` | String | Não | - | Categoria da NC (higiene, processo, equipamento, materia-prima, rotulagem, etc.) |
+| `evidence` | Json | Sim | - | Evidencias (fotos, descricoes, referências documentais) |
+| `correctiveAction` | String | Sim | - | Descrição da ação corretiva implementada |
+| `preventiveAction` | String | Sim | - | Descrição da ação preventiva proposta |
+| `deadline` | DateTime | Sim | - | Prazo para resolução (padrão: 7 dias corridos) |
 | `resolvedAt` | DateTime | Sim | - | Data/hora em que a NC foi resolvida |
-| `resolvedBy` | UUID | Sim | - | ID de quem registrou a resolucao |
-| `verifiedAt` | DateTime | Sim | - | Data/hora da verificacao da resolucao |
-| `verifiedBy` | UUID | Sim | - | ID de quem verificou a resolucao |
-| `status` | NCStatus | Nao | `aberta` | Status atual da NC |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao |
+| `resolvedBy` | UUID | Sim | - | ID de quem registrou a resolução |
+| `verifiedAt` | DateTime | Sim | - | Data/hora da verificação da resolução |
+| `verifiedBy` | UUID | Sim | - | ID de quem verificou a resolução |
+| `status` | NCStatus | Não | `aberta` | Status atual da NC |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização |
 
 **Constraints:** Nenhuma constraint unique adicional.
 
-**Indices:**
+**Índices:**
 - `(plantId, status)` - Busca de NCs por planta e status
 - `(severity, status)` - Busca de NCs por severidade e status
 - `(supervisorId)` - Busca de NCs por supervisor
@@ -527,22 +527,22 @@ Registro de nao-conformidade identificada durante a supervisao Halal (FM 7.1.6.1
 
 Escala de trabalho dos supervisores nas plantas industriais. Permite ao coordenador alocar supervisores por planta, turno e dia.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `supervisorId` | UUID | Nao | - | FK para SupervisorProfile - supervisor alocado |
-| `plantId` | UUID | Nao | - | FK para Plant - planta de alocacao |
-| `date` | Date | Nao | - | Data da escala |
-| `shift` | Shift | Nao | - | Turno alocado |
-| `type` | ScheduleType | Nao | `regular` | Tipo de alocacao (regular, substituicao, extra, folga) |
-| `notes` | String | Sim | - | Observacoes sobre a alocacao |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `supervisorId` | UUID | Não | - | FK para SupervisorProfile - supervisor alocado |
+| `plantId` | UUID | Não | - | FK para Plant - planta de alocação |
+| `date` | Daté | Não | - | Data da escala |
+| `shift` | Shift | Não | - | Turno alocado |
+| `type` | ScheduleType | Não | `regular` | Tipo de alocação (regular, substituicao, extra, folga) |
+| `notes` | String | Sim | - | Observações sobre a alocação |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização |
 
 **Constraints:**
-- `UNIQUE` composto em `(supervisorId, plantId, date, shift)` - Garante que um supervisor nao pode ter duplicidade de alocacao na mesma planta, data e turno
+- `UNIQUE` composto em `(supervisorId, plantId, date, shift)` - Garante que um supervisor não pode ter duplicidade de alocação na mesma planta, data e turno
 
-**Indices:**
+**Índices:**
 - `(supervisorId, date)` - Busca de escala por supervisor e data
 - `(plantId, date)` - Busca de escala por planta e data
 
@@ -550,22 +550,22 @@ Escala de trabalho dos supervisores nas plantas industriais. Permite ao coordena
 
 ### 3.4.8 Collaborator (`collaborators`) — Planejado
 
-Cadastro de colaboradores operacionais que atuam nas plantas mas nao sao usuarios do sistema (degoladores, sheiks, auxiliares, veterinarios). Modelo planejado para implementacao futura com campo `externalId` para integracao com HalalSphere.
+Cadastro de colaboradores operacionais que atuam nas plantas mas não são usuários do sistema (degoladores, sheiks, auxiliares, veterinarios). Modelo planejado para implementação futura com campo `externalId` para integração com HalalSphere.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `externalId` | String | Sim | - | ID no sistema externo (HalalSphere) para integracao futura |
-| `name` | String | Nao | - | Nome completo do colaborador |
-| `document` | String | Nao | - | Documento de identificacao (RG, CPF ou passaporte) |
-| `documentType` | String | Nao | `rg` | Tipo do documento: rg, cpf, passaporte |
-| `role` | String | Nao | - | Funcao: degolador, sheik, auxiliar, supervisor_planta, veterinario |
-| `photoUrl` | String | Sim | - | URL/path da foto do colaborador (S3 em producao, local em dev) |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `externalId` | String | Sim | - | ID no sistema externo (HalalSphere) para integração futura |
+| `name` | String | Não | - | Nome completo do colaborador |
+| `document` | String | Não | - | Documento de identificação (RG, CPF ou passaporte) |
+| `documentType` | String | Não | `rg` | Tipo do documento: rg, cpf, passaporte |
+| `role` | String | Não | - | Função: degolador, sheik, auxiliar, supervisor_planta, veterinario |
+| `photoUrl` | String | Sim | - | URL/path da foto do colaborador (S3 em produção, local em dev) |
 | `phone` | String | Sim | - | Telefone de contato |
 | `email` | String | Sim | - | Email de contato |
-| `isActive` | Boolean | Nao | `true` | Se o colaborador esta ativo |
-| `created_at` | DateTime | Nao | `now()` | Data de criacao do registro |
-| `updated_at` | DateTime | Nao | auto | Data da ultima atualizacao |
+| `isActive` | Boolean | Não | `true` | Se o colaborador está ativo |
+| `created_at` | DateTime | Não | `now()` | Data de criação do registro |
+| `updated_at` | DateTime | Não | auto | Data da última atualização |
 
 **Constraints:**
 - `UNIQUE` em `externalId` (quando presente)
@@ -573,19 +573,19 @@ Cadastro de colaboradores operacionais que atuam nas plantas mas nao sao usuario
 **Foto do colaborador:**
 - Upload via `POST /collaborators/:id/photo` (multipart/form-data)
 - Formatos aceitos: JPEG, PNG (max 2MB)
-- Armazenamento: `uploads/collaborators/` em dev, S3 em producao
+- Armazenamento: `uploads/collaborators/` em dev, S3 em produção
 - `photoUrl` armazena o path relativo ou URL S3
 
 ---
 
 ### 3.4.9 CollaboratorPlant (`collaborator_plants`) — Planejado
 
-Tabela de ligacao N:N entre colaboradores e plantas onde atuam.
+Tabela de ligação N:N entre colaboradores e plantas onde atuam.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `collaboratorId` | UUID | Nao | - | FK para Collaborator |
-| `plantId` | UUID | Nao | - | FK para Plant |
+| `collaboratorId` | UUID | Não | - | FK para Collaborator |
+| `plantId` | UUID | Não | - | FK para Plant |
 
 **Constraints:**
 - `PRIMARY KEY` composta em `(collaboratorId, plantId)`
@@ -594,20 +594,20 @@ Tabela de ligacao N:N entre colaboradores e plantas onde atuam.
 
 ### 3.4.10 ReportStaff (`report_staff`) — Planejado
 
-Vinculacao N:N entre colaboradores e relatorios, registrando a equipe que atuou em cada dia/relatorio especifico.
+Vinculação N:N entre colaboradores e relatórios, registrando a equipe que atuou em cada dia/relatório específico.
 
-| Campo | Tipo | Nullable | Default | Descricao |
+| Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `id` | UUID | Nao | `uuid_generate_v4()` | Chave primaria |
-| `collaboratorId` | UUID | Nao | - | FK para Collaborator |
-| `reportId` | UUID | Nao | - | ID do relatorio (abate, producao ou embarque) |
-| `reportType` | String | Nao | - | Tipo: slaughter, production, shipping |
-| `roleInReport` | String | Nao | - | Funcao especifica naquele dia/relatorio |
-| `date` | DateTime | Nao | - | Data do servico |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `collaboratorId` | UUID | Não | - | FK para Collaborator |
+| `reportId` | UUID | Não | - | ID do relatório (abate, produção ou embarque) |
+| `reportType` | String | Não | - | Tipo: slaughter, production, shipping |
+| `roleInReport` | String | Não | - | Função específica naquele dia/relatório |
+| `date` | DateTime | Não | - | Data do serviço |
 
-**Indices:**
-- `(reportId, reportType)` — Busca de equipe por relatorio
-- `(collaboratorId, date)` — Historico de atuacao do colaborador
+**Índices:**
+- `(reportId, reportType)` — Busca de equipe por relatório
+- `(collaboratorId, date)` — Histórico de atuação do colaborador
 
 ---
 
@@ -616,9 +616,9 @@ Vinculacao N:N entre colaboradores e relatorios, registrando a equipe que atuou 
 ### 3.5.1 Chaves Primarias
 
 - Todas as tabelas utilizam **UUID v4** como chave primaria
-- Gerado no banco via `uuid_generate_v4()` (extensao `uuid-ossp`)
+- Gerado no banco via `uuid_generate_v4()` (extensão `uuid-ossp`)
 - Tipo Postgres: `UUID`
-- Motivo: evitar enumeracao sequencial, seguranca em APIs publicas, compatibilidade com sistemas distribuidos
+- Motivo: evitar enumeração sequencial, segurança em APIs públicas, compatibilidade com sistemas distribuidos
 
 ### 3.5.2 Nomenclatura de Tabelas
 
@@ -642,13 +642,13 @@ Vinculacao N:N entre colaboradores e relatorios, registrando a equipe que atuou 
 ### 3.5.3 Timestamps
 
 - Todos os modelos possuem `created_at` e `updated_at`
-- `created_at`: `DateTime @default(now())` - preenchido automaticamente na insercao
-- `updated_at`: `DateTime @updatedAt` - atualizado automaticamente pelo Prisma em cada `UPDATE`
+- `created_at`: `DateTime @default(now())` - preenchido automáticamente na insercao
+- `updated_at`: `DateTime @updatedAt` - atualizado automáticamente pelo Prisma em cada `UPDATE`
 - Campos mapeados para snake_case no banco via `@map()`
 
 ### 3.5.4 Campos JSON
 
-Campos JSON sao usados para dados com estrutura flexivel ou listas heterogeneas. Embora nao tenham validacao no banco, sao validados pela camada de aplicacao (DTOs + Zod).
+Campos JSON são usados para dados com estrutura flexível ou listas heterogêneas. Embora não tenham validação no banco, são validados pela camada de aplicação (DTOs + Zod).
 
 | Campo | Modelo | Estrutura Esperada |
 |-------|--------|--------------------|
@@ -665,21 +665,21 @@ Campos JSON sao usados para dados com estrutura flexivel ou listas heterogeneas.
 | `verificationItems` | ShippingReport | `[{ id: number, description: string, conformity: "C" \| "NC", observation?: string }]` |
 | `evidence` | NonConformity | `{ photos: string[], description: string, references: string[] }` |
 
-### 3.5.5 Indices e Performance
+### 3.5.5 Índices e Performance
 
-A estrategia de indexacao segue o padrao de acesso mais frequente:
+A estratégia de indexação segue o padrão de acesso mais frequente:
 
-- **Indices compostos por entidade + data**: Todas as tabelas de relatorio possuem indices `(plantId, date)` e `(supervisorId, date)` para queries de listagem paginada filtradas por planta ou supervisor em um periodo
-- **Indices por status**: Permitem filtragem eficiente de relatorios pendentes, em revisao, etc.
-- **Indices especificos**:
+- **Índices compostos por entidade + data**: Todas as tabelas de relatório possuem índices `(plantId, date)` e `(supervisorId, date)` para queries de listagem páginada filtradas por planta ou supervisor em um período
+- **Índices por status**: Permitem filtragem eficiente de relatórios pendentes, em revisão, etc.
+- **Índices específicos**:
   - `ShippingReport(shippingType, status)` - Filtra por tipo de embarque + status
-  - `NonConformity(severity, status)` - Prioriza NCs criticas abertas
+  - `NonConformity(severity, status)` - Prioriza NCs críticas abertas
   - `NonConformity(supervisorId)` - NCs por supervisor
 
 ### 3.5.6 Soft Delete vs. Hard Delete
 
-O sistema utiliza **desativacao logica** (`isActive = false`) em vez de exclusao fisica para:
-- `SupervisorProfile`: Supervisores desativados nao aparecem em listagens ativas, mas seus relatorios historicos permanecem
-- `Plant`: Plantas desativadas preservam historico de relatorios e NCs
+O sistema utiliza **desativação lógica** (`isActive = false`) em vez de exclusão física para:
+- `SupervisorProfile`: Supervisores desativados não aparecem em listagens ativas, mas seus relatórios históricos permanecem
+- `Plant`: Plantas desativadas preservam histórico de relatórios e NCs
 
-Relatorios e NCs **nao sao excluidos**; utilizam o workflow de status (`cancelado`/`encerrada`) para controle de ciclo de vida.
+Relatórios e NCs **não são excluidos**; utilizam o workflow de status (`cancelado`/`encerrada`) para controle de ciclo de vida.

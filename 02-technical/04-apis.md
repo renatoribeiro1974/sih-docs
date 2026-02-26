@@ -1,6 +1,6 @@
 ---
 title: APIs REST
-parent: Documentacao Tecnica
+parent: Documentação Técnica
 nav_order: 4
 ---
 
@@ -8,16 +8,16 @@ nav_order: 4
 
 ---
 
-## 4.1 Visao Geral
+## 4.1 Visão Geral
 
 O SIH expoe uma API REST construida com **NestJS 11** e documentada via **Swagger/OpenAPI**.
 
 | Item | Valor |
 |------|-------|
 | Base URL | `http://localhost:3334` |
-| Documentacao Swagger | `http://localhost:3334/api/docs` |
+| Documentação Swagger | `http://localhost:3334/api/docs` |
 | Formato | JSON |
-| Autenticacao | Bearer JWT (header `Authorization`) |
+| Autenticação | Bearer JWT (header `Authorization`) |
 | Versionamento | Sem versionamento na URL (v1 implicito) |
 
 ---
@@ -28,8 +28,8 @@ Os endpoints abaixo fazem parte da infraestrutura base do backend.
 
 ### GET /
 
-**Descricao**: Informacoes basicas da API.
-**Autenticacao**: Publica (`@Public()`)
+**Descrição**: Informações básicas da API.
+**Autenticação**: Pública (`@Public()`)
 
 ```json
 {
@@ -41,8 +41,8 @@ Os endpoints abaixo fazem parte da infraestrutura base do backend.
 
 ### GET /health
 
-**Descricao**: Health check do servico.
-**Autenticacao**: Publica (`@Public()`)
+**Descrição**: Health check do serviço.
+**Autenticação**: Pública (`@Public()`)
 
 ```json
 {
@@ -55,8 +55,8 @@ Os endpoints abaixo fazem parte da infraestrutura base do backend.
 
 ### POST /auth/login
 
-**Descricao**: Autenticacao de usuario (self-contained).
-**Autenticacao**: Publica (`@Public()`)
+**Descrição**: Autenticação de usuário (self-contained).
+**Autenticação**: Pública (`@Public()`)
 
 **Request**:
 ```json
@@ -81,32 +81,32 @@ Os endpoints abaixo fazem parte da infraestrutura base do backend.
 
 ---
 
-## 4.3 Endpoints de Dominio
+## 4.3 Endpoints de Domínio
 
-Todos os endpoints abaixo estao implementados e requerem autenticacao JWT.
+Todos os endpoints abaixo estão implementados e requerem autenticação JWT.
 
 ---
 
 ### 4.3.1 /supervisor-profiles
 
-Gerenciamento de perfis de supervisores. O perfil e criado automaticamente no primeiro acesso JWT.
+Gerênciamento de perfis de supervisores. O perfil é criado automáticamente no primeiro acesso JWT.
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
 | GET | `/supervisor-profiles` | Lista todos os perfis | admin, coordenador |
-| GET | `/supervisor-profiles/:id` | Busca perfil por ID | admin, coordenador, supervisor (proprio) |
+| GET | `/supervisor-profiles/:id` | Busca perfil por ID | admin, coordenador, supervisor (próprio) |
 | POST | `/supervisor-profiles` | Cria perfil manualmente | admin |
-| PATCH | `/supervisor-profiles/:id` | Atualiza perfil | admin, coordenador, supervisor (proprio) |
+| PATCH | `/supervisor-profiles/:id` | Atualiza perfil | admin, coordenador, supervisor (próprio) |
 | DELETE | `/supervisor-profiles/:id` | Desativa perfil (soft delete) | admin |
-| GET | `/supervisor-profiles/me` | Perfil do usuario autenticado | todos |
+| GET | `/supervisor-profiles/me` | Perfil do usuário autenticado | todos |
 
 ---
 
 ### 4.3.2 /plants
 
-Gerenciamento de plantas industriais (abatedouros, frigorificos, etc.).
+Gerênciamento de plantas industriais (abatedouros, frigoríficos, etc.).
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
 | GET | `/plants` | Lista todas as plantas | todos |
 | GET | `/plants/:id` | Busca planta por ID | todos |
@@ -118,93 +118,93 @@ Gerenciamento de plantas industriais (abatedouros, frigorificos, etc.).
 
 ### 4.3.3 /slaughter-reports
 
-Relatorios de abate Halal (FM 7.1.4.x). Suporta aves e bovinos com secao adicional de stunning para bovinos.
+Relatórios de abate Halal (FM 7.1.4.x). Suporta aves e bovinos com seção adicional de stunning para bovinos.
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
-| GET | `/slaughter-reports` | Lista relatorios com filtros | todos |
-| GET | `/slaughter-reports/:id` | Busca relatorio por ID | todos |
-| POST | `/slaughter-reports` | Cria novo relatorio (gera serial) | supervisor, operador |
-| PATCH | `/slaughter-reports/:id` | Atualiza relatorio (rascunho) | supervisor (autor), operador (autor) |
-| PATCH | `/slaughter-reports/:id/sign` | Assina relatorio (gera hash SHA-256) | supervisor (autor) |
-| PATCH | `/slaughter-reports/:id/cancel` | Cancela relatorio (com motivo) | coordenador, admin |
-| GET | `/slaughter-reports/:id/pdf` | Gera PDF fiel ao FM FAMBRAS | todos (relatorio assinado) |
-| GET | `/slaughter-reports/serial/next` | Retorna proximo numero serial | supervisor, operador |
+| GET | `/slaughter-reports` | Lista relatórios com filtros | todos |
+| GET | `/slaughter-reports/:id` | Busca relatório por ID | todos |
+| POST | `/slaughter-reports` | Cria novo relatório (gera serial) | supervisor, operador |
+| PATCH | `/slaughter-reports/:id` | Atualiza relatório (rascunho) | supervisor (autor), operador (autor) |
+| PATCH | `/slaughter-reports/:id/sign` | Assina relatório (gera hash SHA-256) | supervisor (autor) |
+| PATCH | `/slaughter-reports/:id/cancel` | Cancela relatório (com motivo) | coordenador, admin |
+| GET | `/slaughter-reports/:id/pdf` | Gera PDF fiel ao FM FAMBRAS | todos (relatório assinado) |
+| GET | `/slaughter-reports/serial/next` | Retorna próximo número serial | supervisor, operador |
 
 **Filtros de listagem**:
 - `?plantId=uuid` - Filtrar por planta
 - `?supervisorId=uuid` - Filtrar por supervisor
 - `?status=enviado` - Filtrar por status
 - `?species=ave` - Filtrar por especie
-- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Filtrar por periodo
-- `?page=1&limit=20` - Paginacao
+- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Filtrar por período
+- `?page=1&limit=20` - Páginação
 
-**Numero serial**: Formato `SIF/ANO/SEQ` (ex: `001/2026/00001`). Gerado automaticamente pelo backend.
+**Número serial**: Formato `SIF/ANO/SEQ` (ex: `001/2026/00001`). Gerado automáticamente pelo backend.
 
 ---
 
 ### 4.3.4 /production-reports
 
-Relatorios de producao de industrializados (FM 7.1.3.x / FM 7.1.8.x).
+Relatórios de produção de industrializados (FM 7.1.3.x / FM 7.1.8.x).
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
-| GET | `/production-reports` | Lista relatorios com filtros | todos |
-| GET | `/production-reports/:id` | Busca relatorio por ID | todos |
-| POST | `/production-reports` | Cria novo relatorio (gera serial) | supervisor, operador |
-| PATCH | `/production-reports/:id` | Atualiza relatorio (rascunho) | supervisor (autor), operador (autor) |
-| PATCH | `/production-reports/:id/sign` | Assina relatorio (gera hash SHA-256) | supervisor (autor) |
-| PATCH | `/production-reports/:id/cancel` | Cancela relatorio (com motivo) | coordenador, admin |
-| GET | `/production-reports/:id/pdf` | Gera PDF fiel ao FM FAMBRAS | todos (relatorio assinado) |
-| GET | `/production-reports/serial/next` | Retorna proximo numero serial | supervisor, operador |
+| GET | `/production-reports` | Lista relatórios com filtros | todos |
+| GET | `/production-reports/:id` | Busca relatório por ID | todos |
+| POST | `/production-reports` | Cria novo relatório (gera serial) | supervisor, operador |
+| PATCH | `/production-reports/:id` | Atualiza relatório (rascunho) | supervisor (autor), operador (autor) |
+| PATCH | `/production-reports/:id/sign` | Assina relatório (gera hash SHA-256) | supervisor (autor) |
+| PATCH | `/production-reports/:id/cancel` | Cancela relatório (com motivo) | coordenador, admin |
+| GET | `/production-reports/:id/pdf` | Gera PDF fiel ao FM FAMBRAS | todos (relatório assinado) |
+| GET | `/production-reports/serial/next` | Retorna próximo número serial | supervisor, operador |
 
 **Filtros de listagem**:
 - `?plantId=uuid` - Filtrar por planta
 - `?supervisorId=uuid` - Filtrar por supervisor
 - `?status=rascunho` - Filtrar por status
-- `?isSpecialProduction=true` - Filtrar producao especial (FM 7.1.8.x)
-- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Filtrar por periodo
-- `?page=1&limit=20` - Paginacao
+- `?isSpecialProduction=true` - Filtrar produção especial (FM 7.1.8.x)
+- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Filtrar por período
+- `?page=1&limit=20` - Páginação
 
-**Materias-primas**: O campo `meatRawMaterials` e um array JSON com: frigorifico, SIF, data de abate, CSN e certificado Halal.
+**Matérias-primas**: O campo `meatRawMaterials` e um array JSON com: frigorífico, SIF, data de abate, CSN e certificado Halal.
 
 ---
 
 ### 4.3.5 /shipping-reports
 
-Relatorios de embarque, venda interna e transferencia (FM 7.1.7.x / DCPOA).
+Relatórios de embarque, venda interna e transferência (FM 7.1.7.x / DCPOA).
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
-| GET | `/shipping-reports` | Lista relatorios com filtros | todos |
-| GET | `/shipping-reports/:id` | Busca relatorio por ID | todos |
-| POST | `/shipping-reports` | Cria novo relatorio (gera serial) | supervisor, operador |
-| PATCH | `/shipping-reports/:id` | Atualiza relatorio (rascunho) | supervisor (autor), operador (autor) |
-| PATCH | `/shipping-reports/:id/sign` | Assina relatorio (gera hash SHA-256) | supervisor (autor) |
-| PATCH | `/shipping-reports/:id/cancel` | Cancela relatorio (com motivo) | coordenador, admin |
-| GET | `/shipping-reports/:id/pdf` | Gera PDF fiel ao FM FAMBRAS | todos (relatorio assinado) |
-| GET | `/shipping-reports/serial/next` | Retorna proximo numero serial | supervisor, operador |
+| GET | `/shipping-reports` | Lista relatórios com filtros | todos |
+| GET | `/shipping-reports/:id` | Busca relatório por ID | todos |
+| POST | `/shipping-reports` | Cria novo relatório (gera serial) | supervisor, operador |
+| PATCH | `/shipping-reports/:id` | Atualiza relatório (rascunho) | supervisor (autor), operador (autor) |
+| PATCH | `/shipping-reports/:id/sign` | Assina relatório (gera hash SHA-256) | supervisor (autor) |
+| PATCH | `/shipping-reports/:id/cancel` | Cancela relatório (com motivo) | coordenador, admin |
+| GET | `/shipping-reports/:id/pdf` | Gera PDF fiel ao FM FAMBRAS | todos (relatório assinado) |
+| GET | `/shipping-reports/serial/next` | Retorna próximo número serial | supervisor, operador |
 
 **Filtros de listagem**:
 - `?plantId=uuid` - Filtrar por planta
 - `?supervisorId=uuid` - Filtrar por supervisor
 - `?status=aprovado` - Filtrar por status
-- `?shippingType=exportacao` - Filtrar por tipo (exportacao, venda_interna, transferencia)
-- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Filtrar por periodo
-- `?page=1&limit=20` - Paginacao
+- `?shippingType=exportacao` - Filtrar por tipo (exportação, venda_interna, transferência)
+- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Filtrar por período
+- `?page=1&limit=20` - Páginação
 
 **Tipos de embarque**:
-- `exportacao`: Campos completos (importador, container, portos, lacre, pais destino)
+- `exportacao`: Campos completos (importador, container, portos, lacre, país destino)
 - `venda_interna`: Campos reduzidos (transporte, veiculo, destino nacional)
-- `transferencia`: Campos minimos (unidade destino, DCPOA)
+- `transferencia`: Campos mínimos (unidade destino, DCPOA)
 
 ---
 
 ### 4.3.6 /non-conformities
 
-Gestao de nao-conformidades (FM 7.1.6.1). Pode ser vinculada a qualquer tipo de relatorio.
+Gestão de não-conformidades (FM 7.1.6.1). Pode ser vinculada a qualquer tipo de relatório.
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
 | GET | `/non-conformities` | Lista NCs com filtros | todos |
 | GET | `/non-conformities/:id` | Busca NC por ID | todos |
@@ -221,11 +221,11 @@ Gestao de nao-conformidades (FM 7.1.6.1). Pode ser vinculada a qualquer tipo de 
 - `?severity=critica` - Filtrar por severidade
 - `?category=higiene` - Filtrar por categoria
 - `?overdue=true` - Filtrar apenas vencidas
-- `?page=1&limit=20` - Paginacao
+- `?page=1&limit=20` - Páginação
 
 **Workflow de status**: `aberta` -> `em_tratamento` -> `resolvida` -> `verificada` -> `encerrada`
 
-**Prazo**: 7 dias corridos a partir da criacao (conforme PR 7.1). Alertas automaticos ao se aproximar do vencimento.
+**Prazo**: 7 dias corridos a partir da criação (conforme PR 7.1). Alertas automáticos ao se apróximar do vencimento.
 
 ---
 
@@ -233,64 +233,64 @@ Gestao de nao-conformidades (FM 7.1.6.1). Pode ser vinculada a qualquer tipo de 
 
 Escala de supervisores nas plantas industriais.
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
 | GET | `/schedules` | Lista escalas com filtros | todos |
 | GET | `/schedules/:id` | Busca escala por ID | todos |
-| POST | `/schedules` | Cria alocacao de escala | coordenador, admin |
-| PATCH | `/schedules/:id` | Atualiza alocacao | coordenador, admin |
-| DELETE | `/schedules/:id` | Remove alocacao | coordenador, admin |
-| GET | `/schedules/calendar` | Visao calendario mensal | todos |
+| POST | `/schedules` | Cria alocação de escala | coordenador, admin |
+| PATCH | `/schedules/:id` | Atualiza alocação | coordenador, admin |
+| DELETE | `/schedules/:id` | Remove alocação | coordenador, admin |
+| GET | `/schedules/calendar` | Visão calendário mensal | todos |
 | GET | `/schedules/by-supervisor/:id` | Escala por supervisor | todos |
 | GET | `/schedules/by-plant/:id` | Escala por planta | todos |
 
 **Filtros de listagem**:
 - `?supervisorId=uuid` - Filtrar por supervisor
 - `?plantId=uuid` - Filtrar por planta
-- `?month=2026-01` - Filtrar por mes
+- `?month=2026-01` - Filtrar por mês
 - `?shift=matutino` - Filtrar por turno
 - `?type=regular` - Filtrar por tipo de escala
 
-**Restricao unica**: Um supervisor por planta/data/turno (`@@unique([supervisorId, plantId, date, shift])`).
+**Restrição única**: Um supervisor por planta/data/turno (`@@unique([supervisorId, plantId, date, shift])`).
 
 ---
 
 ### 4.3.8 /dashboard
 
-Endpoints de agregacao para o dashboard operacional.
+Endpoints de agregação para o dashboard operacional.
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
-| GET | `/dashboard/summary` | Contadores gerais (dia/semana/mes) | todos |
-| GET | `/dashboard/reports-by-status` | Relatorios agrupados por status | todos |
+| GET | `/dashboard/summary` | Contadores gerais (dia/semana/mês) | todos |
+| GET | `/dashboard/reports-by-status` | Relatórios agrupados por status | todos |
 | GET | `/dashboard/ncs-by-severity` | NCs ativas por severidade | todos |
 | GET | `/dashboard/ncs-by-plant` | NCs ativas por planta | coordenador, admin |
-| GET | `/dashboard/pending-reviews` | Relatorios pendentes de revisao | coordenador, admin |
+| GET | `/dashboard/pending-reviews` | Relatórios pendentes de revisão | coordenador, admin |
 | GET | `/dashboard/supervisor-productivity` | Produtividade por supervisor | coordenador, admin |
-| GET | `/dashboard/trends` | Graficos de tendencia (periodo) | todos |
+| GET | `/dashboard/trends` | Graficos de tendência (período) | todos |
 
 **Filtros comuns**:
-- `?period=day|week|month|custom` - Periodo de agregacao
-- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Periodo customizado
+- `?period=day|week|month|custom` - Período de agregação
+- `?dateFrom=2026-01-01&dateTo=2026-01-31` - Período customizado
 - `?plantId=uuid` - Filtrar por planta
 
 ---
 
-## 4.4 Autenticacao
+## 4.4 Autenticação
 
-Todos os endpoints (exceto os marcados com `@Public()`) exigem um token JWT valido no header:
+Todos os endpoints (exceto os marcados com `@Public()`) exigem um token JWT válido no header:
 
 ```
 Authorization: Bearer <jwt-token>
 ```
 
-Na v1.0, o token e emitido pelo **proprio backend SIH** via `POST /auth/login` (autenticacao self-contained com bcrypt + JWT HS256). NAO depende do HalalSphere.
+Na v1.0, o token e emitido pelo **próprio backend SIH** via `POST /auth/login` (autenticação self-contained com bcrypt + JWT HS256). NÃO depende do HalalSphere.
 
-Consulte o documento [05-security.md](./05-security.md) para detalhes completos do fluxo de autenticacao.
+Consulte o documento [05-security.md](./05-security.md) para detalhes completos do fluxo de autenticação.
 
 ---
 
-## 4.5 Validacao
+## 4.5 Validação
 
 O SIH utiliza `class-validator` com `ValidationPipe` global configurado em `main.ts`:
 
@@ -308,9 +308,9 @@ app.useGlobalPipes(
 ```
 
 **Comportamento**:
-- Campos nao declarados no DTO sao rejeitados com erro 400
-- Tipos sao convertidos automaticamente (ex: `"1"` -> `1` para numeros)
-- Mensagens de erro detalham qual campo falhou e qual validacao
+- Campos não declarados no DTO são rejeitados com erro 400
+- Tipos são convertidos automáticamente (ex: `"1"` -> `1` para números)
+- Mensagens de erro detalham qual campo falhou e qual validação
 
 ---
 
@@ -328,37 +328,37 @@ O `AllExceptionsFilter` padroniza todas as respostas de erro:
 }
 ```
 
-**Codigos de status HTTP comuns**:
+**Códigos de status HTTP comuns**:
 
-| Codigo | Significado | Quando |
+| Código | Significado | Quando |
 |--------|------------|--------|
 | 200 | OK | Requisicao bem-sucedida |
 | 201 | Created | Recurso criado com sucesso |
-| 400 | Bad Request | Validacao falhou (campos invalidos) |
-| 401 | Unauthorized | Token JWT ausente ou invalido |
-| 403 | Forbidden | Role do usuario nao tem permissao |
-| 404 | Not Found | Recurso nao encontrado |
-| 409 | Conflict | Violacao de constraint unica |
-| 500 | Internal Server Error | Erro interno (stack trace omitido em producao) |
+| 400 | Bad Request | Validação falhou (campos inválidos) |
+| 401 | Unauthorized | Token JWT ausente ou inválido |
+| 403 | Forbidden | Role do usuário não tem permissão |
+| 404 | Not Found | Recurso não encontrado |
+| 409 | Conflict | Violação de constraint única |
+| 500 | Internal Server Error | Erro interno (stack trace omitido em produção) |
 
 ---
 
-## 4.7 Padrao de Paginacao (Planejado)
+## 4.7 Padrão de Páginação (Planejado)
 
-Todos os endpoints de listagem seguirao o padrao:
+Todos os endpoints de listagem seguirao o padrão:
 
 **Request**:
 ```
 GET /slaughter-reports?page=1&limit=20&sort=createdAt&order=desc
 ```
 
-**Parametros de query**:
+**Parâmetros de query**:
 
-| Parametro | Tipo | Padrao | Descricao |
+| Parâmetro | Tipo | Padrão | Descrição |
 |-----------|------|--------|-----------|
-| `page` | number | 1 | Numero da pagina (1-based) |
-| `limit` | number | 20 | Itens por pagina (max: 100) |
-| `sort` | string | `createdAt` | Campo de ordenacao |
+| `page` | number | 1 | Número da página (1-based) |
+| `limit` | number | 20 | Itens por página (max: 100) |
+| `sort` | string | `createdAt` | Campo de ordenação |
 | `order` | string | `desc` | Direcao: `asc` ou `desc` |
 
 **Response**:
@@ -380,12 +380,12 @@ GET /slaughter-reports?page=1&limit=20&sort=createdAt&order=desc
 
 ## 4.8 Swagger
 
-A documentacao interativa da API esta disponivel em `/api/docs` com as seguintes configuracoes:
+A documentação interativa da API está disponível em `/api/docs` com as seguintes configurações:
 
-- **Autorizacao persistente**: O token JWT e mantido entre recarregamentos da pagina
+- **Autorização persistente**: O token JWT e mantido entre recarregamentos da página
 - **Filtro de busca**: Permite buscar endpoints por nome
-- **Duracao de request**: Exibe o tempo de resposta de cada chamada
-- **Servidor padrao**: `http://localhost:3334` (Local Development)
+- **Duração de request**: Exibe o tempo de resposta de cada chamada
+- **Servidor padrão**: `http://localhost:3334` (Local Development)
 
 Para autenticar no Swagger, clique em "Authorize" e insira o token JWT no formato:
 ```
@@ -396,15 +396,15 @@ Para autenticar no Swagger, clique em "Authorize" e insira o token JWT no format
 
 ## 4.9 Enums da API
 
-Os seguintes enums sao utilizados nos endpoints:
+Os seguintes enums são utilizados nos endpoints:
 
 | Enum | Valores | Nota |
 |------|---------|------|
-| UserRole | `admin`, `coordenador`, `supervisor`, `operador` | `gestor` existe no enum mas NAO e usado na v1.0 |
+| UserRole | `admin`, `coordenador`, `supervisor`, `operador` | `gestor` existe no enum mas NÃO e usado na v1.0 |
 | Species | `bovino`, `ave` | Demais especies suprimidas na v1.0 (sem FM implementado) |
 | Shift | `matutino`, `vespertino`, `noturno`, `integral` | |
 | PlantType | `abatedouro`, `frigorifico`, `laticinio`, `processamento`, `armazenamento`, `outro` | |
-| ReportStatus | `rascunho`, `assinado`, `cancelado` | Workflow: rascunho → assinado (final). Sem etapa de aprovacao |
+| ReportStatus | `rascunho`, `assinado`, `cancelado` | Workflow: rascunho → assinado (final). Sem etapa de aprovação |
 | ShippingType | `exportacao`, `venda_interna`, `transferencia` | |
 | TransportType | `terrestre`, `aereo`, `maritimo` | |
 | Severity | `critica`, `maior`, `menor`, `observacao` | |
@@ -413,21 +413,21 @@ Os seguintes enums sao utilizados nos endpoints:
 
 ---
 
-## 4.10 Endpoints de Exportacao PDF
+## 4.10 Endpoints de Exportação PDF
 
-Cada tipo de relatorio possui um endpoint de geracao de PDF fiel ao modelo FAMBRAS:
+Cada tipo de relatório possui um endpoint de geração de PDF fiel ao modelo FAMBRAS:
 
-| Endpoint | FM | Descricao |
+| Endpoint | FM | Descrição |
 |----------|----|-----------|
-| `GET /slaughter-reports/:id/pdf` | FM 7.1.4.1 (aves) / FM 7.1.4.2 (bovino) | PDF de relatorio de abate |
-| `GET /production-reports/:id/pdf` | FM 7.1.3.1 | PDF de relatorio de producao |
-| `GET /shipping-reports/:id/pdf` | FM 7.1.7.1 / 7.1.7.3 / 7.1.7.4 | PDF de relatorio de embarque |
+| `GET /slaughter-reports/:id/pdf` | FM 7.1.4.1 (aves) / FM 7.1.4.2 (bovino) | PDF de relatório de abate |
+| `GET /production-reports/:id/pdf` | FM 7.1.3.1 | PDF de relatório de produção |
+| `GET /shipping-reports/:id/pdf` | FM 7.1.7.1 / 7.1.7.3 / 7.1.7.4 | PDF de relatório de embarque |
 
 **Caracteristicas do PDF gerado**:
-- Cabecalho com logo FAMBRAS Halal + numero FM + revisao + data + paginacao
-- Textos bilingues (portugues/ingles) conforme formularios originais
+- Cabeçalho com logo FAMBRAS Halal + número FM + revisão + data + páginação
+- Textos bilingues (portugues/ingles) conforme formulários originais
 - Tabelas formatadas conforme layout FM FAMBRAS
-- Area de assinatura com declaracao bilingue do supervisor
+- Area de assinatura com declaração bilíngue do supervisor
 - Hash SHA-256 da assinatura digital exibido no rodape
 - Gerado via **PDFKit** no backend (servidor)
 - Retorna `Content-Type: application/pdf`
@@ -436,9 +436,9 @@ Cada tipo de relatorio possui um endpoint de geracao de PDF fiel ao modelo FAMBR
 
 ## 4.11 Endpoints Planejados — Collaborator (Futuro)
 
-Cadastro de colaboradores operacionais (degoladores, sheiks, auxiliares) que atuam nas plantas mas nao sao usuarios do sistema.
+Cadastro de colaboradores operacionais (degoladores, sheiks, auxiliares) que atuam nas plantas mas não são usuários do sistema.
 
-| Metodo | Rota | Descricao | Roles |
+| Método | Rota | Descrição | Roles |
 |--------|------|-----------|-------|
 | GET | `/collaborators` | Lista colaboradores com filtros | todos |
 | GET | `/collaborators/:id` | Busca colaborador por ID | todos |
@@ -449,6 +449,6 @@ Cadastro de colaboradores operacionais (degoladores, sheiks, auxiliares) que atu
 
 **Filtros de listagem**:
 - `?plantId=uuid` - Filtrar por planta vinculada
-- `?role=degolador` - Filtrar por funcao (degolador, sheik, auxiliar, supervisor_planta, veterinario)
+- `?role=degolador` - Filtrar por função (degolador, sheik, auxiliar, supervisor_planta, veterinario)
 - `?isActive=true` - Filtrar ativos/inativos
 - `?search=nome` - Busca por nome

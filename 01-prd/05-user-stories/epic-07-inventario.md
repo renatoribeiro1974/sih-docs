@@ -1,24 +1,24 @@
 ---
-title: Epic 07 - Inventario
+title: Epic 07 - Inventário
 parent: User Stories
 grand_parent: PRD
 nav_order: 7
 ---
 
-# Epic 07: Inventario (FASE FUTURA)
+# Epic 07: Inventário (FASE FUTURA)
 
 **FM 7.1.5.1 (Carne) + FM 7.1.5.6 (Lotes) + FM 7.1.3.6 (Rotulagem)**
 **6 User Stories | Story Points TBD | Prioridade P2 (FUTURO)**
 
 ---
 
-> **NOTA**: Este epico esta **documentado mas NAO sera implementado na v1.0**. O modelo de dados foi desenhado e validado com dados reais (6 planilhas Excel, 25 abas, 23.000+ linhas) para evitar retrabalho quando for implementado. A implementacao sera via migration separada adicionando as tabelas ao banco existente.
+> **NOTA**: Este épico está **documentado mas NÃO será implementado na v1.0**. O modelo de dados foi desenhado e validado com dados reais (6 planilhas Excel, 25 abas, 23.000+ linhas) para evitar retrabalho quando for implementado. A implementação será via migration separada adicionando as tabelas ao banco existente.
 
 ---
 
 ## Contexto
 
-O inventario Halal opera no conceito de **conta corrente** (running balance): saldo = entrada - saida. Existem 3 tipos distintos de inventario, cada um rastreando um elo diferente da cadeia produtiva.
+O inventário Halal opera no conceito de **conta corrente** (running balance): saldo = entrada - saída. Existem 3 tipos distintos de inventário, cada um rastreando um elo diferente da cadeia produtiva.
 
 ### Cadeia de Rastreabilidade
 
@@ -40,17 +40,17 @@ Relatorio de Embarque (FM 7.1.7.x)
 
 **FM 7.1.5.1 - Conta Corrente de Carne:**
 - `MeatInventoryReceipt` → `MeatInventoryCut` → `MeatInventoryUsage`
-- Hierarquico: recebimento pai → cortes filhos → usos em producao
+- Hierárquico: recebimento pai → cortes filhos → usos em produção
 
-**FM 7.1.5.6 - Inventario de Lotes:**
+**FM 7.1.5.6 - Inventário de Lotes:**
 - `BatchInventory` → `BatchTransfer`
-- Lote gerado → transferencias para outras unidades
+- Lote gerado → transferências para outras unidades
 
-**FM 7.1.3.6 - Inventario de Rotulagem:**
+**FM 7.1.3.6 - Inventário de Rotulagem:**
 - `LabelingInventory`
-- Fluxo: recebido sem rotulo → rotulado → embarcado/descartado
+- Fluxo: recebido sem rótulo → rotulado → embarcado/descartado
 
-### Codigo Futuro
+### Código Futuro
 
 - Backend: `src/inventory/meat/`, `src/inventory/batch/`, `src/inventory/labeling/`
 - Frontend: `src/pages/inventory/`
@@ -59,7 +59,7 @@ Relatorio de Embarque (FM 7.1.7.x)
 
 ## User Stories
 
-### Feature 7.1: Inventario de Carne Halal (FM 7.1.5.1)
+### Feature 7.1: Inventário de Carne Halal (FM 7.1.5.1)
 
 #### SIH-034: Registrar Recebimento de Carne Halal
 
@@ -72,16 +72,16 @@ Para que o inventario de conta corrente seja atualizado com a entrada.
 **Prioridade**: P2 - Nice to Have (Futuro)
 **Estimativa**: TBD
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Dados do recebimento**:
   - Data de recebimento
   - Especie (bovino, ave)
-  - Nome do frigorifico fornecedor
-  - SIF do fornecedor (obrigatorio)
-  - Numero do certificado Halal
-  - Periodo de abate (data inicio - data fim)
-  - Numero CSN (Certificado Sanitario Nacional)
+  - Nome do frigorífico fornecedor
+  - SIF do fornecedor (obrigatório)
+  - Número do certificado Halal
+  - Período de abate (data início - data fim)
+  - Número CSN (Certificado Sanitario Nacional)
   - Peso total recebido (kg)
 
 - [ ] **Detalhamento por tipo de corte** (sub-linhas):
@@ -89,11 +89,11 @@ Para que o inventario de conta corrente seja atualizado com a entrada.
   - Peso recebido por corte (kg)
   - Soma dos cortes = peso total recebido
 
-- [ ] **Saldo automatico**: Saldo inicial = peso total recebido
+- [ ] **Saldo automático**: Saldo inicial = peso total recebido
 
 ---
 
-#### SIH-035: Registrar Uso de Carne em Producao
+#### SIH-035: Registrar Uso de Carne em Produção
 
 ```
 Como supervisor muculmano,
@@ -104,27 +104,27 @@ Para que o saldo de conta corrente seja atualizado com a saida.
 **Prioridade**: P2 - Nice to Have (Futuro)
 **Estimativa**: TBD
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Dados do uso**:
-  - Data de producao
-  - Tipo de corte utilizado (select do inventario disponivel)
-  - Codigos dos produtos fabricados
+  - Data de produção
+  - Tipo de corte utilizado (select do inventário disponível)
+  - Códigos dos produtos fabricados
   - Peso utilizado (kg)
-  - Link opcional ao relatorio de producao (ProductionReport)
+  - Link opcional ao relatório de produção (ProductionReport)
 
-- [ ] **Validacoes**:
-  - Peso utilizado <= saldo disponivel do corte
-  - Saldo atualizado automaticamente: `currentBalanceKg = totalRecebido - somaUtilizado`
+- [ ] **Válidações**:
+  - Peso utilizado <= saldo disponível do corte
+  - Saldo atualizado automáticamente: `currentBalanceKg = totalRecebido - somaUtilizado`
 
-- [ ] **Visao de saldo**:
+- [ ] **Visão de saldo**:
   - Tabela com: recebimento, cortes, peso recebido, peso utilizado, saldo atual
   - Destaque para itens com saldo zerado
-  - Separacao por especie (bovino, ave)
+  - Separação por especie (bovino, ave)
 
 ---
 
-### Feature 7.2: Inventario de Lotes (FM 7.1.5.6)
+### Feature 7.2: Inventário de Lotes (FM 7.1.5.6)
 
 #### SIH-036: Registrar Lote Produzido
 
@@ -137,19 +137,19 @@ Para que o rastreamento de lotes gerados seja mantido.
 **Prioridade**: P2 - Nice to Have (Futuro)
 **Estimativa**: TBD
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Dados do lote**:
-  - Data de producao
-  - Numero do documento sanitario
-  - Codigo do lote gerado (obrigatorio)
+  - Data de produção
+  - Número do documento sanitario
+  - Código do lote gerado (obrigatório)
   - Peso liquido gerado (kg)
 
 - [ ] **Saldo inicial**: `currentStockKg = weightGeneratedKg`
 
 ---
 
-#### SIH-037: Registrar Transferencia de Lote
+#### SIH-037: Registrar Transferência de Lote
 
 ```
 Como supervisor muculmano,
@@ -160,27 +160,27 @@ Para que o saldo do inventario de lotes seja atualizado.
 **Prioridade**: P2 - Nice to Have (Futuro)
 **Estimativa**: TBD
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Dados da transferencia**:
-  - Lote de origem (select do inventario)
-  - Data de transferencia
-  - Numero do documento sanitario da transferencia
-  - Codigo do lote na transferencia
+- [ ] **Dados da transferência**:
+  - Lote de origem (select do inventário)
+  - Data de transferência
+  - Número do documento sanitario da transferência
+  - Código do lote na transferência
   - Peso transferido (kg)
   - Unidade industrial destino (texto)
-  - Link opcional ao relatorio de embarque (ShippingReport type=transferencia)
+  - Link opcional ao relatório de embarque (ShippingReport type=transferência)
 
-- [ ] **Validacoes**:
+- [ ] **Válidações**:
   - Peso transferido <= saldo do lote
   - Saldo atualizado: `currentStockKg = gerado - somaTransferido`
-  - Historico de transferencias por lote
+  - Histórico de transferências por lote
 
 ---
 
-### Feature 7.3: Inventario de Rotulagem (FM 7.1.3.6)
+### Feature 7.3: Inventário de Rotulagem (FM 7.1.3.6)
 
-#### SIH-038: Registrar Movimentacao de Rotulagem
+#### SIH-038: Registrar Movimentação de Rotulagem
 
 ```
 Como supervisor muculmano,
@@ -191,32 +191,32 @@ Para que o rastreamento de produtos rotulados seja mantido.
 **Prioridade**: P2 - Nice to Have (Futuro)
 **Estimativa**: TBD
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
 - [ ] **Dados por registro**:
   - Data
   - Categoria do produto (E 340, POUCH, EXTRATO, HAMBURGUER, etc.)
-  - Codigo interno (sem rotulo)
-  - Codigo do produto rotulado
+  - Código interno (sem rótulo)
+  - Código do produto rotulado
   - Nome do produto
 
 - [ ] **Entradas**:
-  - Quantidade recebida sem rotulo
+  - Quantidade recebida sem rótulo
   - Quantidade rotulada
 
-- [ ] **Saidas**:
+- [ ] **Saídas**:
   - Quantidade embarcada
-  - Numero do pedido
-  - Quantidade descartada (com rotulo)
-  - Quantidade descartada (sem rotulo)
+  - Número do pedido
+  - Quantidade descartada (com rótulo)
+  - Quantidade descartada (sem rótulo)
 
 - [ ] **Saldos calculados**:
   - Estoque com rotulagem = acumulado(rotulados) - acumulado(embarcados + descarte rotulado)
-  - Estoque sem rotulagem = acumulado(recebidos) - acumulado(rotulados + descarte sem rotulo)
+  - Estoque sem rotulagem = acumulado(recebidos) - acumulado(rotulados + descarte sem rótulo)
 
 ---
 
-#### SIH-039: Dashboard de Inventario
+#### SIH-039: Dashboard de Inventário
 
 ```
 Como coordenador ou gestor,
@@ -227,37 +227,37 @@ Para que eu tenha visibilidade dos estoques Halal em cada planta.
 **Prioridade**: P2 - Nice to Have (Futuro)
 **Estimativa**: TBD
 
-**Criterios de Aceitacao**:
+**Critérios de Aceitação**:
 
-- [ ] **Visao consolidada por planta**:
-  - Inventario de carne: saldo atual por tipo de corte e especie
-  - Inventario de lotes: lotes em estoque, lotes transferidos
-  - Inventario de rotulagem: estoque com/sem rotulo por categoria
+- [ ] **Visão consolidada por planta**:
+  - Inventário de carne: saldo atual por tipo de corte e especie
+  - Inventário de lotes: lotes em estoque, lotes transferidos
+  - Inventário de rotulagem: estoque com/sem rótulo por categoria
 
 - [ ] **Alertas**:
-  - Saldos negativos (inconsistencia)
+  - Saldos negativos (inconsistência)
   - Lotes com muito tempo em estoque
-  - Saldos zerados (sem material disponivel)
+  - Saldos zerados (sem material disponível)
 
 ---
 
-## Decisoes de Design para Implementacao Futura
+## Decisoes de Design para Implementação Futura
 
 | Decisao | Detalhe |
 |---------|---------|
-| **Saldos** | Calculados via triggers/views no banco (nao em codigo aplicacao) |
-| **Particionamento** | Possivel particionamento mensal para tabelas de alto volume (FM 7.1.5.6: ~1000 linhas/mes) |
-| **Migracao** | Importacao em massa de planilhas Excel existentes (dados historicos) |
-| **Migration** | Tabelas criadas via migration separada (nao inclusa na init) |
-| **Modulos backend** | 3 modulos separados: `inventory/meat/`, `inventory/batch/`, `inventory/labeling/` |
+| **Saldos** | Calculados via triggers/views no banco (não em código aplicação) |
+| **Particionamento** | Possível particionamento mensal para tabelas de alto volume (FM 7.1.5.6: ~1000 linhas/mês) |
+| **Migração** | Importação em massa de planilhas Excel existentes (dados históricos) |
+| **Migration** | Tabelas criadas via migration separada (não inclusa na init) |
+| **Módulos backend** | 3 módulos separados: `inventory/meat/`, `inventory/batch/`, `inventory/labeling/` |
 
-## Dados de Referencia (Planilhas Analisadas)
+## Dados de Referência (Planilhas Analisadas)
 
-| Planilha | Tipo | Abas | Linhas | Observacao |
+| Planilha | Tipo | Abas | Linhas | Observação |
 |----------|------|:----:|:------:|------------|
 | FM 7.1.5.1 - INVENTARIO MSP.xlsx | Carne | 2 | 1.702 | Bovinos (1530) + Aves (172) |
 | FM 7.1.5.6 - INVENTARIO GELNEX.xlsx | Lotes | 11 | ~11.000 | Mensal (mar/25 - jan/26) |
 | FM 7.1.3.6 - ODERICH.xlsx | Rotulagem | 3 | ~2.000 | 3 categorias |
 | PLANILHA INVENTARIO PAMPEANO.xlsx | Rotulagem | 11 | ~15.000 | 11 categorias (E 340: 8068 linhas) |
 | PLANILHA INVENTARIO CARAPRETA.xlsx | Produto | 2 | ~500 | Hamburguer + File Mignon |
-| inventario kin master.xlsx | Produto | 1 | ~200 | Tracking individual |
+| inventário kin master.xlsx | Produto | 1 | ~200 | Tracking individual |

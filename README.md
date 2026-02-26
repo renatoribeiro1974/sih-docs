@@ -2,25 +2,25 @@
 nav_exclude: true
 ---
 
-# SIH - Supervisao Industrial Halal
+# SIH - Supervisão Industrial Halal
 
-**Sistema de digitalizacao dos formularios FM FAMBRAS Halal para supervisao industrial em campo**
+**Sistema de digitalização dos formulários FM FAMBRAS Halal para supervisão industrial em campo**
 
 ---
 
 ## Sobre o Projeto
 
-O SIH substitui os formularios em papel (PDFs) utilizados pelos supervisores muculmanos da FAMBRAS Halal por um sistema digital responsivo, otimizado para uso em tablets em campo.
+O SIH substitui os formulários em papel (PDFs) utilizados pelos supervisores muçulmanos da FAMBRAS Halal por um sistema digital responsivo, otimizado para uso em tablets em campo.
 
-### Formularios Digitalizados
+### Formulários Digitalizados
 
-| Familia | FM | Descricao |
+| Família | FM | Descrição |
 |---------|-----|-----------|
-| Abate | FM 7.1.4.1 / FM 7.1.4.2 | Relatorios de Abate Halal (Aves e Bovinos) |
-| Producao | FM 7.1.3.1 / FM 7.1.8.x | Relatorios de Producao Industrial |
-| Embarque | FM 7.1.7.1 / FM 7.1.7.4 / DCPOA | Embarque, Venda e Transferencia |
-| NC | FM 7.1.6.1 | Checklist de Nao-Conformidade |
-| Inventario | FM 7.1.5.x / FM 7.1.3.6 | Inventario de Carne, Lotes e Rotulagem (futuro) |
+| Abate | FM 7.1.4.1 / FM 7.1.4.2 | Relatórios de Abate Halal (Aves e Bovinos) |
+| Produção | FM 7.1.3.1 / FM 7.1.8.x | Relatórios de Produção Industrial |
+| Embarque | FM 7.1.7.1 / FM 7.1.7.4 / DCPOA | Embarque, Venda e Transferência |
+| NC | FM 7.1.6.1 | Checklist de Não-Conformidade |
+| Inventário | FM 7.1.5.x / FM 7.1.3.6 | Inventário de Carne, Lotes e Rotulagem (futuro) |
 
 ### Tech Stack
 
@@ -31,9 +31,9 @@ O SIH substitui os formularios em papel (PDFs) utilizados pelos supervisores muc
 
 ---
 
-## Documentacao
+## Documentação
 
 - [PRD - Product Requirements Document](./01-prd/README.md)
-- [Documentacao Tecnica](./02-technical/README.md)
+- [Documentação Técnica](./02-technical/README.md)
 - [Guias](./GUIDES/)
 - [Planejamento](./PLANNING/)

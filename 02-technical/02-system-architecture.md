@@ -1,16 +1,16 @@
 ---
 title: Arquitetura do Sistema
-parent: Documentacao Tecnica
+parent: Documentação Técnica
 nav_order: 2
 ---
 
 # 2. Arquitetura do Sistema
 
-**SIH - Supervisao Industrial Halal**
+**SIH - Supervisão Industrial Halal**
 
 ---
 
-## 2.1 Diagrama de Alto Nivel
+## 2.1 Diagrama de Alto Nível
 
 ```
                               ┌────────────────────────────────┐
@@ -53,9 +53,9 @@ nav_order: 2
 
 ## 2.2 Mapeamento de Portas
 
-O SIH usa portas diferentes do HalalSphere (Gestao de Certificacoes) para permitir execucao simultanea em ambiente de desenvolvimento.
+O SIH usa portas diferentes do HalalSphere (Gestão de Certificações) para permitir execução simultanea em ambiente de desenvolvimento.
 
-| Servico | Porta SIH | Porta HalalSphere | Protocolo |
+| Serviço | Porta SIH | Porta HalalSphere | Protocolo |
 |---------|:---------:|:-----------------:|-----------|
 | Frontend (dev server) | **5174** | 5173 | HTTP |
 | Backend API | **3334** | 3333 | HTTP |
@@ -75,9 +75,9 @@ O SIH usa portas diferentes do HalalSphere (Gestao de Certificacoes) para permit
 
 ## 2.3 Estrutura do Backend
 
-### Modulos NestJS
+### Módulos NestJS
 
-O backend segue a arquitetura modular do NestJS. Os modulos atuais sao de infraestrutura; os modulos de dominio serao adicionados conforme os epicos forem implementados.
+O backend segue a arquitetura modular do NestJS. Os módulos atuais são de infraestrutura; os módulos de domínio serão adicionados conforme os épicos forem implementados.
 
 ```
 sih-backend/src/
@@ -126,18 +126,18 @@ sih-backend/src/
     └── index.ts                     #   Re-export
 ```
 
-### Modulos de Dominio (Futuros)
+### Módulos de Domínio (Futuros)
 
-Conforme os epicos forem implementados, os seguintes modulos serao adicionados:
+Conforme os épicos forem implementados, os seguintes módulos serão adicionados:
 
-| Modulo | Epico | Descricao |
+| Módulo | Épico | Descrição |
 |--------|-------|-----------|
-| `slaughter-report/` | Epic 01 | Relatorios de abate (aves e bovinos) |
-| `production-report/` | Epic 02 | Relatorios de producao industrial |
-| `shipping-report/` | Epic 03 | Relatorios de embarque, venda e transferencia |
-| `non-conformity/` | Epic 04 | Gestao de nao-conformidades |
+| `slaughter-report/` | Epic 01 | Relatórios de abate (aves e bovinos) |
+| `production-report/` | Epic 02 | Relatórios de produção industrial |
+| `shipping-report/` | Epic 03 | Relatórios de embarque, venda e transferência |
+| `non-conformity/` | Epic 04 | Gestão de não-conformidades |
 | `schedule/` | Epic 05 | Escala de supervisores |
-| `dashboard/` | Epic 06 | Dashboard e relatorios gerenciais |
+| `dashboard/` | Epic 06 | Dashboard e relatórios gerênciais |
 | `plant/` | Compartilhado | CRUD de plantas industriais |
 | `supervisor-profile/` | Compartilhado | Perfil local do supervisor |
 
@@ -161,22 +161,22 @@ Request
 Response
 ```
 
-### Configuracao de Validacao
+### Configuração de Validação
 
-O `ValidationPipe` global esta configurado com:
+O `ValidationPipe` global está configurado com:
 
 | Opcao | Valor | Efeito |
 |-------|-------|--------|
-| `whitelist` | `true` | Remove propriedades nao declaradas no DTO |
+| `whitelist` | `true` | Remove propriedades não declaradas no DTO |
 | `forbidNonWhitelisted` | `true` | Retorna erro 400 para propriedades desconhecidas |
-| `transform` | `true` | Transforma payloads no tipo do DTO automaticamente |
+| `transform` | `true` | Transforma payloads no tipo do DTO automáticamente |
 | `enableImplicitConversion` | `true` | Converte tipos primitivos (string → number) |
 
 ---
 
 ## 2.4 Estrutura do Frontend
 
-### Organizacao de Arquivos
+### Organização de Arquivos
 
 ```
 sih-frontend/src/
@@ -217,25 +217,25 @@ sih-frontend/src/
     └── Dashboard.tsx                #   Dashboard principal (Epic 06)
 ```
 
-### Padroes do Frontend
+### Padrões do Frontend
 
-| Padrao | Implementacao | Observacao |
+| Padrão | Implementação | Observação |
 |--------|---------------|------------|
-| Estado do servidor | React Query (`@tanstack/react-query`) | Cache automatico, revalidacao, staleTime: 5min |
-| Estado local | React Hooks (`useState`, `useReducer`) | Para estado de UI (modais, formularios) |
-| Formularios | React Hook Form + Zod | Validacao inline, autosave de rascunho (30s) |
+| Estado do servidor | React Query (`@tanstack/react-query`) | Cache automático, revalidação, staleTime: 5min |
+| Estado local | React Hooks (`useState`, `useReducer`) | Para estado de UI (modais, formulários) |
+| Formulários | React Hook Form + Zod | Validação inline, autosave de rascunho (30s) |
 | Roteamento | React Router v7 | Lazy loading por rota (code splitting) |
 | HTTP Client | Axios | Interceptors para JWT e tratamento de erros |
-| Estilizacao | Tailwind CSS + CVA | Utility-first com variantes de componentes |
+| Estilização | Tailwind CSS + CVA | Útility-first com variantes de componentes |
 | Componentes | shadcn/ui (Radix UI) | Copiados para o projeto, customizados com tema FAMBRAS |
 
 ---
 
-## 2.5 Padroes de Comunicacao
+## 2.5 Padrões de Comúnicação
 
 ### REST API
 
-Toda comunicacao entre frontend e backend e via REST API com JSON.
+Toda comúnicação entre frontend e backend e via REST API com JSON.
 
 ```
 Frontend (React)                    Backend (NestJS)
@@ -256,7 +256,7 @@ Frontend (React)                    Backend (NestJS)
      │                                    │
 ```
 
-### Fluxo de Autenticacao JWT
+### Fluxo de Autenticação JWT
 
 ```
 ┌──────────────┐     ┌──────────────────┐     ┌──────────────────┐
@@ -296,13 +296,13 @@ Frontend (React)                    Backend (NestJS)
 
 **Pontos importantes**:
 - Na v1.0, o login e feito diretamente no **backend SIH** (`POST /auth/login`)
-- Autenticacao **self-contained**: bcrypt para senhas + JWT HS256 para tokens
-- O JWT tem validade de **7 dias** (estendida para uso em campo)
-- NAO depende do HalalSphere para autenticar (integracao futura via SSO)
+- Autenticação **self-contained**: bcrypt para senhas + JWT HS256 para tokens
+- O JWT tem válidade de **7 dias** (estendida para uso em campo)
+- NÃO depende do HalalSphere para autenticar (integração futura via SSO)
 
-### Padroes de Resposta da API
+### Padrões de Resposta da API
 
-#### Sucesso (lista paginada)
+#### Sucesso (lista páginada)
 
 ```json
 {
@@ -318,7 +318,7 @@ Frontend (React)                    Backend (NestJS)
 }
 ```
 
-#### Sucesso (item unico)
+#### Sucesso (item único)
 
 ```json
 {
@@ -373,13 +373,13 @@ Frontend (React)                    Backend (NestJS)
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**Modos de execucao**:
+**Modos de execução**:
 - `docker compose up -d` → Sobe apenas infraestrutura (PostgreSQL + Redis)
 - `docker compose --profile full up -d` → Sobe tudo (infra + backend em container)
 - O frontend sempre roda no host via `npm run dev` (Vite dev server)
 - O backend pode rodar no host (`npm run start:dev`) ou em container (profile full)
 
-### Producao (AWS)
+### Produção (AWS)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -415,10 +415,10 @@ Frontend (React)                    Backend (NestJS)
 ```
 
 **Fluxo de deploy**:
-1. Frontend: Build Vite → upload para S3 → invalidacao CloudFront
+1. Frontend: Build Vite → upload para S3 → invalidação CloudFront
 2. Backend: Build Docker → push para ECR → deploy no ECS Fargate
-3. Banco: Migracao Prisma executada antes do deploy (via CI/CD)
-4. Configuracao: Secrets Manager (credenciais) + SSM Parameter Store (config)
+3. Banco: Migração Prisma executada antes do deploy (via CI/CD)
+4. Configuração: Secrets Manager (credenciais) + SSM Parameter Store (config)
 
 ---
 
@@ -439,13 +439,13 @@ O SIH faz parte de um ecossistema de 3 sistemas independentes. Na v1.0, o SIH op
 └──────────────────────────┘         └──────────────────────────┘         └──────────────────────────┘
 ```
 
-| Ponto de Integracao | Direcao | Status |
+| Ponto de Integração | Direcao | Status |
 |---------------------|---------|--------|
-| Autenticacao | Self-contained (SIH proprio) | Implementado (v1.0) |
+| Autenticação | Self-contained (SIH próprio) | Implementado (v1.0) |
 | SSO centralizado | HalalSphere → SIH | Futuro |
 | Cadastros compartilhados | HalalSphere → SIH (plantas, empresas) | Futuro (`externalCompanyId`) |
-| Dados de supervisao | SIH → SysHalal (relatorios, produtos, pesos) | Futuro |
-| NCs criticas | SIH → HalalSphere (webhook) | Futuro |
+| Dados de supervisão | SIH → SysHalal (relatórios, produtos, pesos) | Futuro |
+| NCs críticas | SIH → HalalSphere (webhook) | Futuro |
 
 Consulte [06-integration.md](./06-integration.md) para detalhes completos do ecossistema.
 
@@ -455,13 +455,13 @@ Consulte [06-integration.md](./06-integration.md) para detalhes completos do eco
 
 | Decisao | Escolha | Justificativa |
 |---------|---------|---------------|
-| Monolito vs. Microservicos | **Monolito modular** (NestJS) | Equipe pequena, complexidade baixa na v1.0, modulos podem ser extraidos futuramente |
-| ORM | **Prisma 7** com PrismaPg adapter | Schema-first, migracao automatica, tipagem forte, deploy menor sem query engine binario |
-| Frontend state | **React Query** (server state) + hooks (local state) | Cache automatico, revalidacao inteligente, sem Redux/Zustand |
-| Autenticacao | **Self-contained** (bcrypt + JWT HS256) | Independencia total na v1.0, sem dependencia de sistemas externos |
-| Formularios frontend | **React Hook Form + Zod** | Performance (uncontrolled inputs), validacao robusta, autosave |
-| Estilizacao | **Tailwind CSS + shadcn/ui** | Utility-first, componentes acessiveis (Radix), customizaveis com tema FAMBRAS |
-| Banco de dados | **PostgreSQL separado** (porta 5433) | Independencia total do HalalSphere, deploy separado |
-| PWA | **Preparado** (manifest + SW basico) | Instalavel no tablet, offline completo na v2.0 |
-| Deploy | **AWS ECS Fargate** | Containers sem gerenciar servidores, escalabilidade automatica |
+| Monolito vs. Microserviços | **Monolito modular** (NestJS) | Equipe pequena, complexidade baixa na v1.0, módulos podem ser extraidos futuramente |
+| ORM | **Prisma 7** com PrismaPg adapter | Schema-first, migração automática, tipagem forte, deploy menor sem query engine binario |
+| Frontend state | **React Query** (server state) + hooks (local state) | Cache automático, revalidação inteligente, sem Redux/Zustand |
+| Autenticação | **Self-contained** (bcrypt + JWT HS256) | Independência total na v1.0, sem dependência de sistemas externos |
+| Formulários frontend | **React Hook Form + Zod** | Performance (uncontrolled inputs), validação robusta, autosave |
+| Estilização | **Tailwind CSS + shadcn/ui** | Útility-first, componentes acessiveis (Radix), customizaveis com tema FAMBRAS |
+| Banco de dados | **PostgreSQL separado** (porta 5433) | Independência total do HalalSphere, deploy separado |
+| PWA | **Preparado** (manifest + SW básico) | Instalavel no tablet, offline completo na v2.0 |
+| Deploy | **AWS ECS Fargate** | Containers sem gerênciar servidores, escalabilidade automática |
 | CDN | **CloudFront + S3** | Frontend estatico com cache global, baixa latencia |
