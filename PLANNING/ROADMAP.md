@@ -6,8 +6,8 @@ nav_order: 5
 # Roadmap Detalhado de Implementação
 
 **Projeto**: SIH - Supervisão Industrial Halal
-**Versão**: v1.0
-**Última Atualização**: 2026-02-25
+**Versão**: v1.0+
+**Última Atualização**: 2026-02-26
 
 ---
 
@@ -22,6 +22,7 @@ nav_order: 5
 | Fase 5 | Frontend Pages (Páginas) | COMPLETA | 7/7 grupos |
 | Fase 6 | Finalização (Seed + Builds) | COMPLETA | 4/4 tarefas |
 | Fase 7 | Revisão Abrangente (FM FAMBRAS) | COMPLETA | 9/9 tarefas |
+| Fase 8 | BI/Analytics | COMPLETA | 4/4 tarefas |
 
 **Resumo de User Stories v1.0**: 39 stories | 7 épicos
 
@@ -193,6 +194,35 @@ Baseada na análise dos formulários FAMBRAS reais (FM 7.1.4.1, FM 7.1.4.2, FM 7
   - Endpoint `GET /:id/pdf` nos 3 controllers de relatório
 
 **Verificação**: Coordenador vê relatórios read-only sem botão assinar/criar, sidebar agrupada, abate aves com 5 parâmetros ×2 horários, embarque com campos vendedor/cliente, produção com 8 colunas, PDF com logo FAMBRAS.
+
+---
+
+## Fase 8: BI/Analytics (COMPLETA)
+
+**Objetivo**: Módulo de Business Intelligence com gráficos interativos para indicadores de produção, abate, embarque, NCs e performance de supervisores.
+
+- [x] **8.1** Recharts instalado + componentes base
+  - ChartCard, KPICard, DateRangeFilter, PlantFilter
+  - Dependência react-is instalada
+- [x] **8.2** Backend: 6 endpoints analytics
+  - `GET /dashboard/reports-trend` — tendência de relatórios por período
+  - `GET /dashboard/slaughter-analytics` — volume, espécie, turno, planta, taxa aprovação
+  - `GET /dashboard/production-analytics` — volume kg, top produtos, por planta
+  - `GET /dashboard/shipping-analytics` — por tipo, destino, transporte
+  - `GET /dashboard/nc-analytics` — tendência severidade, tempo resolução, vencidas
+  - `GET /dashboard/supervisor-analytics` — ranking, tempo assinatura, plantas
+- [x] **8.3** Frontend: 6 páginas analytics
+  - AnalyticsOverview (6 KPIs + 5 gráficos)
+  - SlaughterAnalytics (volume, espécie, turno, rejeição por planta)
+  - ProductionAnalytics (volume kg, top produtos, por planta)
+  - ShippingAnalytics (por tipo, destino, transporte)
+  - NCAnalytics (tendência, resolução, status, vencidas)
+  - SupervisorAnalytics (ranking, tempo assinatura)
+- [x] **8.4** Sidebar + rotas
+  - Item "Analytics" com ícone BarChart3
+  - 6 rotas /analytics/*
+
+**Verificação**: Filtros de período e planta funcionam, gráficos renderizam, builds passam.
 
 ---
 
