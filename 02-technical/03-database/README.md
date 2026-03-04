@@ -26,7 +26,7 @@ O SIH utiliza **PostgreSQL 16** como banco de dados relacional, gerênciado via 
 | Item | Quantidade |
 |------|-----------|
 | Modelos (tabelas) | 10 (7 originais + Collaborator, CollaboratorPlant, ReportStaff) |
-| Enums | 10 |
+| Enums | 11 (10 originais + CollaboratorType) |
 | Índices compostos | 18 |
 | Constraints unique | 7 |
 
@@ -177,9 +177,12 @@ O SIH utiliza **PostgreSQL 16** como banco de dados relacional, gerênciado via 
 | SlaughterReport → NonConformity | 1:N | `slaughterReportId` | NCs vinculadas a abate (opcional) |
 | ProductionReport → NonConformity | 1:N | `productionReportId` | NCs vinculadas a produção (opcional) |
 | ShippingReport → NonConformity | 1:N | `shippingReportId` | NCs vinculadas a embarque (opcional) |
-| Collaborator → CollaboratorPlant | 1:N | `collaboratorId` | Plantas onde o colaborador atua (planejado) |
-| Plant → CollaboratorPlant | 1:N | `plantId` | Colaboradores vinculados a planta (planejado) |
-| Collaborator → ReportStaff | 1:N | `collaboratorId` | Relatórios onde o colaborador atuou (planejado) |
+| Collaborator → CollaboratorPlant | 1:N | `collaboratorId` | Plantas onde o colaborador atua |
+| Plant → CollaboratorPlant | 1:N | `plantId` | Colaboradores vinculados à planta |
+| Collaborator → ReportStaff | 1:N | `collaboratorId` | Relatórios onde o colaborador atuou |
+| SlaughterReport → ReportStaff | 1:N | `slaughterReportId` | Equipe do relatório de abate |
+| ProductionReport → ReportStaff | 1:N | `productionReportId` | Equipe do relatório de produção |
+| ShippingReport → ReportStaff | 1:N | `shippingReportId` | Equipe do relatório de embarque |
 
 ---
 
@@ -194,7 +197,16 @@ Papéis de usuário no sistema.
 | `coordenador` | Coordenador de supervisores: gerência escalas, cria/edita usuários, visualiza relatórios (read-only), cancela relatórios, gerência NCs. NÃO assina relatórios |
 | `supervisor` | Supervisor Halal que preenche e assina relatórios nas plantas |
 | `operador` | Operador que preenche relatórios mas NÃO pode assinar |
-| `gestor` | (legado — NÃO USADO na v1.0) |
+### CollaboratorType
+Tipo/função do colaborador operacional (não-usuário).
+
+| Valor | Descrição |
+|-------|-----------|
+| `degolador` | Profissional que realiza o abate Halal |
+| `sheik` | Líder religioso que supervisiona o processo |
+| `auxiliar` | Auxiliar de supervisão |
+| `veterinario` | Médico veterinário |
+| `outro` | Outro tipo de colaborador |
 
 ### Species
 Especies animais cobertas pela supervisão Halal na v1.0. Apenas bovino e ave possuem formulários FM implementados.
@@ -204,7 +216,7 @@ Especies animais cobertas pela supervisão Halal na v1.0. Apenas bovino e ave po
 | `bovino` | Bovinos (gado) | FM 7.1.4.2 |
 | `ave` | Aves (frango, peru) | FM 7.1.4.1 |
 
-> **Nota**: As demais especies (ovino, caprino, bubalino, equino, peixe) foram suprimidas na v1.0 pois não possuem FM específico implementado. Poderao ser adicionadas em versões futuras.
+> **Nota**: As demais espécies (ovino, caprino, bubalino, equino, peixe) foram removidas do schema na migração `remove_legacy_species` pois não possuem FM específico. Poderão ser adicionadas em versões futuras.
 
 ### Shift
 Turnos de trabalho na planta industrial.
@@ -237,7 +249,7 @@ Status do ciclo de vida dos relatórios (Abate, Produção, Embarque). Workflow 
 | `assinado` | Assinado pelo supervisor (estado final — imutável) |
 | `cancelado` | Cancelado pelo coordenador/admin (com motivo obrigatório) |
 
-> **Nota**: Os valores `enviado`, `revisado`, `aprovado`, `rejeitado` existem no enum do Prisma por compatibilidade mas NÃO são usados no workflow v1.0. A assinatura e o único passo de finalização.
+> **Nota**: Os valores legados (`enviado`, `revisado`, `aprovado`, `rejeitado`, `gestor`) foram removidos do schema Prisma na migração `remove_legacy_enums`.
 
 ### ShippingType
 Tipo de movimentação de embarque/venda.
@@ -548,66 +560,72 @@ Escala de trabalho dos supervisores nas plantas industriais. Permite ao coordena
 
 ---
 
-### 3.4.8 Collaborator (`collaborators`) — Planejado
+### 3.4.8 Collaborator (`collaborators`) — Implementado
 
-Cadastro de colaboradores operacionais que atuam nas plantas mas não são usuários do sistema (degoladores, sheiks, auxiliares, veterinarios). Modelo planejado para implementação futura com campo `externalId` para integração com HalalSphere.
+Cadastro de colaboradores operacionais que atuam nas plantas mas não são usuários do sistema (degoladores, sheiks, auxiliares, veterinários). Campo `externalId` preparado para integração futura com HalalSphere.
 
 | Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
 | `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
-| `externalId` | String | Sim | - | ID no sistema externo (HalalSphere) para integração futura |
 | `name` | String | Não | - | Nome completo do colaborador |
-| `document` | String | Não | - | Documento de identificação (RG, CPF ou passaporte) |
-| `documentType` | String | Não | `rg` | Tipo do documento: rg, cpf, passaporte |
-| `role` | String | Não | - | Função: degolador, sheik, auxiliar, supervisor_planta, veterinario |
-| `photoUrl` | String | Sim | - | URL/path da foto do colaborador (S3 em produção, local em dev) |
+| `document` | String | Sim | - | Documento de identificação (RG, CPF ou passaporte) |
+| `type` | CollaboratorType | Não | - | Tipo: degolador, sheik, auxiliar, veterinario, outro |
 | `phone` | String | Sim | - | Telefone de contato |
-| `email` | String | Sim | - | Email de contato |
+| `photoUrl` | String | Sim | - | URL/path da foto do colaborador |
+| `externalId` | String | Sim | - | ID no sistema externo (HalalSphere) para integração futura |
 | `isActive` | Boolean | Não | `true` | Se o colaborador está ativo |
 | `created_at` | DateTime | Não | `now()` | Data de criação do registro |
 | `updated_at` | DateTime | Não | auto | Data da última atualização |
 
-**Constraints:**
-- `UNIQUE` em `externalId` (quando presente)
+**Índices:**
+- `(type, isActive)` — Busca por tipo de colaborador e status
 
-**Foto do colaborador:**
-- Upload via `POST /collaborators/:id/photo` (multipart/form-data)
-- Formatos aceitos: JPEG, PNG (max 2MB)
-- Armazenamento: `uploads/collaborators/` em dev, S3 em produção
-- `photoUrl` armazena o path relativo ou URL S3
+**Endpoints:**
+- CRUD completo via `GET/POST/PATCH /collaborators`
+- Upload foto: `POST /collaborators/:id/photo`
+- Vinculação plantas: `POST/DELETE /collaborators/:id/plants`
 
 ---
 
-### 3.4.9 CollaboratorPlant (`collaborator_plants`) — Planejado
+### 3.4.9 CollaboratorPlant (`collaborator_plants`) — Implementado
 
 Tabela de ligação N:N entre colaboradores e plantas onde atuam.
 
 | Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
-| `collaboratorId` | UUID | Não | - | FK para Collaborator |
-| `plantId` | UUID | Não | - | FK para Plant |
+| `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
+| `collaboratorId` | UUID | Não | - | FK para Collaborator (CASCADE) |
+| `plantId` | UUID | Não | - | FK para Plant (CASCADE) |
+| `assignedAt` | DateTime | Não | `now()` | Data de vinculação |
 
 **Constraints:**
-- `PRIMARY KEY` composta em `(collaboratorId, plantId)`
+- `UNIQUE` composta em `(collaboratorId, plantId)`
+
+**Índices:**
+- `(plantId)` — Busca de colaboradores por planta
 
 ---
 
-### 3.4.10 ReportStaff (`report_staff`) — Planejado
+### 3.4.10 ReportStaff (`report_staff`) — Implementado
 
-Vinculação N:N entre colaboradores e relatórios, registrando a equipe que atuou em cada dia/relatório específico.
+Vinculação N:N entre colaboradores e relatórios, registrando a equipe que atuou em cada relatório. Usa FKs separadas para cada tipo de relatório (apenas uma preenchida por registro).
 
 | Campo | Tipo | Nullable | Default | Descrição |
 |-------|------|----------|---------|-----------|
 | `id` | UUID | Não | `uuid_generate_v4()` | Chave primaria |
-| `collaboratorId` | UUID | Não | - | FK para Collaborator |
-| `reportId` | UUID | Não | - | ID do relatório (abate, produção ou embarque) |
-| `reportType` | String | Não | - | Tipo: slaughter, production, shipping |
-| `roleInReport` | String | Não | - | Função específica naquele dia/relatório |
-| `date` | DateTime | Não | - | Data do serviço |
+| `collaboratorId` | UUID | Não | - | FK para Collaborator (CASCADE) |
+| `role` | String | Sim | - | Função específica naquele relatório |
+| `slaughterReportId` | UUID | Sim | - | FK para SlaughterReport (CASCADE) |
+| `productionReportId` | UUID | Sim | - | FK para ProductionReport (CASCADE) |
+| `shippingReportId` | UUID | Sim | - | FK para ShippingReport (CASCADE) |
 
 **Índices:**
-- `(reportId, reportType)` — Busca de equipe por relatório
-- `(collaboratorId, date)` — Histórico de atuação do colaborador
+- `(collaboratorId)` — Histórico de atuação do colaborador
+- `(slaughterReportId)` — Equipe do relatório de abate
+- `(productionReportId)` — Equipe do relatório de produção
+- `(shippingReportId)` — Equipe do relatório de embarque
+
+**Utilitário backend:** `syncReportStaff()` em `src/common/utils/report-staff.util.ts` gerencia a sincronização via delete+create nos 3 tipos de relatório.
 
 ---
 
@@ -635,9 +653,9 @@ Vinculação N:N entre colaboradores e relatórios, registrando a equipe que atu
 | ShippingReport | `shipping_reports` | Implementado |
 | NonConformity | `non_conformities` | Implementado |
 | SupervisorSchedule | `supervisor_schedules` | Implementado |
-| Collaborator | `collaborators` | Planejado |
-| CollaboratorPlant | `collaborator_plants` | Planejado |
-| ReportStaff | `report_staff` | Planejado |
+| Collaborator | `collaborators` | Implementado |
+| CollaboratorPlant | `collaborator_plants` | Implementado |
+| ReportStaff | `report_staff` | Implementado |
 
 ### 3.5.3 Timestamps
 

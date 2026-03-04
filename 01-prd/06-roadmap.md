@@ -10,7 +10,7 @@ nav_order: 6
 
 ## 6.1 Visão Geral
 
-O SIH foi implementado em **7 fases** para a v1.0, mais **4 fases futuras**.
+O SIH foi implementado em **9 fases**, mais **4 fases futuras**.
 
 ```
 Fase 1: Scaffolding ────────→ Repos, configs, workspace           [COMPLETA]
@@ -20,11 +20,13 @@ Fase 4: Frontend Core ──────→ Layout, auth, componentes base      
 Fase 5: Frontend Pages ─────→ Paginas + API hooks + design system [COMPLETA]
 Fase 6: Finalizacao ────────→ Seed, Docker, builds                [COMPLETA]
 Fase 7: Revisao Abrangente ─→ Fidelidade FM FAMBRAS, roles, PDF   [COMPLETA]
+Fase 8: BI/Analytics ──────→ 6 dashboards Recharts + endpoints    [COMPLETA]
+Fase 9: Colaboradores ─────→ CRUD, equipe por relatorio           [COMPLETA]
 ─────────────────────────────────────────────────────
-Futuro: Colaboradores ─────→ Cadastro, foto, equipe por relatorio
-Futuro: Offline Completo ──→ IndexedDB, Background Sync
-Futuro: Inventario ────────→ FM 7.1.5.x, FM 7.1.3.6
-Futuro: Integracao ────────→ HalalSphere ↔ SIH ↔ SysHalal
+Futuro A: 14 FMs Especializados → Subprodutos, Industrializados, Sidebar
+Futuro B: Offline Completo ────→ IndexedDB, Background Sync
+Futuro C: Inventario ──────────→ FM 7.1.5.x, FM 7.1.3.6
+Futuro D: Integracao ──────────→ HalalSphere ↔ SIH ↔ SysHalal
 ```
 
 ---
@@ -149,21 +151,57 @@ Futuro: Integracao ────────→ HalalSphere ↔ SIH ↔ SysHalal
 
 ---
 
-## 6.3 Fases Futuras
+## 6.3 Fases Pós-v1.0
 
-### Fase Futura A: Colaboradores (Collaborator + ReportStaff)
+### Fase 8: BI/Analytics (COMPLETA)
 
-**Prerequisito**: v1.0 em produção.
+**Objetivo**: Módulo de Business Intelligence com gráficos interativos.
 
-| Componente | Descrição |
-|-----------|-----------|
-| Cadastro de colaboradores | CRUD de degoladores, sheiks, auxiliares, veterinarios (não-usuários) |
-| Foto do colaborador | Upload de foto (JPEG/PNG, max 2MB) via multipart/form-data |
-| Vinculação N:N com plantas | `CollaboratorPlant` — plantas onde o colaborador atua |
-| Equipe por relatório | `ReportStaff` — vinculação N:N entre colaboradores e relatórios |
-| Tela "Equipe do dia" | Selecao multipla de colaboradores ao preencher relatório |
-| PDF com equipe | Relatório impresso lista a equipe envolvida |
-| Campo `externalId` | Preparado para integração futura com HalalSphere |
+| # | Tarefa | Entregável |
+|---|--------|-----------|
+| 42 | Recharts + componentes base | ChartCard, KPICard, DateRangeFilter, PlantFilter |
+| 43 | Backend analytics (6 endpoints) | reports-trend, slaughter/production/shipping/nc/supervisor-analytics |
+| 44 | Frontend analytics (6 páginas) | AnalyticsOverview, Slaughter, Production, Shipping, NC, Supervisor |
+| 45 | Sidebar + rotas | Item "Analytics" (BarChart3), 6 rotas /analytics/* |
+
+**Verificação**: Filtros de período e planta funcionam, gráficos renderizam, builds passam.
+
+---
+
+### Fase 9: Colaboradores (COMPLETA)
+
+**Objetivo**: Cadastro de profissionais não-usuários e vinculação como equipe em relatórios.
+
+| # | Tarefa | Entregável |
+|---|--------|-----------|
+| 46 | Schema Prisma + Migration | 3 modelos (Collaborator, CollaboratorPlant, ReportStaff) + enum CollaboratorType |
+| 47 | Backend Collaborator | CRUD 10 endpoints, `@Roles('admin', 'coordenador')` |
+| 48 | Frontend Collaborator | CollaboratorList + CollaboratorForm + sidebar "Colaboradores" |
+| 49 | ReportStaff Integration | `syncReportStaff()`, `ReportStaffSelector` nos 3 formulários |
+| 50 | Seed Data | 5 colaboradores de exemplo vinculados a plantas |
+
+**Pendente**: PDF com seção "Equipe/Staff" antes da assinatura.
+
+**Verificação**: Backend build OK, frontend build OK, seed OK.
+
+---
+
+## 6.4 Fases Futuras
+
+### Fase Futura A: Formulários Especializados (14 FMs)
+
+**Prerequisito**: Fase 9 completa.
+
+Expandir de 6 para 20 variantes de FM usando arquitetura Discriminador + JSON.
+
+| Família | FMs Novos | Descrição |
+|---------|-----------|-----------|
+| Produção (7 novos) | FM 7.1.3.3, 7.1.3.5, 7.1.4.5, 7.1.4.6, 7.1.8.2, 7.1.8.5, 7.1.8.6 | Tripas, Fracionamento, Couro, Mucosa, Heparina, Raspa, Gelatina |
+| Embarque (6 novos) | FM 7.1.7.2, 7.1.7.5, 7.1.7.9, 7.1.7.12, 7.1.4.8.B, 7.1.8.4 | Export. Ind., Venda Ind., Transf. Ind., Emb. Subprod., Transf. In Natura, Transf. Subprod. |
+| Sidebar | — | Novo grupo "Subprodutos" + expansão de "In Natura" e "Industrializados" |
+| PDF | — | 13 novos templates especializados |
+
+Referência detalhada: [PLANNING/FASE-A-COLABORADORES.md](../PLANNING/FASE-A-COLABORADORES.md) — Parte 2.
 
 ### Fase Futura B: Offline Completo
 

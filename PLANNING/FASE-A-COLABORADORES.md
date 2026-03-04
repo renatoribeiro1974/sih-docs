@@ -6,7 +6,7 @@ nav_order: 2
 # Fase A — Colaboradores + Formulários Especializados
 
 **Projeto**: SIH - Supervisão Industrial Halal
-**Status**: PLANEJADO
+**Status**: PARTE 1 COMPLETA | PARTE 2 PLANEJADA
 **Pré-requisito**: v1.0 em produção
 **Última Atualização**: 2026-02-26
 
@@ -20,7 +20,16 @@ Expandir o SIH com:
 
 ---
 
-## Parte 1: Colaboradores
+## Parte 1: Colaboradores — COMPLETA
+
+> **Implementada em 2026-02-26** — branch `feat/fase-a-colaboradores` em ambos os repos.
+>
+> Inclui: 3 modelos Prisma (Collaborator, CollaboratorPlant, ReportStaff), enum CollaboratorType,
+> migration `20260226070000_add_collaborators`, módulo backend completo (10 endpoints),
+> frontend (CollaboratorList + CollaboratorForm), componente ReportStaffSelector integrado
+> nos 3 formulários de relatório, seed com 5 colaboradores de exemplo.
+>
+> **Pendente da Parte 1**: PDF com seção "Equipe/Staff" antes da assinatura.
 
 ### Novos Modelos Prisma
 
@@ -91,7 +100,7 @@ Roles: `@Roles('admin', 'coordenador')` para todos os endpoints.
 
 ---
 
-## Parte 2: Formulários Especializados (14 FMs)
+## Parte 2: Formulários Especializados (14 FMs) — PENDENTE
 
 ### Arquitetura: Discriminador + JSON
 
@@ -165,18 +174,20 @@ Cada template reutiliza `pdf-helpers.ts` (cabeçalho FAMBRAS, assinatura, verifi
 
 ## Ordem de Implementação
 
-| Passo | Escopo |
-|-------|--------|
-| 1 | Schema Prisma (3 modelos + 2 enums) + Migration |
-| 2 | Backend Collaborator (CRUD + S3) |
-| 3 | Frontend Collaborator (List + Form) |
-| 4 | ReportStaff integration |
-| 5 | Backend Production specialization (DTOs + filtro) |
-| 6 | Frontend Production (8 componentes de tipo) |
-| 7 | Backend/Frontend Shipping (6 novos subtipos) |
-| 8 | Sidebar + routing |
-| 9 | PDF templates (13 novos) |
-| 10 | Seed data + verificação |
+| Passo | Escopo | Status |
+|-------|--------|--------|
+| 1 | Schema Prisma (3 modelos + 2 enums) + Migration | COMPLETO |
+| 2 | Backend Collaborator (CRUD + S3) | COMPLETO |
+| 3 | Frontend Collaborator (List + Form) | COMPLETO |
+| 4 | ReportStaff integration (backend + frontend) | COMPLETO |
+| 5 | Seed data Colaboradores + verificação build | COMPLETO |
+| 6 | PDF com seção "Equipe/Staff" nos 3 relatórios | PENDENTE |
+| 7 | Backend Production specialization (ProductionType enum + customFields + DTOs) | PENDENTE |
+| 8 | Frontend Production (8 variantes de tipo com campos condicionais) | PENDENTE |
+| 9 | Backend/Frontend Shipping (6 novos subtipos de embarque) | PENDENTE |
+| 10 | Sidebar expandida (In Natura + Industrializados + Subprodutos) + routing | PENDENTE |
+| 11 | PDF templates (13 novos) | PENDENTE |
+| 12 | Seed data especializados + verificação final | PENDENTE |
 
 ---
 

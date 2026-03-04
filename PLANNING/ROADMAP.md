@@ -23,6 +23,7 @@ nav_order: 5
 | Fase 6 | Finalização (Seed + Builds) | COMPLETA | 4/4 tarefas |
 | Fase 7 | Revisão Abrangente (FM FAMBRAS) | COMPLETA | 9/9 tarefas |
 | Fase 8 | BI/Analytics | COMPLETA | 4/4 tarefas |
+| Fase 9 | Colaboradores (Parte 1) | COMPLETA | 5/5 tarefas |
 
 **Resumo de User Stories v1.0**: 39 stories | 7 épicos
 
@@ -226,18 +227,68 @@ Baseada na análise dos formulários FAMBRAS reais (FM 7.1.4.1, FM 7.1.4.2, FM 7
 
 ---
 
+## Fase 9: Colaboradores — Parte 1 (COMPLETA)
+
+**Objetivo**: Cadastro de profissionais não-usuários e vinculação como equipe em relatórios.
+
+- [x] **9.1** Schema Prisma + Migration
+  - 3 modelos: `Collaborator`, `CollaboratorPlant` (N:N), `ReportStaff` (N:N)
+  - Enum `CollaboratorType`: degolador, sheik, auxiliar, veterinario, outro
+  - Migration `20260226070000_add_collaborators`
+- [x] **9.2** Backend Collaborator Module
+  - CRUD completo com 10 endpoints (listagem, detalhe, criação, edição, desativação, foto, vinculação plantas)
+  - `@Roles('admin', 'coordenador')` em todos os endpoints
+  - Serviço `findByPlant` para filtragem por planta
+- [x] **9.3** Frontend Collaborator
+  - `CollaboratorList` — tabela paginada com busca + filtro por tipo
+  - `CollaboratorForm` — formulário + multi-select de plantas
+  - Sidebar: item "Colaboradores" no grupo Gestão (admin + coordenador)
+- [x] **9.4** ReportStaff Integration
+  - Utilitário compartilhado `syncReportStaff()` + `staffInclude`
+  - `staffIds` adicionado aos DTOs de criação dos 3 relatórios
+  - Componente `ReportStaffSelector` integrado nos 3 formulários
+- [x] **9.5** Seed Data
+  - 5 colaboradores de exemplo (degolador, sheik, auxiliar, veterinário, outro)
+  - Vinculados às 2 plantas de teste
+
+**Pendente**: PDF com seção "Equipe/Staff" antes da assinatura.
+
+**Verificação**: Backend build OK, frontend build OK, seed OK.
+
+---
+
 ## Fases Futuras
 
-### Fase Futura A: Colaboradores (Collaborator + ReportStaff)
+### Fase Futura A.2: Formulários Especializados (14 FMs)
 
-**Prerequisito**: v1.0 em produção.
+**Prerequisito**: Fase 9 completa.
+**Referência detalhada**: [FASE-A-COLABORADORES.md](FASE-A-COLABORADORES.md) — Parte 2
 
-- [ ] Cadastro de colaboradores — CRUD de degoladores, sheiks, auxiliares (não-usuários)
-- [ ] Foto do colaborador — Upload de foto (JPEG/PNG, max 2MB)
-- [ ] Vinculação N:N com plantas — `CollaboratorPlant`
-- [ ] Equipe por relatório — `ReportStaff` N:N entre colaboradores e relatórios
-- [ ] Tela "Equipe do dia" — Seleção múltipla ao preencher relatório
-- [ ] Campo `externalId` — Preparado para integração com HalalSphere
+Expandir de 6 para 20 variantes de FM usando arquitetura Discriminador + JSON:
+
+**Produção — 7 novos tipos (ProductionType enum):**
+- [ ] FM 7.1.3.3 — Tripas calibradas e salgadas
+- [ ] FM 7.1.3.5 — Fracionamento
+- [ ] FM 7.1.4.5 — Couro verde / Pele bovina
+- [ ] FM 7.1.4.6 — Mucosa
+- [ ] FM 7.1.8.2 — Extração de heparina
+- [ ] FM 7.1.8.5 — Raspa/aparas
+- [ ] FM 7.1.8.6 — Processamento de gelatina
+
+**Embarque — 6 novos subtipos (ShippingType expandido):**
+- [ ] FM 7.1.7.2 — Exportação industrializados
+- [ ] FM 7.1.7.5 — Venda industrializados
+- [ ] FM 7.1.7.9 — Transferência industrializados
+- [ ] FM 7.1.7.12 — Embarque subprodutos
+- [ ] FM 7.1.4.8.B — Transferência in natura
+- [ ] FM 7.1.8.4 — Transferência subprodutos
+
+**Sidebar expandida:**
+- [ ] Grupo "Subprodutos" (Couro, Mucosa, Heparina, Raspa/Aparas, Gelatina, Emb. Subprod., Transf. Subprod.)
+- [ ] Grupo "Industrializados" expandido (Tripas, Fracionamento, Emb. Export. Ind., Venda Ind., Transf. Ind.)
+- [ ] Grupo "In Natura" expandido (+Transf. In Natura)
+
+**PDF**: 13 novos templates de produção/embarque especializados.
 
 ### Fase Futura B: Offline Completo
 

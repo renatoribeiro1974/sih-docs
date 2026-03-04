@@ -14,8 +14,11 @@ O SIH expoe uma API REST construida com **NestJS 11** e documentada via **Swagge
 
 | Item | Valor |
 |------|-------|
-| Base URL | `http://localhost:3334` |
-| Documentação Swagger | `http://localhost:3334/api/docs` |
+| Base URL (local) | `http://localhost:3334` |
+| Base URL (produção) | `https://supervisao-industrial-api.ecohalal.solutions` |
+| Base URL (staging) | `https://staging-supervisao-industrial-api.ecohalal.solutions` |
+| Base URL (development) | `https://dev-supervisao-industrial-api.ecohalal.solutions` |
+| Documentação Swagger | `{base-url}/api/docs` |
 | Formato | JSON |
 | Autenticação | Bearer JWT (header `Authorization`) |
 | Versionamento | Sem versionamento na URL (v1 implicito) |
@@ -284,7 +287,7 @@ Todos os endpoints (exceto os marcados com `@Public()`) exigem um token JWT vál
 Authorization: Bearer <jwt-token>
 ```
 
-Na v1.0, o token e emitido pelo **próprio backend SIH** via `POST /auth/login` (autenticação self-contained com bcrypt + JWT HS256). NÃO depende do HalalSphere.
+Na v1.0, o token e emitido pelo **próprio backend SIH** via `POST /auth/login` (autenticação self-contained com bcrypt). Suporta RS256 (recomendado, via `JWT_PUBLIC_KEY_SHI_API` / `JWT_PRIVATE_KEY_SHI_API`) com fallback para HS256 (`JWT_SECRET`) em desenvolvimento. NÃO depende do HalalSphere.
 
 Consulte o documento [05-security.md](./05-security.md) para detalhes completos do fluxo de autenticação.
 
@@ -385,7 +388,7 @@ A documentação interativa da API está disponível em `/api/docs` com as segui
 - **Autorização persistente**: O token JWT e mantido entre recarregamentos da página
 - **Filtro de busca**: Permite buscar endpoints por nome
 - **Duração de request**: Exibe o tempo de resposta de cada chamada
-- **Servidor padrão**: `http://localhost:3334` (Local Development)
+- **Servidores**: Local (`http://localhost:3334`), Production (`https://supervisao-industrial-api.ecohalal.solutions`), Staging, Development
 
 Para autenticar no Swagger, clique em "Authorize" e insira o token JWT no formato:
 ```
@@ -400,8 +403,9 @@ Os seguintes enums são utilizados nos endpoints:
 
 | Enum | Valores | Nota |
 |------|---------|------|
-| UserRole | `admin`, `coordenador`, `supervisor`, `operador` | `gestor` existe no enum mas NÃO e usado na v1.0 |
-| Species | `bovino`, `ave` | Demais especies suprimidas na v1.0 (sem FM implementado) |
+| UserRole | `admin`, `coordenador`, `supervisor`, `operador` | Legado `gestor` removido |
+| Species | `bovino`, `ave` | Legados removidos na migração `remove_legacy_species` |
+| CollaboratorType | `degolador`, `sheik`, `auxiliar`, `veterinario`, `outro` | Tipo do colaborador operacional |
 | Shift | `matutino`, `vespertino`, `noturno`, `integral` | |
 | PlantType | `abatedouro`, `frigorifico`, `laticinio`, `processamento`, `armazenamento`, `outro` | |
 | ReportStatus | `rascunho`, `assinado`, `cancelado` | Workflow: rascunho → assinado (final). Sem etapa de aprovação |
@@ -434,21 +438,50 @@ Cada tipo de relatório possui um endpoint de geração de PDF fiel ao modelo FA
 
 ---
 
-## 4.11 Endpoints Planejados — Collaborator (Futuro)
+## 4.11 Endpoints — Collaborator (Implementado)
 
-Cadastro de colaboradores operacionais (degoladores, sheiks, auxiliares) que atuam nas plantas mas não são usuários do sistema.
+Cadastro de colaboradores operacionais (degoladores, sheiks, auxiliares, veterinários) que atuam nas plantas mas não são usuários do sistema. Todos os endpoints requerem `@Roles('admin', 'coordenador')`.
 
-| Método | Rota | Descrição | Roles |
-|--------|------|-----------|-------|
-| GET | `/collaborators` | Lista colaboradores com filtros | todos |
-| GET | `/collaborators/:id` | Busca colaborador por ID | todos |
-| POST | `/collaborators` | Cria novo colaborador | admin, coordenador |
-| PATCH | `/collaborators/:id` | Atualiza colaborador | admin, coordenador |
-| PATCH | `/collaborators/:id/deactivate` | Desativa colaborador | admin, coordenador |
-| POST | `/collaborators/:id/photo` | Upload de foto (multipart/form-data) | admin, coordenador |
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/collaborators` | Lista colaboradores com filtros (paginado) |
+| GET | `/collaborators/:id` | Busca colaborador por ID (inclui plantas vinculadas) |
+| GET | `/collaborators/by-plant/:plantId` | Lista colaboradores vinculados a uma planta |
+| POST | `/collaborators` | Cria novo colaborador (aceita `plantIds[]` opcional) |
+| PATCH | `/collaborators/:id` | Atualiza colaborador |
+| PATCH | `/collaborators/:id/deactivate` | Desativa colaborador (soft delete) |
+| POST | `/collaborators/:id/photo` | Upload de foto (multipart/form-data, JPEG/PNG max 2MB) |
+| DELETE | `/collaborators/:id/photo` | Remove foto |
+| POST | `/collaborators/:id/plants` | Vincula colaborador a planta(s) |
+| DELETE | `/collaborators/:id/plants/:plantId` | Desvincula de planta |
 
-**Filtros de listagem**:
-- `?plantId=uuid` - Filtrar por planta vinculada
-- `?role=degolador` - Filtrar por função (degolador, sheik, auxiliar, supervisor_planta, veterinario)
-- `?isActive=true` - Filtrar ativos/inativos
-- `?search=nome` - Busca por nome
+**Filtros de listagem** (`GET /collaborators`):
+- `?page=1&limit=20` — Paginação
+- `?plantId=uuid` — Filtrar por planta vinculada
+- `?type=degolador` — Filtrar por tipo (degolador, sheik, auxiliar, veterinario, outro)
+- `?isActive=true` — Filtrar ativos/inativos
+- `?search=nome` — Busca por nome
+- `?sort=name&order=asc` — Ordenação
+
+**Integração com relatórios** (`ReportStaff`):
+- Nos DTOs de criação dos 3 relatórios: campo opcional `staffIds: string[]` (array de UUIDs de colaboradores)
+- No `findOne` de cada relatório: campo `staff[]` com dados do colaborador (id, name, type, document)
+- Frontend: componente `ReportStaffSelector` exibe colaboradores filtrados pela planta do relatório
+
+---
+
+## 4.12 Endpoints — Dashboard Analytics (Implementado)
+
+Endpoints de Business Intelligence com agregação de dados operacionais.
+
+| Método | Rota | Descrição | Filtros |
+|--------|------|-----------|---------|
+| GET | `/dashboard/summary` | Resumo geral (contadores) | `plantId?`, `supervisorId?` |
+| GET | `/dashboard/reports-by-status` | Relatórios agrupados por status | `plantId?` |
+| GET | `/dashboard/non-conformities-by-severity` | NCs por severidade | `plantId?` |
+| GET | `/dashboard/reports-trend` | Tendência de relatórios no tempo | `dateFrom`, `dateTo`, `plantId?`, `groupBy` |
+| GET | `/dashboard/slaughter-analytics` | Analytics de abate | `dateFrom`, `dateTo`, `plantId?`, `species?`, `shift?` |
+| GET | `/dashboard/production-analytics` | Analytics de produção | `dateFrom`, `dateTo`, `plantId?` |
+| GET | `/dashboard/shipping-analytics` | Analytics de embarque | `dateFrom`, `dateTo`, `plantId?` |
+| GET | `/dashboard/nc-analytics` | Analytics de NCs | `dateFrom`, `dateTo`, `plantId?`, `severity?` |
+| GET | `/dashboard/supervisor-analytics` | Analytics de supervisores | `dateFrom`, `dateTo`, `supervisorId?` |
