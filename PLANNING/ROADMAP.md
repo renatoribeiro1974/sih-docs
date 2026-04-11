@@ -259,12 +259,13 @@ Baseada na análise dos formulários FAMBRAS reais (FM 7.1.4.1, FM 7.1.4.2, FM 7
 
 ## Fases Futuras
 
-### Fase Futura A.2: Formulários Especializados (14 FMs)
+### Fase Futura A.2: Formulários Especializados (17 FMs)
 
 **Prerequisito**: Fase 9 completa.
-**Referência detalhada**: [FASE-A-COLABORADORES.md](FASE-A-COLABORADORES.md) — Parte 2
+**Referência detalhada**: [FASE-A2-FORMULARIOS-ESPECIALIZADOS.md](FASE-A2-FORMULARIOS-ESPECIALIZADOS.md) — Planejamento completo baseado na análise dos FMs reais
 
-Expandir de 6 para 20 variantes de FM usando arquitetura Discriminador + JSON:
+Expandir de 6 para 23 variantes de FM (9 produção + 11 embarque) usando arquitetura Discriminador + JSON.
+Análise dos FMs preenchidos revelou 6 padrões estruturais de produção e 4 de embarque (mais complexo que o previsto).
 
 **Produção — 7 novos tipos (ProductionType enum):**
 - [ ] FM 7.1.3.3 — Tripas calibradas e salgadas
