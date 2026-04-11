@@ -7,7 +7,7 @@ nav_order: 5
 
 **Projeto**: SIH - Supervisão Industrial Halal
 **Versão**: v1.0+
-**Última Atualização**: 2026-02-26
+**Última Atualização**: 2026-04-11
 
 ---
 
@@ -301,15 +301,23 @@ Análise dos FMs preenchidos revelou 6 padrões estruturais de produção e 4 de
 - [ ] Indicador visual — Badge online/offline + qtd pendente
 - [ ] Resolução de conflitos — Timestamp-based ou merge manual
 
-### Fase Futura C: Inventário (Epic 07)
+### Fase Futura C: Inventário (Epic 07) — PLANEJAMENTO DETALHADO
 
-**Prerequisito**: v1.0 em produção, relatórios gerando dados.
+**Prerequisito**: Fase A.2 completa + v1.0 em produção com dados reais.
+**Documento**: [FASE-C-INVENTARIO.md](FASE-C-INVENTARIO.md)
+**Estimativa**: ~9.5 sprints (11 sub-fases)
 
-- [ ] Conta corrente de carne (FM 7.1.5.1) — Recebido vs. utilizado
-- [ ] Inventário de lotes (FM 7.1.5.6) — Gerado vs. transferido
-- [ ] Inventário de rotulagem (FM 7.1.3.6) — Sem rótulo → rotulado → embarcado
-- [ ] Dashboard de inventário — Visão consolidada de estoques
-- [ ] Migração de dados — Importação de planilhas Excel históricas
+- [ ] C.1 — Schema + Migration + Views SQL (6 tabelas, 3 views de saldo)
+- [ ] C.2 — Backend: Módulo Carne (FM 7.1.5.1) — recebimentos, cortes, usos
+- [ ] C.3 — Backend: Módulo Lotes (FM 7.1.5.6) — lotes, transferências
+- [ ] C.4 — Backend: Módulo Rotulagem (FM 7.1.3.6) — movimentações
+- [ ] C.5 — Backend: Dashboard + Alertas (resumo consolidado)
+- [ ] C.6 — Frontend: Páginas de Carne (lista, formulário, saldos)
+- [ ] C.7 — Frontend: Páginas de Lotes (lista, formulário, transferências)
+- [ ] C.8 — Frontend: Páginas de Rotulagem (lista, entrada bulk)
+- [ ] C.9 — Frontend: Dashboard Inventário + Sidebar
+- [ ] C.10 — Import Excel (upload, mapeamento colunas, preview)
+- [ ] C.11 — Seed + Build + Revisão
 
 ### Fase Futura D: Integração entre Sistemas
 
