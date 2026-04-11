@@ -12,6 +12,13 @@ Thumbs.db
 *.tmp
 *~
 
+# Database dumps
+*.bkp
+*.sql
+
+# Test output
+test-*.pdf
+
 # Jekyll
 _site/
 .sass-cache/

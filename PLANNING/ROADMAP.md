@@ -251,7 +251,7 @@ Baseada na análise dos formulários FAMBRAS reais (FM 7.1.4.1, FM 7.1.4.2, FM 7
   - 5 colaboradores de exemplo (degolador, sheik, auxiliar, veterinário, outro)
   - Vinculados às 2 plantas de teste
 
-**Pendente**: PDF com seção "Equipe/Staff" antes da assinatura.
+**Completo**: PDF com seção "Equipe/Staff" antes da assinatura — implementado nos 3 templates.
 
 **Verificação**: Backend build OK, frontend build OK, seed OK.
 
