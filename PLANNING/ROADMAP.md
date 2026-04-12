@@ -7,7 +7,7 @@ nav_order: 5
 
 **Projeto**: SIH - Supervisão Industrial Halal
 **Versão**: v1.0+
-**Última Atualização**: 2026-04-11
+**Última Atualização**: 2026-04-12
 
 ---
 
@@ -24,6 +24,7 @@ nav_order: 5
 | Fase 7 | Revisão Abrangente (FM FAMBRAS) | COMPLETA | 9/9 tarefas |
 | Fase 8 | BI/Analytics | COMPLETA | 4/4 tarefas |
 | Fase 9 | Colaboradores (Parte 1) | COMPLETA | 5/5 tarefas |
+| Fase A.2 | Formulários Especializados (17 FMs) | COMPLETA | 7/7 sub-fases |
 
 **Resumo de User Stories v1.0**: 39 stories | 7 épicos
 
@@ -257,39 +258,27 @@ Baseada na análise dos formulários FAMBRAS reais (FM 7.1.4.1, FM 7.1.4.2, FM 7
 
 ---
 
+## Fase A.2: Formulários Especializados (COMPLETA)
+
+**Objetivo**: Expandir de 6 para 23 variantes de FM (9 produção + 11 embarque) usando arquitetura Discriminador + JSON.
+**Referência detalhada**: [FASE-A2-FORMULARIOS-ESPECIALIZADOS.md](FASE-A2-FORMULARIOS-ESPECIALIZADOS.md)
+
+- [x] **A.2.1** Schema + Migration — ProductionType enum (9 valores), ShippingType expandido (11 valores), customFields Json
+- [x] **A.2.2** Backend: endpoint `GET /fm-metadata`, validação condicional, verificações por tipo
+- [x] **A.2.3** Frontend: seletor de tipo de produção, formulários condicionais com customFields UI
+- [x] **A.2.4** Frontend: ShippingType expandido, formulários condicionais de embarque, validação condicional
+- [x] **A.2.5** Sidebar expandida — 4 grupos / ~25 itens com routing via query params
+- [x] **A.2.6** PDF: dispatcher por productionType (fabricação → template existente, demais → template genérico), embarque com HEADER_INFO e verificações do fm-metadata (11 tipos automáticos)
+- [x] **A.2.7** Seed: 9 tipos de produção + 11 tipos de embarque com customFields realistas, build OK
+
+**13 FMs de produção**: fabricação, tripas, fracionamento, couro, mucosa, heparina_bruta, heparina_purificação, raspa, gelatina
+**11 FMs de embarque**: exportação, venda_interna, transferência, exportação_industrializados, venda_industrializados, transferência_industrializados, venda_subprodutos, transferência_in_natura, transferência_subprodutos, transferência_genérica, venda_subprod_couro
+
+**Verificação**: Backend build OK, frontend build OK, seed completo com dados realistas por tipo.
+
+---
+
 ## Fases Futuras
-
-### Fase Futura A.2: Formulários Especializados (17 FMs)
-
-**Prerequisito**: Fase 9 completa.
-**Referência detalhada**: [FASE-A2-FORMULARIOS-ESPECIALIZADOS.md](FASE-A2-FORMULARIOS-ESPECIALIZADOS.md) — Planejamento completo baseado na análise dos FMs reais
-
-Expandir de 6 para 23 variantes de FM (9 produção + 11 embarque) usando arquitetura Discriminador + JSON.
-Análise dos FMs preenchidos revelou 6 padrões estruturais de produção e 4 de embarque (mais complexo que o previsto).
-
-**Produção — 7 novos tipos (ProductionType enum):**
-- [ ] FM 7.1.3.3 — Tripas calibradas e salgadas
-- [ ] FM 7.1.3.5 — Fracionamento
-- [ ] FM 7.1.4.5 — Couro verde / Pele bovina
-- [ ] FM 7.1.4.6 — Mucosa
-- [ ] FM 7.1.8.2 — Extração de heparina
-- [ ] FM 7.1.8.5 — Raspa/aparas
-- [ ] FM 7.1.8.6 — Processamento de gelatina
-
-**Embarque — 6 novos subtipos (ShippingType expandido):**
-- [ ] FM 7.1.7.2 — Exportação industrializados
-- [ ] FM 7.1.7.5 — Venda industrializados
-- [ ] FM 7.1.7.9 — Transferência industrializados
-- [ ] FM 7.1.7.12 — Embarque subprodutos
-- [ ] FM 7.1.4.8.B — Transferência in natura
-- [ ] FM 7.1.8.4 — Transferência subprodutos
-
-**Sidebar expandida:**
-- [ ] Grupo "Subprodutos" (Couro, Mucosa, Heparina, Raspa/Aparas, Gelatina, Emb. Subprod., Transf. Subprod.)
-- [ ] Grupo "Industrializados" expandido (Tripas, Fracionamento, Emb. Export. Ind., Venda Ind., Transf. Ind.)
-- [ ] Grupo "In Natura" expandido (+Transf. In Natura)
-
-**PDF**: 13 novos templates de produção/embarque especializados.
 
 ### Fase Futura B: Offline Completo
 
