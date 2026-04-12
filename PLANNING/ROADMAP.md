@@ -292,21 +292,17 @@ Baseada na análise dos formulários FAMBRAS reais (FM 7.1.4.1, FM 7.1.4.2, FM 7
 
 ### Fase Futura C: Inventário (Epic 07) — PLANEJAMENTO DETALHADO
 
-**Prerequisito**: Fase A.2 completa + v1.0 em produção com dados reais.
+**Prerequisito**: Fase A.2 completa ✓ + v1.0 em produção com dados reais.
 **Documento**: [FASE-C-INVENTARIO.md](FASE-C-INVENTARIO.md)
-**Estimativa**: ~9.5 sprints (11 sub-fases)
+**Estimativa**: ~8 sprints (5 fatias verticais, 7 sub-fases)
 
-- [ ] C.1 — Schema + Migration + Views SQL (6 tabelas, 3 views de saldo)
-- [ ] C.2 — Backend: Módulo Carne (FM 7.1.5.1) — recebimentos, cortes, usos
-- [ ] C.3 — Backend: Módulo Lotes (FM 7.1.5.6) — lotes, transferências
-- [ ] C.4 — Backend: Módulo Rotulagem (FM 7.1.3.6) — movimentações
-- [ ] C.5 — Backend: Dashboard + Alertas (resumo consolidado)
-- [ ] C.6 — Frontend: Páginas de Carne (lista, formulário, saldos)
-- [ ] C.7 — Frontend: Páginas de Lotes (lista, formulário, transferências)
-- [ ] C.8 — Frontend: Páginas de Rotulagem (lista, entrada bulk)
-- [ ] C.9 — Frontend: Dashboard Inventário + Sidebar
-- [ ] C.10 — Import Excel (upload, mapeamento colunas, preview)
-- [ ] C.11 — Seed + Build + Revisão
+Organizado em fatias ponta-a-ponta (backend + frontend por módulo):
+
+- [ ] **Fatia 1**: C.1 + C.2 — Schema/Views/Indices + Carne ponta-a-ponta + Sidebar (2.5 sprints)
+- [ ] **Fatia 2**: C.3 — Lotes ponta-a-ponta (1.5 sprints)
+- [ ] **Fatia 3**: C.4 — Rotulagem ponta-a-ponta + bulk entry (1.5 sprints)
+- [ ] **Fatia 4**: C.5 — Dashboard + Alertas consolidado (1 sprint)
+- [ ] **Fatia 5**: C.6 + C.7 — Import Excel + Seed + Build (1.5 sprints)
 
 ### Fase Futura D: Integração entre Sistemas
 

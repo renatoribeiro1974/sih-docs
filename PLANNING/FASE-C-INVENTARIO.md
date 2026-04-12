@@ -590,9 +590,33 @@ src/pages/inventory/
 
 ---
 
-## 7. Plano de Implementacao
+## 7. Plano de Implementacao (Fatias Verticais)
 
-### Fase C.1 — Schema + Migration + Views (1 sprint)
+Organizacao em **5 fatias ponta-a-ponta** em vez de "todo backend, depois todo frontend".
+Cada fatia entrega um modulo funcional completo que pode ser testado isoladamente.
+
+```
+Fatia 1: Fundacao + Carne     → banco + backend + frontend + sidebar (primeiro modulo completo)
+Fatia 2: Lotes                → backend + frontend (reutiliza componentes da Fatia 1)
+Fatia 3: Rotulagem            → backend + frontend (modulo mais unico — bulk entry)
+Fatia 4: Dashboard + Alertas  → backend + frontend (consolida os 3 modulos)
+Fatia 5: Import Excel + Seed  → backend + frontend + dados de teste
+```
+
+**Vantagens desta ordem**:
+1. Feedback mais cedo — Fatia 1 ja e testavel com dados reais
+2. Padroes estabelecidos — componentes reutilizaveis (BalanceCard, BalanceTable) criados na Fatia 1
+3. Entrega incremental — cada fatia pode ir para producao independente
+4. Risco mitigado — se Import Excel atrasar, os 3 modulos ja funcionam com lancamento manual
+
+---
+
+### Fatia 1 — Fundacao + Carne Halal (2.5 sprints)
+
+A fatia mais longa porque inclui toda a fundacao: schema, migration, views, sidebar, rotas,
+componentes compartilhados. As fatias seguintes reaproveiam tudo isso.
+
+#### C.1 — Schema + Migration + Views (1 sprint)
 
 - [ ] Adicionar 6 modelos ao schema Prisma (MeatInventoryReceipt, MeatInventoryCut, MeatInventoryUsage, BatchInventory, BatchTransfer, LabelingInventory)
 - [ ] Adicionar relations em Plant e SupervisorProfile
@@ -601,87 +625,131 @@ src/pages/inventory/
 - [ ] Criar migration com SQL raw para os indices de performance
 - [ ] Testar migration: `prisma migrate deploy` + `prisma generate`
 
-### Fase C.2 — Backend: Modulo Carne (1 sprint)
+> **Nota**: Schema de TODOS os 3 tipos e criado junto porque a migration e atomica,
+> as views referenciam as 3 tabelas, e `prisma generate` precisa de todos os modelos.
 
-- [ ] Criar modulo `inventory/meat/` (module, controller, service)
-- [ ] DTOs com Zod: CreateMeatReceipt (com array de cortes), CreateMeatUsage
-- [ ] Query DTO com filtros: plantId, species, dateFrom, dateTo, page, limit
+#### C.2 — Backend Carne + Frontend Carne + Sidebar (1.5 sprints)
+
+**Backend** (`src/inventory/meat/`):
+- [ ] Criar modulo (module, controller, service)
+- [ ] DTOs: CreateMeatReceipt (com array de cortes), CreateMeatUsage, QueryMeatInventory
 - [ ] CRUD de recebimentos (GET list, GET :id, POST, PATCH, DELETE)
-- [ ] Endpoint de uso (POST /usage, PATCH /usage/:id, DELETE /usage/:id)
-- [ ] Endpoint de saldo (GET /balance — query na view)
-- [ ] Validacoes V1, V2, V7 (soma cortes, saldo uso, exclusao protegida)
-- [ ] Testes unitarios do service
+- [ ] Endpoint de uso (POST /:id/usage, PATCH /usage/:usageId, DELETE /usage/:usageId)
+- [ ] Endpoint de saldo (GET /balance — query na view `meat_inventory_balance`)
+- [ ] Validacoes V1, V2, V7 (soma cortes = peso total, saldo uso, exclusao protegida)
+- [ ] Registrar `InventoryModule` no `AppModule` (modulo agregador, ja preparado para lotes/rotulagem)
 
-### Fase C.3 — Backend: Modulo Lotes (1 sprint)
-
-- [ ] Criar modulo `inventory/batch/` (module, controller, service)
-- [ ] DTOs com Zod: CreateBatchInventory, CreateBatchTransfer
-- [ ] Query DTO com filtros: plantId, month, year, batchCode, page, limit
-- [ ] CRUD de lotes (GET list, GET :id, POST, PATCH, DELETE)
-- [ ] Endpoint de transferencia (POST /transfer, PATCH /transfer/:id, DELETE /transfer/:id)
-- [ ] Endpoint de saldo (GET /balance — query na view)
-- [ ] Validacoes V3, V4, V7 (saldo transferencia, lote unico, exclusao protegida)
-- [ ] Testes unitarios do service
-
-### Fase C.4 — Backend: Modulo Rotulagem (1 sprint)
-
-- [ ] Criar modulo `inventory/labeling/` (module, controller, service)
-- [ ] DTOs com Zod: CreateLabelingEntry, BulkCreateLabelingEntry
-- [ ] Query DTO com filtros: plantId, productCategory, dateFrom, dateTo, page, limit
-- [ ] CRUD de entradas (GET list, POST, POST /bulk, PATCH, DELETE)
-- [ ] Endpoint de saldo (GET /balance — query na view, agrupado por categoria)
-- [ ] Validacoes V5, V6 (estoque rotulagem)
-- [ ] Testes unitarios do service
-
-### Fase C.5 — Backend: Dashboard + Alertas (0.5 sprint)
-
-- [ ] Endpoint `GET /inventory/summary` — totais consolidados dos 3 tipos por planta
-- [ ] Endpoint `GET /inventory/alerts` — saldos negativos, zerados, lotes > 90 dias em estoque
-- [ ] Registrar InventoryModule no AppModule
-
-### Fase C.6 — Frontend: Paginas de Carne (1 sprint)
-
+**Frontend** (`src/pages/inventory/meat/`):
 - [ ] Service `meat-inventory.service.ts` com hooks TanStack Query
 - [ ] `MeatInventoryList.tsx` — tabela de recebimentos + card de saldos por corte
 - [ ] `MeatReceiptForm.tsx` — formulario com tabela dinamica de cortes (add/remove linhas)
 - [ ] `MeatUsageForm.tsx` — select de corte (filtrado por saldo > 0) + peso utilizado
-- [ ] Componente `BalanceCard` (reutilizavel)
-- [ ] Componente `BalanceTable` (reutilizavel)
+- [ ] **Componente `BalanceCard`** (reutilizavel) — entrada, saida, saldo com cor condicional
+- [ ] **Componente `BalanceTable`** (reutilizavel) — tabela de saldos por item com destaque zero/negativo
 
-### Fase C.7 — Frontend: Paginas de Lotes (1 sprint)
+**Integracao**:
+- [ ] Adicionar grupo "Inventario" na sidebar (4 itens: Carne, Lotes, Rotulagem, Dashboard)
+- [ ] Adicionar rotas no App.tsx (`/inventory/meat/*`)
+- [ ] Rotas de Lotes e Rotulagem apontam para pagina "Em breve" (placeholder)
 
+**Entregavel**: Modulo completo de inventario de carne — receber, registrar cortes, registrar uso em producao, ver saldos por tipo de corte. Sidebar com grupo Inventario visivel.
+
+---
+
+### Fatia 2 — Lotes de Producao (1.5 sprints)
+
+Maior volume de dados (~1.000 linhas/mes). Reutiliza BalanceCard + BalanceTable da Fatia 1.
+
+#### C.3 — Backend Lotes + Frontend Lotes
+
+**Backend** (`src/inventory/batch/`):
+- [ ] Criar modulo (module, controller, service)
+- [ ] DTOs: CreateBatchInventory, CreateBatchTransfer, QueryBatchInventory
+- [ ] Filtros: plantId, month, year, batchCode, page, limit
+- [ ] CRUD de lotes (GET list, GET :id, POST, PATCH, DELETE)
+- [ ] Endpoint de transferencia (POST /:id/transfer, PATCH /transfer/:transferId, DELETE /transfer/:transferId)
+- [ ] Endpoint de saldo (GET /balance — query na view `batch_inventory_balance`)
+- [ ] Validacoes V3, V4, V7 (saldo transferencia, lote unico por planta, exclusao protegida)
+
+**Frontend** (`src/pages/inventory/batch/`):
 - [ ] Service `batch-inventory.service.ts` com hooks TanStack Query
 - [ ] `BatchInventoryList.tsx` — tabela de lotes + saldo individual + MonthSelector
 - [ ] `BatchInventoryForm.tsx` — formulario de lote
 - [ ] `BatchTransferForm.tsx` — select de lote (filtrado por saldo > 0) + dados transferencia
-- [ ] Componente `MovementTimeline` (reutilizavel)
-- [ ] Componente `MonthSelector` (reutilizavel)
+- [ ] **Componente `MovementTimeline`** (reutilizavel) — timeline de transferencias por lote
+- [ ] **Componente `MonthSelector`** (reutilizavel) — navegacao por mes (alto volume)
+- [ ] Ativar rota `/inventory/batch/*` (substituir placeholder)
 
-### Fase C.8 — Frontend: Paginas de Rotulagem (1 sprint)
+**Entregavel**: Modulo completo de lotes — criar lote, registrar transferencias parciais, ver saldo por lote, navegar por mes.
 
+---
+
+### Fatia 3 — Rotulagem (1.5 sprints)
+
+Modulo mais unico: lancamento em bulk, saldos por categoria, tabs de filtro.
+
+#### C.4 — Backend Rotulagem + Frontend Rotulagem
+
+**Backend** (`src/inventory/labeling/`):
+- [ ] Criar modulo (module, controller, service)
+- [ ] DTOs: CreateLabelingEntry, BulkCreateLabelingEntry, QueryLabelingInventory
+- [ ] Filtros: plantId, productCategory, dateFrom, dateTo, page, limit
+- [ ] CRUD de entradas (GET list, POST, POST /bulk, PATCH, DELETE)
+- [ ] Endpoint de saldo (GET /balance — query na view `labeling_inventory_balance`, agrupado por categoria)
+- [ ] Validacoes V5, V6 (rotulada <= estoque sem rotulo, embarcada <= estoque com rotulo)
+
+**Frontend** (`src/pages/inventory/labeling/`):
 - [ ] Service `labeling-inventory.service.ts` com hooks TanStack Query
 - [ ] `LabelingInventoryList.tsx` — tabela com CategoryFilter (tabs) + saldos por categoria
-- [ ] `LabelingEntryForm.tsx` — formulario de entrada individual ou bulk (multiplas linhas)
-- [ ] Componente `CategoryFilter` (tabs por categoria de produto)
+- [ ] `LabelingEntryForm.tsx` — formulario de entrada individual ou bulk (multiplas linhas de uma vez)
+- [ ] **Componente `CategoryFilter`** — tabs por categoria de produto (E 340, POUCH, EXTRATO, etc.)
+- [ ] Ativar rota `/inventory/labeling/*` (substituir placeholder)
 
-### Fase C.9 — Frontend: Dashboard Inventario + Sidebar (0.5 sprint)
+**Entregavel**: Modulo completo de rotulagem — registrar recebimento sem rotulo, rotulagem, embarque, descarte. Saldos por categoria com tabs.
 
+---
+
+### Fatia 4 — Dashboard + Alertas (1 sprint)
+
+Consolida os 3 modulos em visao gerencial.
+
+#### C.5 — Backend Dashboard + Frontend Dashboard
+
+**Backend**:
+- [ ] Endpoint `GET /inventory/summary` — totais consolidados (3 tipos) por planta
+- [ ] Endpoint `GET /inventory/alerts` — saldos negativos, zerados, lotes > 90 dias em estoque
+
+**Frontend** (`src/pages/inventory/`):
 - [ ] Service `inventory-dashboard.service.ts`
-- [ ] `InventoryDashboard.tsx` — 3 secoes (carne, lotes, rotulagem) com BalanceCards + alertas
-- [ ] Adicionar grupo "Inventario" na sidebar (4 itens)
-- [ ] Adicionar rotas no App.tsx
-- [ ] Roles: admin e coordenador veem dashboard, supervisor e operador veem inventarios
+- [ ] `InventoryDashboard.tsx` — 3 secoes (carne, lotes, rotulagem) com BalanceCards + lista de alertas
+- [ ] Ativar rota `/inventory/dashboard` (substituir placeholder)
+- [ ] Roles: admin e coordenador veem dashboard; supervisor e operador veem inventarios
 
-### Fase C.10 — Import Excel (1 sprint)
+**Entregavel**: Dashboard unificado com visao consolidada + alertas automaticos.
 
-- [ ] Instalar dependencia `xlsx` no backend
-- [ ] Endpoints `POST /inventory/{type}/import/preview` e `POST /inventory/{type}/import`
-- [ ] Parser de Excel: ler headers, detectar formato, mapear colunas
-- [ ] Validacao + insercao em transacao
-- [ ] Frontend: `InventoryImport.tsx`, `ColumnMapper.tsx`, `ImportPreview.tsx`
-- [ ] Acessivel somente para admin
+---
 
-### Fase C.11 — Seed + Build + Revisao (0.5 sprint)
+### Fatia 5 — Import Excel + Seed + Build (1.5 sprints)
+
+Fase final: importar dados historicos das planilhas e validar o sistema completo.
+
+#### C.6 — Import Excel (1 sprint)
+
+**Backend**:
+- [ ] Instalar dependencia `xlsx` (SheetJS)
+- [ ] Endpoint `POST /inventory/{type}/import/preview` — parse headers + preview N linhas
+- [ ] Endpoint `POST /inventory/{type}/import` — import com mapeamento + transacao atomica
+- [ ] Parser: ler headers, fuzzy match com colunas esperadas, validar tipos
+- [ ] Limite: max 5.000 linhas por import
+- [ ] Roles: somente `admin`
+
+**Frontend** (`src/pages/inventory/import/`):
+- [ ] `InventoryImport.tsx` — upload + selecao de tipo de inventario
+- [ ] `ColumnMapper.tsx` — mapeamento sugerido (fuzzy) + correcao manual
+- [ ] `ImportPreview.tsx` — preview das primeiras linhas mapeadas + botao confirmar
+- [ ] Adicionar item "Importar Excel" no grupo Inventario da sidebar (admin only)
+
+#### C.7 — Seed + Build + Revisao (0.5 sprint)
 
 - [ ] Seed: 5 recebimentos de carne (3 bovino, 2 ave) com cortes e usos
 - [ ] Seed: 10 lotes com transferencias parciais
@@ -690,24 +758,23 @@ src/pages/inventory/
 - [ ] Revisao: comparar telas com planilhas Excel originais
 - [ ] Teste manual: verificar saldos calculados vs. planilhas reais
 
+**Entregavel**: Sistema completo de inventario com dados de teste e import funcional.
+
 ---
 
 ## 8. Estimativa de Esforco
 
-| Fase | Descricao | Complexidade | Sprints |
-|------|-----------|-------------|---------|
-| C.1 | Schema + Migration + Views | Baixa | 1 |
-| C.2 | Backend Carne | Media | 1 |
-| C.3 | Backend Lotes | Media | 1 |
-| C.4 | Backend Rotulagem | Media | 1 |
-| C.5 | Backend Dashboard + Alertas | Baixa | 0.5 |
-| C.6 | Frontend Carne | Media | 1 |
-| C.7 | Frontend Lotes | Media | 1 |
-| C.8 | Frontend Rotulagem | Media | 1 |
-| C.9 | Frontend Dashboard + Sidebar | Baixa | 0.5 |
-| C.10 | Import Excel | **Alta** | 1 |
-| C.11 | Seed + Build + Revisao | Baixa | 0.5 |
-| | **Total** | | **~9.5 sprints** |
+| Fatia | Fases | Descricao | Sprints |
+|-------|-------|-----------|---------|
+| **1** | C.1 + C.2 | Fundacao (schema/views/indices) + Carne ponta-a-ponta + sidebar | 2.5 |
+| **2** | C.3 | Lotes ponta-a-ponta (backend + frontend) | 1.5 |
+| **3** | C.4 | Rotulagem ponta-a-ponta (backend + frontend + bulk) | 1.5 |
+| **4** | C.5 | Dashboard + Alertas (backend + frontend) | 1 |
+| **5** | C.6 + C.7 | Import Excel + Seed + Build + Revisao | 1.5 |
+| | | **Total** | **~8 sprints** |
+
+> **Reducao de ~9.5 para ~8 sprints**: componentes reutilizaveis criados na Fatia 1 (BalanceCard,
+> BalanceTable) eliminam retrabalho nas Fatias 2-4. Sidebar e rotas sao configuradas uma vez.
 
 ### Riscos e Mitigacoes
 
@@ -739,7 +806,7 @@ src/pages/inventory/
 
 | # | Dependencia | Status | Impacto |
 |---|-------------|--------|---------|
-| 1 | Fase A.2 completa (14 FMs especializados) | PENDENTE | Inventario referencia tipos de producao e embarque especializados |
+| 1 | Fase A.2 completa (14 FMs especializados) | **COMPLETO** | Inventario referencia tipos de producao e embarque especializados |
 | 2 | v1.0 em producao com dados reais | PENDENTE | Saldos iniciais dependem de dados de abate/producao/embarque existentes |
 | 3 | Plant model com SIF | COMPLETO | Usado para filtro por planta |
 | 4 | SupervisorProfile com roles | COMPLETO | Controle de acesso |
