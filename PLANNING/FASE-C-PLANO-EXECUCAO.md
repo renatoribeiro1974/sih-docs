@@ -95,9 +95,9 @@ npm run build
 | **sih-backend** | `npx prisma migrate deploy` | **SIM** — so roda se `AUTO_MIGRATE=true` | **ALTO** — se a env var nao estiver configurada na ECS Task Definition, migrations NAO sao aplicadas em producao |
 | **halalsphere-backend** | `npx prisma migrate deploy` | NAO — roda sempre | Baixo — fail-safe com `\|\| echo WARNING` |
 
-> **ACAO CRITICA**: Verificar se `AUTO_MIGRATE=true` esta configurado na ECS Task Definition
-> do SIH Backend. Se nao estiver, as migrations desde 10/04 (ProductionType + customFields)
-> **NAO foram aplicadas em producao**, e o backend pode estar rodando com schema desatualizado.
+> **VERIFICADO (2026-04-12)**: `AUTO_MIGRATE=true` esta configurado em
+> `deploy/parameters.production.json` e `deploy/parameters.staging.json`.
+> Migrations sao aplicadas automaticamente em cada deploy. Sem risco.
 
 ### 0.4 Checklist de Validacao — PRODUCAO (AWS ECS)
 

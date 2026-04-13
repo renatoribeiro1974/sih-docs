@@ -25,6 +25,7 @@ nav_order: 5
 | Fase 8 | BI/Analytics | COMPLETA | 4/4 tarefas |
 | Fase 9 | Colaboradores (Parte 1) | COMPLETA | 5/5 tarefas |
 | Fase A.2 | Formulários Especializados (17 FMs) | COMPLETA | 7/7 sub-fases |
+| Fase C | Inventário (Epic 07) | EM ANDAMENTO | Fatias 1-2 de 5 |
 
 **Resumo de User Stories v1.0**: 39 stories | 7 épicos
 
@@ -290,16 +291,16 @@ Baseada na análise dos formulários FAMBRAS reais (FM 7.1.4.1, FM 7.1.4.2, FM 7
 - [ ] Indicador visual — Badge online/offline + qtd pendente
 - [ ] Resolução de conflitos — Timestamp-based ou merge manual
 
-### Fase Futura C: Inventário (Epic 07) — PLANEJAMENTO DETALHADO
+### Fase C: Inventário (Epic 07) — EM ANDAMENTO
 
-**Prerequisito**: Fase A.2 completa ✓ + v1.0 em produção com dados reais.
-**Documento**: [FASE-C-INVENTARIO.md](FASE-C-INVENTARIO.md)
+**Prerequisito**: Fase A.2 completa ✓
+**Documento**: [FASE-C-INVENTARIO.md](FASE-C-INVENTARIO.md) | [FASE-C-PLANO-EXECUCAO.md](FASE-C-PLANO-EXECUCAO.md)
 **Estimativa**: ~8 sprints (5 fatias verticais, 7 sub-fases)
 
 Organizado em fatias ponta-a-ponta (backend + frontend por módulo):
 
-- [ ] **Fatia 1**: C.1 + C.2 — Schema/Views/Indices + Carne ponta-a-ponta + Sidebar (2.5 sprints)
-- [ ] **Fatia 2**: C.3 — Lotes ponta-a-ponta (1.5 sprints)
+- [x] **Fatia 1**: C.1 + C.2 — Schema/Views/Indices + Carne ponta-a-ponta + Sidebar (2.5 sprints) — deployed 2026-04-12
+- [x] **Fatia 2**: C.3 — Lotes ponta-a-ponta (1.5 sprints) — deployed 2026-04-12
 - [ ] **Fatia 3**: C.4 — Rotulagem ponta-a-ponta + bulk entry (1.5 sprints)
 - [ ] **Fatia 4**: C.5 — Dashboard + Alertas consolidado (1 sprint)
 - [ ] **Fatia 5**: C.6 + C.7 — Import Excel + Seed + Build (1.5 sprints)
